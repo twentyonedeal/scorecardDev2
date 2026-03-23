@@ -1,0 +1,23 @@
+{
+  "name": "JAYs Scorecard",
+  "short_name": "ScorecardDev2",
+  "start_url": "/scorecardDev/index.html",
+  "scope": "/scorecardDev/",
+  "display": "standalone",
+  "background_color": "#4B0082",
+  "theme_color": "#4B0082",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ]
+}
