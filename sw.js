@@ -1,4 +1,4 @@
-const CACHE_NAME = 'scorecarddev2-v1';
+const CACHE_NAME = 'scorecarddev2-v2';
 // List every file your app needs to work offline
 const ASSETS = [
   './',
