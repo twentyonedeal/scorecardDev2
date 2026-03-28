@@ -1,31 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8"> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover, user-scalable=yes">
-    <title>Js ScoreCard V111</title>
-  	<meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Js ScoreCard V204</title>
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
-	<meta name="apple-mobile-web-app-title" content="Scorecard">
 	<meta name="theme-color" content="#4B0082">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-title" content="Scorecard">
 	<link rel="apple-touch-icon" href="apple-touch-icon.png">
 	<link rel="manifest" href="manifest.json">
 	
 	<style>
+
+		
+	:root {
+  		color-scheme: light; /* Forces the browser to treat the page as 'light' mode */
+		}
 	/* Add this to your styles.css */
 	html, body {
-    	background-color: #4B0082; /* Your deep purple */
-    	margin: 0;
+    	background-color: #4B0082 !important; /* Your deep purple */
+		margin: 0;
     	padding: 0;
     	min-height: 100vh;
 		}
 	
-	header {
-    	background-color: #4B0082;
-    	/* This adds padding ONLY at the top, specifically 
-       		matching the height of the iPhone status bar */
-    	padding-top: env(safe-area-inset-top); 
-		}
 	
 	body {
 		/* Pushes all content down so it starts below the status bar */
@@ -43,9 +42,10 @@
     	height: env(safe-area-inset-top); 
     	background-color: #4B0082; /* Your deep purple */
     	z-index: 9999; /* Keeps it above everything else */
+		pointer-events: none; /* So it doesn't block clicks/taps */
 		}
-	/* Push your actual content down so it doesn't hide behind the purple shelf */
 
+	/* Push your actual content down so it doesn't hide behind the purple shelf */
 	header, .container {
 		padding-top: env(safe-area-inset-top);
 		}
@@ -102,6 +102,7 @@
         .badge { background: #52442d; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem; }
         .section-title { display: flex; justify-content: space-between; align-items: center; margin: 20px 0 10px 0; padding-bottom: 5px; border-bottom: 2px solid var(--border); font-weight: 800; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; color: var(--text); }
         .controls { display: flex; justify-content: space-between; align-items: center; margin: 0px 0 10px 0; padding-bottom: 5px; font-weight: 800; text-transform: uppercase; font-size: 0.65rem; letter-spacing: 1px; color: #95a5a6; }
+        .controls2 { display: flex; justify-content: space-between; align-items: center; margin: 0px 0 10px 0; padding-bottom: 5px; font-weight: 800; text-transform: uppercase; font-size: 0.65rem; letter-spacing: 1px; color: #95a5a6; }
 
 		input, select, textarea {
     		font-size: 16px !important;
@@ -140,7 +141,7 @@
 <body>
 <div class="container">
     <h1 style="text-align:center; font-size: 1.5rem; margin:0 0 5px 0;">Jay's Ultimate Scorecard</h1>
-    <div style="text-align:center;  font-size: .75rem; margin:0 0 5px 0;">v111D-204</div>
+    <div style="text-align:center;  font-size: .75rem; margin:0 0 5px 0;">v205</div>
   
 	<div id="activeGameLabel" style="font-size: 0.75rem; text-align: center; margin-bottom:5px;"></div>
             <span style="display: inline-block; margin-bottom:10px;" id="offlineTag">Checking...</span>
@@ -167,17 +168,36 @@
 </div>
 		<div id="winnerSpotlight" style="text-align:center; padding:10px; border-radius:10px; font-weight:bold; display:none; color: black;"></div>
        <div class="section-title">
-	 	<!--    <span id="leaderboard-title">🏆 Leader Board</span> -->
-	<!--   <span id="leaderboard-title">🏆 Leader Board</span> -->
+	 	
 	<span id="leaderboard-title" data-label="🏆 Leader Board"></span>
 
 			<div class="controls">
-        <label>
-            <input type="checkbox" style="cursor: pointer;" id="toggleNumbers" checked onchange="updateVisibility()"> 
+       
+		<label>
+            <input type="checkbox" style="cursor: pointer;" id="toggleNumbers" onchange="updateVisibility()"> 
             Last Round Scores
         </label>
     </div>
+		
+	
 	</div>
+   
+   
+   
+    <div class="section-title2">
+	 	<span id="leaderboard-title2" ></span>
+		
+			<div class="controls2">
+        <label>
+            <input type="checkbox" style="cursor: pointer;" id="toggleSeating" onchange="updateVisibility2()"> 
+            Seating Locked
+        </label>
+		
+    </div>
+	
+	</div>
+   
+      
    
    <table id="leaderboardTable"><tbody id="leaderboard"></tbody></table>
     <table style="width:100%; border-collapse:collapse;"><tbody id="leaderboard"></tbody></table>
@@ -329,6 +349,7 @@ style="max-width:380px; border-top: 5px solid #e74c3c; display: flex; flex-direc
     let isDark = localStorage.getItem('v102_dark') === 'true';
     let lowScoreWins = localStorage.getItem('v102_lowWins') === 'true';
     let hasUnsavedChanges = false, selColor = '#3498db', cTarget = {}, activeCalcId = null, editState = {}, renId = null;
+	let SeatingModeOn = true;
 
     if (isDark) document.body.classList.add('dark-mode');
     document.getElementById('winConditionToggle').checked = lowScoreWins;
@@ -512,14 +533,15 @@ style="max-width:380px; border-top: 5px solid #e74c3c; display: flex; flex-direc
 
 	function toggleManualMode() {
 		// Define the new text or HTML content
+		const isChecked2 = document.getElementById('toggleSeating').checked;
 		const leaderboard = document.getElementById("leaderboard-title");
 		//document.getElementById("leaderboard-title").innerText = newTitle;
 
 		// Check if the current data-label is the default value
   if (leaderboard.dataset.label === "🏆 Leader Board") {
     // If it is, change it to something else
-    leaderboard.dataset.label = "🪑 Table Seating Mode";
-    leaderboard.innerText = "🪑 Table Seating Mode";
+    leaderboard.dataset.label = "🪑Table Seating";
+    leaderboard.innerText = "🪑 Table Seating";
   } else {
     // If it's NOT the default, toggle it back
     leaderboard.dataset.label = "🏆 Leader Board";
@@ -539,7 +561,10 @@ style="max-width:380px; border-top: 5px solid #e74c3c; display: flex; flex-direc
         render();
     }
  function initDragEvents(row) {
-        const start = (e) => {
+		console.log("initDragEvent_SeatingModeOn:",SeatingModeOn);
+        if(SeatingModeOn) {
+
+		const start = (e) => {
             if (!isManualMode || e.target.closest('.editable-name') || e.target.closest('input') || e.target.closest('button')) return;
             draggingRow = row;
             row.classList.add('sortable-ghost');
@@ -578,7 +603,7 @@ style="max-width:380px; border-top: 5px solid #e74c3c; display: flex; flex-direc
         window.addEventListener('mouseup', end);
     }
 
-
+}
     function render() {
 	
         const listEl = document.getElementById('leaderboard');
@@ -750,7 +775,15 @@ function updateVisibility() {
   }
 		render();
         }
-    
+
+function updateVisibility2() {
+		//const table = document.getElementById('leaderboard');
+		const isChecked2 = document.getElementById('toggleSeating').checked;
+		console.log("Value of myVariable:", isChecked2);
+		if(isChecked2){SeatingModeOn = false;}
+			else {SeatingModeOn = true;}
+		render();
+        }    
 	
 	
     render();
