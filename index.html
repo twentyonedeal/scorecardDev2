@@ -141,7 +141,7 @@
 <body>
 <div class="container">
     <h1 style="text-align:center; font-size: 1.5rem; margin:0 0 5px 0;">Jay's Ultimate Scorecard</h1>
-    <div style="text-align:center;  font-size: .75rem; margin:0 0 5px 0;">v205</div>
+    <div style="text-align:center;  font-size: .75rem; margin:0 0 5px 0;">v206</div>
   
 	<div id="activeGameLabel" style="font-size: 0.75rem; text-align: center; margin-bottom:5px;"></div>
             <span style="display: inline-block; margin-bottom:10px;" id="offlineTag">Checking...</span>
@@ -592,7 +592,7 @@ style="max-width:380px; border-top: 5px solid #e74c3c; display: flex; flex-direc
                 if(p) p.position = i;
             });
             draggingRow = null;
-            saveAndRefresh();
+            sync();
         };
 
         row.addEventListener('touchstart', start, {passive: true});
@@ -638,8 +638,9 @@ document.getElementById('activeGameLabel').innerHTML = activeId
             const tr = document.createElement('tr');
             tr.setAttribute('data-id', p.id);
             tr.innerHTML = `
-                <td class="drag-handle" style="${isManualMode ? '' : 'display:none'}">☰</td>
-                <td style="width:3px;"><div style="width:3px;height:52px;background:${p.color}"></div></td>
+				<td class="drag-handle" style="${(!isManualMode || !SeatingModeOn) ? 'display:none' : ''}">☰</td>
+               
+			   <td style="width:3px;"><div style="width:3px;height:52px;background:${p.color}"></div></td>
                 <td style="width:30px; text-align:center; font-weight:bold;">${rank}</td>
                 <td style="width:35px;"><div class="circle-color-picker" style="background:${p.color}; width:22px; height:22px; border-radius:50%;" onclick="openColorPicker('edit', ${p.id})"></div></td>
 
