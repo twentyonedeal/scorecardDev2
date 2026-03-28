@@ -27,8 +27,6 @@
 	
 	
 	body {
-		
-		overscroll-behavior-y: contain; /* Prevents pull-to-refresh */
 		/* Pushes all content down so it starts below the status bar */
 		padding-top: env(safe-area-inset-top);
 		}
@@ -134,6 +132,12 @@
 		.drag-handle { width: 40px; text-align: center; color: #95a5a6; font-size: 20px; cursor: grab; touch-action: none; }
         .sortable-ghost { opacity: 0.5; background: #3498db !important; }
         
+		/* Prevents pull-to-refresh */
+		
+		html, body {
+		/* Disables pull-to-refresh and the "rubber-band" bounce */
+		overscroll-behavior-y: none;
+		}
 
 
 
