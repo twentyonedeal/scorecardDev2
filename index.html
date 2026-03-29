@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8"> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover, user-scalable=yes">
-    <title>Js ScoreCard V204</title>
+    <title>Js ScoreCard V206</title>
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 	<meta name="theme-color" content="#4B0082">
 	<meta name="apple-mobile-web-app-capable" content="yes">
@@ -18,6 +18,7 @@
   		color-scheme: light; /* Forces the browser to treat the page as 'light' mode */
 		}
 	/* Add this to your styles.css */
+	/* This is what makes the background purple */
 	html, body {
     	background-color: #4B0082 !important; /* Your deep purple */
 		margin: 0;
@@ -61,97 +62,92 @@
 		display: none;
 		}	 
 			  
-        button, .circle-color-picker, .square-color-picker, b, .score-cell, 
-        .del-round-btn, .trash-btn, td[onclick], span[onclick] { cursor: pointer; }
+    button, .circle-color-picker, .square-color-picker, b, .score-cell, 
+    .del-round-btn, .trash-btn, td[onclick], span[onclick] { cursor: pointer; }
 
-        .header-area { display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 5px; }
-        #offlineTag { font-size: 0.6rem; padding: 2px 6px; border-radius: 4px; font-weight: bold; text-transform: uppercase; }
-        .online { background: #27ae60; color: white; }
-        .offline { background: #e67e22; color: white; }
-        .modal-content { background: var(--card); padding: 20px; border-radius: 15px; width: 90%; max-width: 400px; text-align: center; max-height: 85vh; overflow-y: auto; }
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; justify-content: center; align-items: center; padding: 15px; }
+    .header-area { display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 5px; }
+    #offlineTag { font-size: 0.6rem; padding: 2px 6px; border-radius: 4px; font-weight: bold; text-transform: uppercase; }
+    .online { background: #27ae60; color: white; }
+    .offline { background: #e67e22; color: white; }
+    .modal-content { background: var(--card); padding: 20px; border-radius: 15px; width: 90%; max-width: 400px; text-align: center; max-height: 85vh; overflow-y: auto; }
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; justify-content: center; align-items: center; padding: 15px; }
 
-        #confirmModal { z-index: 2001; } 
+    #confirmModal { z-index: 2001; } 
         
-		#leaderboardTable { width: 100%; border-collapse: collapse; table-layout: fixed; margin-bottom: 20px; }
-        #leaderboardTable td { padding: 0; border-bottom: 1px solid var(--border); vertical-align: middle; height: 52px; }
+	#leaderboardTable { width: 100%; border-collapse: collapse; table-layout: fixed; margin-bottom: 20px; }
+    #leaderboardTable td { padding: 0; border-bottom: 1px solid var(--border); vertical-align: middle; height: 52px; }
 
 
-        .win-toggle-container { display: flex; align-items: center; justify-content: center; background: var(--bg); padding: 8px; border-radius: 10px; margin-bottom: 10px; gap: 10px; font-size: 0.85rem; font-weight: bold; }
-        .switch { position: relative; display: inline-block; width: 40px; height: 20px; }
-        .switch input { opacity: 0; width: 0; height: 0; }
-        .slider { cursor: pointer; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: #42f5c5; transition: .4s; border-radius: 20px; }
-        .slider:before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
-        input:checked + .slider { background-color: #f39c12; }
-        input:checked + .slider:before { transform: translateX(20px); }
+    .win-toggle-container { display: flex; align-items: center; justify-content: center; background: var(--bg); padding: 8px; border-radius: 10px; margin-bottom: 10px; gap: 10px; font-size: 0.85rem; font-weight: bold; }
+    .switch { position: relative; display: inline-block; width: 40px; height: 20px; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider { cursor: pointer; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: #42f5c5; transition: .4s; border-radius: 20px; }
+    .slider:before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+    input:checked + .slider { background-color: #f39c12; }
+    input:checked + .slider:before { transform: translateX(20px); }
 
-        .calc-display { background: #000; color: #0f0; padding: 15px; font-family: monospace; font-size: 24px; text-align: right; border-radius: 8px; margin-bottom: 10px; }
-        .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-        .calc-btn { padding: 15px 0; background: #612dd8; color: white; border-radius: 8px; border: none; font-weight: bold; font-size: 1.1rem; }
-        .calc-btn.op { background: #d8612d; }
-		.calc-btn.back { background: #ee0b2f; }
-		.calc-btn.clear { background: #f13c59; }
+    .calc-display { background: #000; color: #0f0; padding: 15px; font-family: monospace; font-size: 24px; text-align: right; border-radius: 8px; margin-bottom: 10px; }
+    .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .calc-btn { padding: 15px 0; background: #612dd8; color: white; border-radius: 8px; border: none; font-weight: bold; font-size: 1.1rem; }
+    .calc-btn.op { background: #d8612d; }
+	.calc-btn.back { background: #ee0b2f; }
+	.calc-btn.clear { background: #f13c59; }
 
-        .col-batch { width: 95px; text-align: right; padding-right: 8px !important; position: relative;text-transform: uppercase; font-size: 1.8rem; letter-spacing: .05px; }
+    .col-batch { width: 95px; text-align: right; padding-right: 8px !important; position: relative;text-transform: uppercase; font-size: 1.8rem; letter-spacing: .05px; }
 
-		.calc-trigger { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 12px; background: #34495e; color: white; padding: 4px 6px; border-radius: 4px; opacity: 0.8; }
+	.calc-trigger { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 12px; background: #34495e; color: white; padding: 4px 6px; border-radius: 4px; opacity: 0.8; }
 
-        #roundTable { width: 100%; border-collapse: collapse; text-align: center; font-size: 0.9rem; }
-        #roundTable th, #roundTable td { padding: 8px 4px; border: 1px solid var(--border); }
-        .score-cell { font-weight: bold; color: #f5b342; display: inline-block; border: none; background: transparent; }
-        .badge { background: #52442d; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem; }
-        .section-title { display: flex; justify-content: space-between; align-items: center; margin: 20px 0 10px 0; padding-bottom: 5px; border-bottom: 2px solid var(--border); font-weight: 800; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; color: var(--text); }
-        .controls { display: flex; justify-content: space-between; align-items: center; margin: 0px 0 10px 0; padding-bottom: 5px; font-weight: 800; text-transform: uppercase; font-size: 0.65rem; letter-spacing: 1px; color: #95a5a6; }
-        .controls2 { display: flex; justify-content: space-between; align-items: center; margin: 0px 0 10px 0; padding-bottom: 5px; font-weight: 800; text-transform: uppercase; font-size: 0.65rem; letter-spacing: 1px; color: #95a5a6; }
+    #roundTable { width: 100%; border-collapse: collapse; text-align: center; font-size: 0.9rem; }
+    #roundTable th, #roundTable td { padding: 8px 4px; border: 1px solid var(--border); }
+    .score-cell { font-weight: bold; color: #f5b342; display: inline-block; border: none; background: transparent; }
+    .badge { background: #52442d; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem; }
+    .section-title { display: flex; justify-content: space-between; align-items: center; margin: 20px 0 10px 0; padding-bottom: 5px; border-bottom: 2px solid var(--border); font-weight: 800; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; color: var(--text); }
+    .controls { display: flex; justify-content: space-between; align-items: center; margin: 0px 0 10px 0; padding-bottom: 5px; font-weight: 800; text-transform: uppercase; font-size: 0.65rem; letter-spacing: 1px; color: #95a5a6; }
+    .controls2 { display: flex; justify-content: space-between; align-items: center; margin: 0px 0 10px 0; padding-bottom: 5px; font-weight: 800; text-transform: uppercase; font-size: 0.65rem; letter-spacing: 1px; color: #95a5a6; }
 
-		input, select, textarea {
-    		font-size: 16px !important;
-			}
-        input[type="number"], input[type="text"] { padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--card); color: var(--text); }
-        #toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #333; color: white; padding: 12px 25px; border-radius: 25px; font-size: 0.9rem; opacity: 0; transition: opacity 0.3s; z-index: 4000; pointer-events: none; }
+	input, select, textarea {
+    	font-size: 16px !important;
+		}
+    input[type="number"], input[type="text"] { padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--card); color: var(--text); }
+    #toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #333; color: white; padding: 12px 25px; border-radius: 25px; font-size: 0.9rem; opacity: 0; transition: opacity 0.3s; z-index: 4000; pointer-events: none; }
 
-		/* The actual movement: left to right quickly */
-		@keyframes shake {
-    		0% { transform: translateX(0); }
-    		25% { transform: translateX(-8px); }
-    		50% { transform: translateX(8px); }
-    		75% { transform: translateX(-8px); }
-    		100% { transform: translateX(0); }
-			}
+	/* The actual movement: left to right quickly */
+	@keyframes shake {
+    	0% { transform: translateX(0); }
+    	25% { transform: translateX(-8px); }
+    	50% { transform: translateX(8px); }
+    	75% { transform: translateX(-8px); }
+    	100% { transform: translateX(0); }
+		}
 
-		/* The class we will add via JavaScript */
-		.shake-error {
-    		animation: shake 0.3s ease-in-out;
-    		border: 2px solid #e74c3c !important; /* Optional: flash the border red too */
-			}
+	/* The class we will add via JavaScript */
+	.shake-error {
+    	animation: shake 0.3s ease-in-out;
+    	border: 2px solid #e74c3c !important; /* Optional: flash the border red too */
+		}
 		
-		/* Universal Drag/Selection Fixes */
-        * { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
-        input, select, .editable-name { -webkit-user-select: text; user-select: text; pointer-events: auto !important; }
+	/* Universal Drag/Selection Fixes */
+    * { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
+    input, select, .editable-name { -webkit-user-select: text; user-select: text; pointer-events: auto !important; }
 		
-		.drag-handle { width: 40px; text-align: center; color: #95a5a6; font-size: 20px; cursor: grab; touch-action: none; }
-        .sortable-ghost { opacity: 0.5; background: #3498db !important; }
+	.drag-handle { width: 40px; text-align: center; color: #95a5a6; font-size: 20px; cursor: grab; touch-action: none; }
+    .sortable-ghost { opacity: 0.5; background: #3498db !important; }
         
-		/* Prevents pull-to-refresh */
-		
-		html, body {
+	/* Prevents pull-to-refresh */
+	html, body {
 		/* Disables pull-to-refresh and the "rubber-band" bounce */
 		overscroll-behavior-y: none;
 		}
-
-
 
     </style>
 </head>
 
 <body>
-<div class="container">
-    <h1 style="text-align:center; font-size: 1.5rem; margin:0 0 5px 0;">Jay's Ultimate Scorecard</h1>
+	<div class="container">
+		<h1 style="text-align:center; font-size: 1.5rem; margin:0 0 5px 0;">Jay's Ultimate Scorecard</h1>
     <div style="text-align:center;  font-size: .75rem; margin:0 0 5px 0;">v206</div>
-  
 	<div id="activeGameLabel" style="font-size: 0.75rem; text-align: center; margin-bottom:5px;"></div>
-            <span style="display: inline-block; margin-bottom:10px;" id="offlineTag">Checking...</span>
-
+    <span style="display: inline-block; margin-bottom:10px;" id="offlineTag">Checking...</span>
     <div style="display:grid; grid-template-columns: 1fr 1fr 44px 44px; gap:8px; margin-bottom:15px;">
         <button onclick="openSaveModal()" style="background:#3498db; color:white; border:none; border-radius:8px; padding:12px;">💾 Save</button>
         <button onclick="openLibrary()" style="background:#9b59b6; color:white; border:none; border-radius:8px; padding:12px;">📚 Lib</button>
@@ -164,77 +160,55 @@
         <div class="square-color-picker" id="colorPreview" style="width:40px; height:40px; border-radius:8px; background:#3498db;" onclick="openColorPicker('new')"></div>
         <button onclick="addPlayer()" style="background:var(--accent); color:white; border:none; padding:10px 15px; border-radius:8px; font-weight:bold;">Add</button>
     </div>
-	       <div class="win-toggle-container">
-    <span id="highWinsLabel" style="color: #27ae60; font-weight: bold;">High Wins</span>
-    <label class="switch">
-        <input type="checkbox" id="winConditionToggle" onchange="toggleWinCondition()">
-        <span class="slider"></span>
-    </label>
+	<div class="win-toggle-container">
+		<span id="highWinsLabel" style="color: #27ae60; font-weight: bold;">High Wins</span>
+		<label class="switch">
+			<input type="checkbox" id="winConditionToggle" onchange="toggleWinCondition()">
+			<span class="slider"></span>
+		</label>
     <span id="lowWinsLabel" style="color: grey;">Low Wins</span>
-</div>
-		<div id="winnerSpotlight" style="text-align:center; padding:10px; border-radius:10px; font-weight:bold; display:none; color: black;"></div>
-       <div class="section-title">
-	 	
-	<span id="leaderboard-title" data-label="🏆 Leader Board"></span>
-
-			<div class="controls">
-       
-		<label>
-            <input type="checkbox" style="cursor: pointer;" id="toggleNumbers" onchange="updateVisibility()"> 
-            Last Round Scores
-        </label>
-    </div>
-		
-	
 	</div>
-   
-   
-   
+	<div id="winnerSpotlight" style="text-align:center; padding:10px; border-radius:10px; font-weight:bold; display:none; color: black;"></div>
+    <div class="section-title">
+		<span id="leaderboard-title" data-label="🏆 Leader Board"></span>
+		<div class="controls">
+			<label>
+				<input type="checkbox" style="cursor: pointer;" id="toggleNumbers" onchange="updateVisibility()"> 
+				Last Round Scores
+			</label>
+		</div>
+	</div>
     <div class="section-title2">
 	 	<span id="leaderboard-title2" ></span>
-		
-			<div class="controls2">
-        <label>
-            <input type="checkbox" style="cursor: pointer;" id="toggleSeating" onchange="updateVisibility2()"> 
-            Seating Locked
-        </label>
-		
-    </div>
-	
+		<div class="controls2">
+			<label>
+				<input type="checkbox" style="cursor: pointer;" id="toggleSeating" onchange="updateVisibility2()"> 
+				Seating Locked
+			</label>
+		</div>
 	</div>
-   
-      
-   
-   <table id="leaderboardTable"><tbody id="leaderboard"></tbody></table>
+	<table id="leaderboardTable"><tbody id="leaderboard"></tbody></table>
     <table style="width:100%; border-collapse:collapse;"><tbody id="leaderboard"></tbody></table>
-
-
     <div id="batchAction" style="display:none; margin-top:15px;">
         <button onclick="submitBatchRound()" style="width:100%; background:#27ae60; padding:15px; font-size:1.1rem; color:white; border:none; border-radius:10px; font-weight:bold;">➕ Submit Scores</button>
     </div>
-
-
     <div class="section-title">
         <span>📊 Round History</span>
         <span id="roundCounter" class="badge">0 Rounds</span>
     </div>
 
-
-
     <div style="overflow-x:auto; border:1px solid var(--border); border-radius:8px; margin-top:15px;">
-
 		<table id="roundTable">
             <thead><tr id="roundHeader"></tr></thead>
             <tbody id="roundBody"></tbody>
             <tfoot id="roundFooter"></tfoot>
         </table>
     </div>
- 
-	
+ 	
     <button onclick="openModal('resetModal')" style="width:100%; margin-top:25px; background:#95a5a6; color:white; border:none; padding:12px; border-radius:8px;">Reset/Start New</button>
     <div id="syncStatus" style="font-size:10px; text-align:center; margin-top:10px; opacity:0.5;">Checking Offline Sync...</div>
 
-</div>
+	</div>
 
 <div id="calcModal" class="modal">
     <div class="modal-content">
@@ -611,8 +585,16 @@ style="max-width:380px; border-top: 5px solid #e74c3c; display: flex; flex-direc
 
 }
     function render() {
-	
-        const listEl = document.getElementById('leaderboard');
+		const table = document.getElementById('leaderboard');
+		const isChecked = document.getElementById('toggleNumbers').checked;
+		console.log("isChecked: ",isChecked);
+		if(isChecked){
+			table.classList.remove('hide-column');
+			} else {
+				table.classList.add('hide-column');
+				}
+		console.log("isCheckedinrender: ",isChecked);
+		const listEl = document.getElementById('leaderboard');
         const rankedRef = [...players].sort((a,b) => lowScoreWins ? a.score - b.score : b.score - a.score);
 
         // 2. Decide Leaderboard Display Order
@@ -625,13 +607,13 @@ style="max-width:380px; border-top: 5px solid #e74c3c; display: flex; flex-direc
 		
 		//let saveMe = "<p style="color: red;">This entire paragraph will be red.</p>;"
         let saveMe = "  (File Save Needed)";
-	//	players.sort((a,b) => lowScoreWins ? a.score - b.score : b.score - a.score);
+		//	players.sort((a,b) => lowScoreWins ? a.score - b.score : b.score - a.score);
         let activeGame = library.find(g => g.id == activeId);
-document.getElementById('activeGameLabel').innerHTML = activeId 
-  ? (hasUnsavedChanges 
-      ? `📁: ${activeGame?.name || "LisaWins"} <span style="color: red;">${saveMe}</span>` 
-      : `📁: ${activeGame?.name || "LisaWins"}`) 
-  : "✨ LisaWinsAgain";
+		document.getElementById('activeGameLabel').innerHTML = activeId 
+			? (hasUnsavedChanges 
+			? `📁: ${activeGame?.name || "LisaWins"} <span style="color: red;">${saveMe}</span>` 
+			: `📁: ${activeGame?.name || "LisaWins"}`) 
+			: "✨ LisaWinsAgain";
 
 		document.getElementById('batchAction').style.display = players.length ? 'block' : 'none';
         listEl.innerHTML = ''; 
@@ -645,48 +627,36 @@ document.getElementById('activeGameLabel').innerHTML = activeId
             tr.setAttribute('data-id', p.id);
             tr.innerHTML = `
 				<td class="drag-handle" style="${(!isManualMode || !SeatingModeOn) ? 'display:none' : ''}">☰</td>
-               
-			   <td style="width:3px;"><div style="width:3px;height:52px;background:${p.color}"></div></td>
+               <td style="width:3px;"><div style="width:3px;height:52px;background:${p.color}"></div></td>
                 <td style="width:30px; text-align:center; font-weight:bold;">${rank}</td>
                 <td style="width:35px;"><div class="circle-color-picker" style="background:${p.color}; width:22px; height:22px; border-radius:50%;" onclick="openColorPicker('edit', ${p.id})"></div></td>
-
                 <td><b onclick="openRename(${p.id})">${p.name}</b></td>
-
                 <td onclick="askDelP(${p.id})" style="width:43px; text-align:right; padding: 0px 1px 0px 0px; opacity:0.6;">🗑️</td>
                 <td class="toggle-col" style="text-align:left; font-size:0.7rem; color:var(--hideNum); width:32px;">${lastRound ? `(${lastRound.scores[p.id]})` : ''}</td>
-
                 <td style="text-align:right; font-weight:bold; padding-right:8px; width:60px;">${p.score}</td>
-
                 <td class="col-batch"><input type="number" pattern="[0-9]*" id="b-${p.id}" font-size: 2rem; placeholder="+" style="width:95px; padding:10px; border:2px solid ${p.color}">
-				         <button onclick="openCalc('b-${p.id}')" style="position:absolute; right:.4em; top:50%; transform:translateY(-50%); font-size:0.8rem; padding: .3rem .3rem .3rem .3rem; border-radius:4px; border:none; background:#34495e; color:white;">CALC</button>
-
+			         <button onclick="openCalc('b-${p.id}')" style="position:absolute; right:.4em; top:50%; transform:translateY(-50%); font-size:0.8rem; padding: .3rem .3rem .3rem .3rem; border-radius:4px; border:none; background:#34495e; color:white;">CALC</button>
             `;
             initDragEvents(tr);
             listEl.appendChild(tr);
-        });
+			});
 			
-       
-		// Render Rounds Table (Uses roundPlayers - decoupled)
-       // document.getElementById('roundHeader').innerHTML = `<th>R</th>` + roundPlayers.map(p => `<th style="background:${p.color}; color:#000; font-size:11px;">${p.name[0]}</th>`).join('') + `<th>✕</th>`;
+       	// Render Rounds Table (Uses roundPlayers - decoupled)
+		// document.getElementById('roundHeader').innerHTML = `<th>R</th>` + roundPlayers.map(p => `<th style="background:${p.color}; color:#000; font-size:11px;">${p.name[0]}</th>`).join('') + `<th>✕</th>`;
         //document.getElementById('roundBody').innerHTML = rounds.map((r, ri) => `<tr><td>${ri+1}</td>${roundPlayers.map(p => `<td>${r.scores[p.id]||0}</td>`).join('')}<td onclick="askDeleteRound(${ri})">✕</td></tr>`).join('');
-       // document.getElementById('roundFooter').innerHTML = players.length ? `<tr class="total-row"><td>Σ</td>${roundPlayers.map(p => `<td style="color:${p.color}">${p.score}</td>`).join('')}<td></td></tr>` : "";
+		// document.getElementById('roundFooter').innerHTML = players.length ? `<tr class="total-row"><td>Σ</td>${roundPlayers.map(p => `<td style="color:${p.color}">${p.score}</td>`).join('')}<td></td></tr>` : "";
         
+		document.getElementById('roundHeader').innerHTML = `<th>R</th>` + roundPlayers.map       (p => `<th style="background:${p.color}; color:black;">${p.name[0]}</th>`).join('') + `<th>✕</th>`;
 
-	   document.getElementById('roundHeader').innerHTML = `<th>R</th>` + roundPlayers.map       (p => `<th style="background:${p.color}; color:black;">${p.name[0]}</th>`).join('') + `<th>✕</th>`;
-
-      //  document.getElementById('roundBody').innerHTML = rounds.map((r, ri) => `<tr><td>${ri+1}</td>${displayPlayers.map(p => `<td>${r.scores[p.id]||0}</td>`).join('')}<td onclick="askDeleteRound(${ri})">✕</td></tr>`).join('');
-      //  document.getElementById('roundBody').innerHTML = rounds.map((r, ri) => `<tr><td>${ri+1}</td>${displayPlayers.map(p => `<td><span class="score-cell" onclick="openEdit(${ri}, ${p.id})">${r.scores[p.id]||0}</span></td>`).join('')}<td><button class="del-round-btn" onclick="askDelR(${ri})">✕</button></td></tr>`).join('');
+		//  document.getElementById('roundBody').innerHTML = rounds.map((r, ri) => `<tr><td>${ri+1}</td>${displayPlayers.map(p => `<td>${r.scores[p.id]||0}</td>`).join('')}<td onclick="askDeleteRound(${ri})">✕</td></tr>`).join('');
+		//  document.getElementById('roundBody').innerHTML = rounds.map((r, ri) => `<tr><td>${ri+1}</td>${displayPlayers.map(p => `<td><span class="score-cell" onclick="openEdit(${ri}, ${p.id})">${r.scores[p.id]||0}</span></td>`).join('')}<td><button class="del-round-btn" onclick="askDelR(${ri})">✕</button></td></tr>`).join('');
         document.getElementById('roundBody').innerHTML = rounds.map((r, ri) => `<tr><td>${ri+1}</td>${roundPlayers.map(p => `<td><span class="score-cell" onclick="openEdit(${ri}, ${p.id})">${r.scores[p.id]||0}</span></td>`).join('')}<td><button class="del-round-btn" onclick="askDelR(${ri})">✕</button></td></tr>`).join('');
 
-
-     //   document.getElementById('roundFooter').innerHTML = players.length ? `<tr class="total-row"><td>Σ</td>${displayPlayers.map(p => `<td style="color:${p.color}">${p.score}</td>`).join('')}<td></td></tr>` : "";
-        document.getElementById('roundFooter').innerHTML = players.length ? `<tr style="background:var(--total-bg); font-weight:bold;"><td>Σ</td>${roundPlayers.map(p => `<td style="color:${p.color}">${p.score}</td>`).join('')}<td></td></tr>` : "";
-
+		// document.getElementById('roundFooter').innerHTML = players.length ? `<tr class="total-row"><td>Σ</td>${displayPlayers.map(p => `<td style="color:${p.color}">${p.score}</td>`).join('')}<td></td></tr>` : "";
+		document.getElementById('roundFooter').innerHTML = players.length ? `<tr style="background:var(--total-bg); font-weight:bold;"><td>Σ</td>${roundPlayers.map(p => `<td style="color:${p.color}">${p.score}</td>`).join('')}<td></td></tr>` : "";
 		document.getElementById('roundCounter').innerText = `${rounds.length} Rounds Played`;
 		if(rounds.length == 1) {document.getElementById('roundCounter').innerText = `${rounds.length} Round Played`;}
-		
-		
-		
+				
         const spot = document.getElementById('winnerSpotlight');
         if (players.length) { 
             spot.style.display = 'block'; spot.style.background = rankedRef[0].color; 
@@ -770,30 +740,31 @@ document.getElementById('activeGameLabel').innerHTML = activeId
     }
   
 
-function updateVisibility() {
+	function updateVisibility() {
 		const table = document.getElementById('leaderboard');
 		const isChecked = document.getElementById('toggleNumbers').checked;
+		console.log("isChecked: ",isChecked);
 		if(isChecked)
-		{
-
-    table.classList.remove('hide-column');
-  } else {
-    table.classList.add('hide-column');
-  }
+			{
+			table.classList.remove('hide-column');
+			} else {
+				table.classList.add('hide-column');
+				}
 		render();
         }
 
-function updateVisibility2() {
+	function updateVisibility2() {
 		//const table = document.getElementById('leaderboard');
 		const isChecked2 = document.getElementById('toggleSeating').checked;
 		console.log("Value of myVariable:", isChecked2);
-		if(isChecked2){SeatingModeOn = false;}
-			else {SeatingModeOn = true;}
+		if(isChecked2){
+			SeatingModeOn = false;}
+			else {
+				SeatingModeOn = true;}
 		render();
         }    
 	
-	
-    render();
+	render();
 </script>
 </body>
 </html>
