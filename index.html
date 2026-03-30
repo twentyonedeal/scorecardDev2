@@ -12,7 +12,11 @@
 	<link rel="manifest" href="manifest.json">
 	
 	<style>
-
+	/* Prevents pull-to-refresh */
+	html, body {
+		/* Disables pull-to-refresh and the "rubber-band" bounce */
+		overscroll-behavior-y: none;
+		}
 		
 	:root {
   		color-scheme: light; /* Forces the browser to treat the page as 'light' mode */
@@ -133,11 +137,7 @@
 	.drag-handle { width: 40px; text-align: center; color: #95a5a6; font-size: 20px; cursor: grab; touch-action: none; }
     .sortable-ghost { opacity: 0.5; background: #3498db !important; }
         
-	/* Prevents pull-to-refresh */
-	html, body {
-		/* Disables pull-to-refresh and the "rubber-band" bounce */
-		overscroll-behavior-y: none;
-		}
+
 
     </style>
 </head>
