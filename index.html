@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8"> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover, user-scalable=yes">
-    <title>Js ScoreCard V111</title>
-  	<meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Js ScoreCard V208</title>
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
-	<meta name="apple-mobile-web-app-title" content="Scorecard">
 	<meta name="theme-color" content="#4B0082">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-title" content="Scorecard">
 	<link rel="apple-touch-icon" href="apple-touch-icon.png">
 	<link rel="manifest" href="manifest.json">
 	
 	<style>
+
+		
+	:root {
+  		color-scheme: light; /* Forces the browser to treat the page as 'light' mode */
+		}
 	/* Add this to your styles.css */
-	html, body {
-    	background-color: #4B0082; /* Your deep purple */
-    	margin: 0;
+	/* This is what makes the background purple */
+	html {
+    	background-color: #4B0082 !important; /* Your deep purple */
+		margin: 0;
     	padding: 0;
     	min-height: 100vh;
 		}
 	
-	header {
-    	background-color: #4B0082;
-    	/* This adds padding ONLY at the top, specifically 
-       		matching the height of the iPhone status bar */
-    	padding-top: env(safe-area-inset-top); 
-		}
 	
 	body {
 		/* Pushes all content down so it starts below the status bar */
@@ -43,9 +43,10 @@
     	height: env(safe-area-inset-top); 
     	background-color: #4B0082; /* Your deep purple */
     	z-index: 9999; /* Keeps it above everything else */
+		pointer-events: none; /* So it doesn't block clicks/taps */
 		}
-	/* Push your actual content down so it doesn't hide behind the purple shelf */
 
+	/* Push your actual content down so it doesn't hide behind the purple shelf */
 	header, .container {
 		padding-top: env(safe-area-inset-top);
 		}
