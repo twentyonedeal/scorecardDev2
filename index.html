@@ -26,6 +26,12 @@
     	min-height: 100vh;
 		}
 	
+	header {
+    background-color: #4B0082;
+    /* This adds padding ONLY at the top, specifically 
+       matching the height of the iPhone status bar */
+    padding-top: env(safe-area-inset-top); 
+}
 	
 	body {
 		/* Pushes all content down so it starts below the status bar */
