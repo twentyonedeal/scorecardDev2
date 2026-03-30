@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8"> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover, user-scalable=yes">
-    <title>Js ScoreCard V111</title>
-	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>Js ScoreCard V208</title>
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 	<meta name="theme-color" content="#4B0082">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-title" content="Scorecard">
@@ -18,6 +18,7 @@
   		color-scheme: light; /* Forces the browser to treat the page as 'light' mode */
 		}
 	/* Add this to your styles.css */
+	/* This is what makes the background purple */
 	html, body {
     	background-color: #4B0082 !important; /* Your deep purple */
 		margin: 0;
@@ -132,7 +133,11 @@
 	.drag-handle { width: 40px; text-align: center; color: #95a5a6; font-size: 20px; cursor: grab; touch-action: none; }
     .sortable-ghost { opacity: 0.5; background: #3498db !important; }
         
-
+	/* Prevents pull-to-refresh */
+	html, body {
+		/* Disables pull-to-refresh and the "rubber-band" bounce */
+		overscroll-behavior-y: none;
+		}
 
     </style>
 </head>
