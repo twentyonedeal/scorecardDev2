@@ -182,21 +182,27 @@
     display: flex;
     flex-direction: column;
     transition: right 0.3s ease-in-out; /* Smooth slide mechanism */
+	box-sizing: border-box;
 }
 
 /* Active Class to launch panel */
 .help-side-panel.open {
     right: 0;
+	
 }
 
 /* Header inside the panel */
 .panel-header {
     padding: 16px 20px;
-    background: #4c1d95; /* Deep Royal Purple background */
+    background: #4B0082; /* Deep Royal Purple background */
     color: #ffffff;
     display: flex;
     justify-content: space-between;
     align-items: center;
+	padding-top: calc(15px + env(safe-area-inset-top)); 
+    padding-bottom: 15px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .panel-header h3 {
