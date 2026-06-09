@@ -6,10 +6,11 @@
     <title>Js ScoreCard V210</title>
     <link rel="manifest" href="manifest.json">
 	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 	<meta name="apple-mobile-web-app-title" content="Scorecard">
 	<link rel="apple-touch-icon" href="apple-touch-icon.png">
 	<meta name="theme-color" content="#4B0082">
+	
 <style>
 
 		
@@ -97,7 +98,7 @@
 
 	.calc-trigger { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 12px; background: #34495e; color: white; padding: 4px 6px; border-radius: 4px; opacity: 0.8; }
 
-    #roundTable { width: 100%; border-collapse: collapse; text-align: center; font-size: 0.9rem; }
+    #roundTable { width: 100%; border-collapse: collapse;   overflow-x: hidden; text-align: center; font-size: 0.9rem; }
     #roundTable th, #roundTable td { padding: 8px 4px; border: 1px solid var(--border); }
     .score-cell { font-weight: bold; color: #f5b342; display: inline-block; border: none; background: transparent; }
     .badge { background: #52442d; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem; }
@@ -138,20 +139,171 @@
 		/* Disables pull-to-refresh and the "rubber-band" bounce */
 		overscroll-behavior-y: none;
 		}
+		
+		
+		
+		
+		/* The floating or inline purple trigger button */
+.help-trigger-btn {
+    background-color: #4B0082; /* Vibrant Violet */
+    color: #ffffff;
+    border: none;
+    padding: 10px 16px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 6px -1px rgba(124, 58, 237, 0.2);
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.help-trigger-btn:hover {
+    background-color: #6d28d9; /* Deep Purple */
+}
+
+.help-trigger-btn:active {
+    transform: scale(0.98);
+}
+
+/* The Slide-Out Panel Box Container */
+.help-side-panel {
+    position: fixed;
+    top: 0;
+    right: -450px; /* Hidden off-screen by default */
+    width: 450px;
+    max-width: 100%;
+    height: 100vh;
+    background: #ffffff;
+    box-shadow: -4px 0 25px rgba(0, 0, 0, 0.15);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    transition: right 0.3s ease-in-out; /* Smooth slide mechanism */
+}
+
+/* Active Class to launch panel */
+.help-side-panel.open {
+    right: 0;
+}
+
+/* Header inside the panel */
+.panel-header {
+    padding: 16px 20px;
+    background: #4c1d95; /* Deep Royal Purple background */
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.panel-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.close-panel-btn {
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-size: 1.75rem;
+    cursor: pointer;
+    line-height: 1;
+}
+
+/* Body wrapping the frame element */
+.panel-body {
+    flex: 1;
+    overflow: hidden;
+}
+
+.panel-body iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Dim overlay background behind panel */
+.panel-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 9998;
+    display: none;
+}
+
+.panel-overlay.open {
+    display: block;
+}
+
+
+		
+		
+		
+		
+		
 
     </style>
 </head>
 
 <body>
+
+	<div class="notch_container">
+		<h1 style="text-align:center; font-size: 1.5rem; margin:3rem 0 10px 0;"></h1>
+    </div>
+	
 	<div class="container">
-		<h1 style="text-align:center; font-size: 1.5rem; margin:0 0 5px 0;">Jay's Ultimate Scorecard</h1>
-    <div style="text-align:center;  font-size: .75rem; margin:0 0 5px 0;">v210</div>
+		<h2 style="text-align:center; font-size: 1.5rem; margin:0 0 5px 0;">Jay's Ultimate Scorecard</h2>
+    <div style="text-align:center;  font-size: .75rem; margin:0 0 5px 0;">V700</div>
 	<div id="activeGameLabel" style="font-size: 0.75rem; text-align: center; margin-bottom:5px;"></div>
     <span style="display: inline-block; margin-bottom:10px;" id="offlineTag">Checking...</span>
+	
+	
+	<!-- 1. The Trigger Button -->
+<button class="help-trigger-btn" onclick="toggleHelpPanel()">
+    <!-- Simple interrogation/question mark SVG icon -->
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+    
+</button>
+
+<!-- 2. The Slide-Out Help Panel Container -->
+<div id="helpPanel" class="help-side-panel">
+    <div class="panel-header">
+        <h3>Information</h3>
+        <button class="close-panel-btn" onclick="toggleHelpPanel()">&times;</button>
+    </div>
+    <div class="panel-body">
+        <!-- Embeds your purple help-content.html template securely -->
+        <iframe src="help-content.html" title="App Help Documentation"></iframe>
+    </div>
+</div>
+
+<!-- 3. Optional Overlay Dimmer Background -->
+<div id="panelOverlay" class="panel-overlay" onclick="toggleHelpPanel()"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
     <div style="display:grid; grid-template-columns: 1fr 1fr 44px 44px; gap:8px; margin-bottom:15px;">
         <button onclick="openSaveModal()" style="background:#3498db; color:white; border:none; border-radius:8px; padding:12px;">💾 Save</button>
         <button onclick="openLibrary()" style="background:#9b59b6; color:white; border:none; border-radius:8px; padding:12px;">📚 Lib</button>
-        <button onclick="toggleManualMode()" id="seatingBtn" style="background:#34495e; color:white; border:none; border-radius:8px; padding:12px;">🪑</button>
+        <button onclick="toggleManualMode(); updateVisibility2();" id="seatingBtn" style="background:#34495e; color:white; border:none; border-radius:8px; padding:12px;">🪑</button>
         <button onclick="toggleDarkMode()" style="background:#34495e; color:white; border:none; border-radius:8px; padding:12px;">🌙</button>
     </div>
 
@@ -183,14 +335,14 @@
 		<div class="controls2">
 			<div id="seating_container" style="display:none;">
 			<label>
-				<input type="checkbox" style="cursor: pointer;" id="toggleSeating" onchange="updateVisibility2()"> 
+				<input type="checkbox" style="cursor: pointer;" id="toggleSeating" onchange="updateVisibility2()" checked> 
 				Seating Locked
 			</label>
 			</div>
 		</div>
 	</div>
 	<table id="leaderboardTable"><tbody id="leaderboard"></tbody></table>
-    <table style="width:100%; border-collapse:collapse;"><tbody id="leaderboard"></tbody></table>
+    <table style="width:100%; table-layout: fixed; border-collapse:collapse;"></table>
     <div id="batchAction" style="display:none; margin-top:15px;">
         <button onclick="submitBatchRound()" style="width:100%; background:#27ae60; padding:15px; font-size:1.1rem; color:white; border:none; border-radius:10px; font-weight:bold;">➕ Submit Scores</button>
     </div>
@@ -243,19 +395,41 @@
 </div>
 
 
+
+
+
 <div id="error-modal" class="modal"><div class="modal-content"
 style="max-width:380px; border-top: 5px solid #e74c3c; display: flex; flex-direction:column; gap:8px; margin-top:15px;">
-        <h3 style="color: #e74c3c;">⚠️ Math Error</h3>
-        <p>Math formula is incomplete or incorrect.</p>
+        <h3 style="color: #e74c3c;">⚠️ Invalid input detected!</h3>
+        <p>Scores must be whole numbers (positive or negative) without decimals or special symbols. Please fix these entries:
+		
+		</p>
 		<button onclick="closeModal('error-modal')" style="width:100%; background:#3498db;  padding:15px .2rem; font-size:1rem; color:black; border:none; border-radius:10px;">Fix it</button>
 
     </div>
 </div>
 
+<!-- The Error Modal Backdrop -->
+<div id="errorModal" style="display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; backgroundColor: rgba(0,0,0,0.5); justify-content: center; align-items: center;">
+    <!-- Modal Content Box -->
+    <div style="background-color: white; padding: 20px; border-radius: 8px; max-width: 90%; width: 400px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <h3 style="color: #dc3545; margin-top: 0;">⚠️ Input Error</h3>
+        <p style="margin-bottom: 15px; color: #333;">Scores must be positive or negative whole numbers without decimals.</p>
+        
+        <!-- Error List Target -->
+        <ul id="modalErrorList" style="color: #666; padding-left: 20px; line-height: 1.5; margin-bottom: 20px;"></ul>
+        
+        <!-- Close Button -->
+        <button type="button" onclick="closeErrorModal()" style="width: 100%; padding: 10px; background-color: #dc3545; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer;">Fix Entries</button>
+    </div>
+	</div>
+	
+	
+
 
 <div id="saveGameModal" class="modal"><div class="modal-content">
 <h3>Save Game</h3>
-<input type="text" id="saveNameIn" placeholder="LisaWins" onkeydown="if(event.key==='Enter') doSave(false)">
+<input type="text" id="saveNameIn" placeholder="NewGame" onkeydown="if(event.key==='Enter') doSave(false)">
 <div style="display:flex; flex-direction:column; gap:8px; margin-top:15px;">
 <button onclick="doSave(false)" style="width:100%; background:#27d647; padding:15px .2rem; font-size:1rem; color:black; border:none; border-radius:10px;">Update Current (or Change Name)</button>
 <button onclick="doSave(true)" style="width:100%; background:#3498db;  padding:15px .2rem; font-size:1rem; color:black; border:none; border-radius:10px;">Save Copy (or Enter New Name)</button>
@@ -276,11 +450,10 @@ style="max-width:380px; border-top: 5px solid #e74c3c; display: flex; flex-direc
     <button onclick="closeModal('resetModal')" style="width:100%; background:#95a5a6; padding:15px .2rem; font-size:1rem; color:black; border:none; border-radius:10px;">Cancel</button>
 </div>
 </div></div>
-
 <div id="renameModal" class="modal"><div class="modal-content"><h3>Rename</h3><input type="text" id="renameIn" style="width:100%;" onkeydown="if(event.key==='Enter') saveRename()"><button onclick="saveRename()" style="width:100%; margin-top:10px; background:var(--accent); color:white; padding:12px; border:none; border-radius:8px;">Update</button></div></div>
 <div id="editModal" class="modal"><div class="modal-content">
 <h3>Edit Score</h3>
- <input type="number" pattern="[0-9]*" id="editIn" style="width:100%;
+ <input type="text" pattern="-[0-9]*|[0-9]*" inputmode="numeric" id="editIn" style="width:100%;
 " onkeydown="if(event.key==='Enter') saveEdit()">
 <button onclick="saveEdit()" style="width:100%; margin-top:15px; padding:12px; background:var(--accent); color:white; border:none; border-radius:8px;">Update Score</button>
     <button onclick="closeModal('editModal')" style="width:100%; margin-top:15px; padding:12px; background:#95a5a6; color:white; border:none; border-radius:8px;">Cancel</button>
@@ -293,33 +466,18 @@ style="max-width:380px; border-top: 5px solid #e74c3c; display: flex; flex-direc
 <div id="colorModal" class="modal"><div class="modal-content"><h3>Pick Color</h3><input type="color" id="nativePicker" oninput="liveColor(this.value)" style="width:100px; height:100px; border:none; background:none;"><button onclick="closeModal('colorModal')" style="width:100%; background:#95a5a6;  padding:15px .2rem; font-size:1rem; color:black; border:none; border-radius:10px;">Done</button></div></div>
 
 <div id="toast"></div>
+
+
+
+
+
+
+
 <script>
 
-	if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js') // Points to your new file
-    .then((registration) => {
-        const statusEl = document.getElementById('syncStatus');
-        
-        // If it's already active
-        if (registration.active) {
-            statusEl.innerText = "✅ Offline Ready";
-        }
-
-        // Listen for the moment it becomes active
-        registration.onupdatefound = () => {
-            const installingWorker = registration.installing;
-            installingWorker.onstatechange = () => {
-                if (installingWorker.state === 'activated') {
-                    statusEl.innerText = "✅ Offline Ready";
-                }
-            };
-        };
-    })
-    .catch((err) => {
-        document.getElementById('syncStatus').innerText = "⚠️ Offline Unavailable";
-        console.error("SW Registration failed:", err);
-    });
-}
+	const statusEl = document.getElementById('syncStatus');
+        statusEl.innerText = "✅ Cache OK";
+                
     const lb = document.getElementById('leaderboard-title');
 		lb.innerText = lb.dataset.label; // Sets the text to "🏆 Leader Board"
 	let isManualMode = false, draggingRow = null, renamingPlayerId = null;
@@ -338,8 +496,8 @@ style="max-width:380px; border-top: 5px solid #e74c3c; display: flex; flex-direc
 
     function updateStatus() {
         const tag = document.getElementById('offlineTag');
-        if (navigator.onLine) { tag.innerText = "Online"; tag.className = "online"; }
-        else { tag.innerText = "Offline Mode"; tag.className = "offline"; }
+        if (navigator.onLine) { tag.innerText = ""; tag.className = "online"; }
+        else { tag.innerText = ""; tag.className = "offline"; }
     }
     window.addEventListener('online', updateStatus); window.addEventListener('offline', updateStatus); updateStatus();
 
@@ -347,7 +505,7 @@ style="max-width:380px; border-top: 5px solid #e74c3c; display: flex; flex-direc
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
     function showToast(m) { const t = document.getElementById('toast'); t.innerText = m; t.style.opacity = '1'; setTimeout(() => t.style.opacity = '0', 2000); }
-    function toggleDarkMode() { isDark = !isDark; document.body.classList.toggle('dark-mode'); localStorage.setItem('v102_dark', isDark);}
+    function toggleDarkMode() { isDark = !isDark; document.body.classList.toggle('dark-mode'); localStorage.setItem('v102_dark', isDark); updateVisibility();}
     function toggleWinCondition() { lowScoreWins = document.getElementById('winConditionToggle').checked; localStorage.setItem('v102_lowWins', lowScoreWins);
 
     const isLowWins = document.getElementById('winConditionToggle').checked;
@@ -372,10 +530,23 @@ style="max-width:380px; border-top: 5px solid #e74c3c; display: flex; flex-direc
 
 	render(); }
 
-    function getRandomColor() {
-        const colors = ['#42f5dd', '#e74c3c', '#2ecc71', '#f1c40f', '#9b59b6', '#e67e22', '#f0f70f', '#34495e', '42c8f5'];
-        return colors[Math.floor(Math.random() * colors.length)];
-    }
+    const colors = ['#42f5dd', '#e74c3c', '#2ecc71', '#f1c40f', '#9b59b6', '#e67e22', '#f0f70f', '#D20BE3', '#42c8f5'];
+	let availableColors = [];
+
+	function getRandomColor() {
+		// 1. If the "deck" is empty, refill and shuffle it
+		if (availableColors.length === 0) {
+			availableColors = [...colors].sort(() => Math.random() - 0.5);
+			}
+
+		// 2. Remove and return the last color from the shuffled deck
+		return availableColors.pop();
+		}
+
+  //  function getRandomColor() {
+  //      const colors = ['#42f5dd', '#e74c3c', '#2ecc71', '#f1c40f', '#9b59b6', '#e67e22', '#f0f70f', '#D20BE3', '#42c8f5'];
+  //      return colors[Math.floor(Math.random() * colors.length)];
+  //  }
 
     function addPlayer() {
         let n = document.getElementById('playerName'); if(!n.value.trim()) return;
@@ -428,14 +599,14 @@ style="max-width:380px; border-top: 5px solid #e74c3c; display: flex; flex-direc
 		// 1. Add the shake class
         modalContent.classList.add('shake-error');
 
-		 // 3. Remove the class after 300ms so it can shake again next time
+		// 3. Remove the class after 300ms so it can shake again next time
         setTimeout(() => {
             modalContent.classList.remove('shake-error');
-        }, 300);
-		       // openModal('error-modal');
+			}, 300);
+		// openModal('error-modal');
 	
-    }
-}
+		}
+		}
 
 	function calcApply() {
     const display = document.getElementById('calcDisplay');
@@ -464,11 +635,11 @@ style="max-width:380px; border-top: 5px solid #e74c3c; display: flex; flex-direc
 		 // 3. Remove the class after 300ms so it can shake again next time
         setTimeout(() => {
             modalContent.classList.remove('shake-error');
-        }, 300);
+			}, 300);
 		       // openModal('error-modal');
 	
-    }
-}
+			}
+		}
 
 	
 	//function calcSolve() { try { document.getElementById('calcDisplay').innerText = eval(document.getElementById('calcDisplay').innerText.replace(/×/g, '*')); } catch { document.getElementById('calcDisplay').innerText = "Error"; } }
@@ -481,36 +652,150 @@ style="max-width:380px; border-top: 5px solid #e74c3c; display: flex; flex-direc
         let p = players.find(x => x.id === id); document.getElementById('confirmTitle').innerText = "Delete " + p.name + "?"; openModal('confirmModal');
         document.getElementById('confirmYes').onclick = () => { players = players.filter(x => x.id !== id); rounds.forEach(r => delete r.scores[id]); hasUnsavedChanges = true; closeModal('confirmModal'); sync(); };
     }
+	
+	function submitBatchRound() {
+		let nr = { scores: {} };
+		let added = false;
+		let errors = [];
 
-    function submitBatchRound() {
-        let nr = { scores: {} }, added = false;
-        players.forEach(p => {
-            let el = document.getElementById(`b-${p.id}`); let v = parseInt(el.value) || 0;
-            p.score += v; nr.scores[p.id] = v; el.value = ""; if(v !== 0) added = true;
-        });
-        if(added) { rounds.push(nr); hasUnsavedChanges = true; sync(); }
+		// First Pass: Validate ALL inputs to collect errors
+		players.forEach(p => {
+        const el = document.getElementById(`b-${p.id}`);
+        if (!el) return;
+
+        const rawValue = el.value.trim();
+
+        // Skip completely empty fields safely
+        if (rawValue === "") return;
+
+        // Strict Check: Optional minus sign followed strictly by digits
+        const isValidWholeNumber = /^-?[0-9]+$/.test(rawValue);
+
+        if (!isValidWholeNumber) {
+            const displayName = p.name ? p.name : `Player ${p.id}`;
+            errors.push(`${displayName}: "${rawValue}"`);
+			}
+		});
+
+		// If errors exist, open the custom modal and HALT execution
+		if (errors.length > 0) {
+			showErrorModal(errors);
+			return; // Stops the function from saving or clearing anything
+			}
+
+		// Second Pass: Calculate and process if everything is valid
+		players.forEach(p => {
+        const el = document.getElementById(`b-${p.id}`);
+        if (!el) return;
+
+        const rawValue = el.value.trim();
+
+        if (rawValue === "") {
+            nr.scores[p.id] = 0;
+            return;
+			}
+
+        const v = parseInt(rawValue, 10);
+        p.score += v;
+        nr.scores[p.id] = v;
+        el.value = ""; // Clear input safely
+        added = true;
+    });
+
+    // Save the round if data was modified
+    if (added) {
+        rounds.push(nr);
+        hasUnsavedChanges = true;
+        sync();
     }
+}
+
+
+	// Helper functions to show and hide the modal
+	function showErrorModal(errorArray) {
+		const modal = document.getElementById('errorModal');
+		const list = document.getElementById('modalErrorList');
+    
+		// Clear old errors and inject new ones safely as text fragments
+		list.innerHTML = "";
+		errorArray.forEach(err => {
+			const li = document.createElement('li');
+			li.textContent = err;
+			list.appendChild(li);
+			});
+    
+		// Display the modal using Flexbox layout to center it
+		modal.style.display = 'flex';
+		}
+
+	function closeErrorModal() {
+		document.getElementById('errorModal').style.display = 'none';
+		}
 
     function openEdit(ri, pi) { editState = {ri, pi}; document.getElementById('editIn').value = rounds[ri].scores[pi]; openModal('editModal'); setTimeout(()=>document.getElementById('editIn').select(), 100); }
-    function saveEdit() {
-        let nv = parseInt(document.getElementById('editIn').value) || 0;
-        let p = players.find(x => x.id === editState.pi);
+    //function saveEdit() {
+	//	const el = document.getElementById(`editIn`).value;
+    //    const rawValue = el.value.trim();
+
+        // Skip completely empty fields safely
+     //   if (rawValue === "") return;
+
+        // Strict Check: Optional minus sign followed strictly by digits
+     //   const isValidWholeNumber = /^-?[0-9]+$/.test(rawValue);
+		
+      //  if (!isValidWholeNumber) {
+            //const displayName = p.name ? p.name : `Player ${p.id}`;
+           // errors.push(`${displayName}: "${rawValue}"`);
+	//		showErrorModal(errors);
+	//		return; // Stops the function from saving or clearing anything
+	//		}
+		
+function saveEdit() {
+    const inputEl = document.getElementById('editIn');
+    if (!inputEl) return;
+
+    const rawValue = inputEl.value.trim();
+
+    // Strict Check: Optional minus sign followed strictly by digits (must not be empty or just "-")
+    const isValidWholeNumber = /^-?[0-9]+$/.test(rawValue);
+
+    if (!isValidWholeNumber) {
+        // Find player name to make the error message clear
+        const p = players.find(x => x.id === editState.pi);
+        const displayName = p && p.name ? p.name : "Player Value";
+        
+        // Open your error modal and halt the save process
+        showErrorModal([`${displayName}: "${rawValue}"`]);
+        return; 
+    }
+
+    // If it passes validation, safely parse the number
+    const nv = parseInt(rawValue, 10);
+    const p = players.find(x => x.id === editState.pi);
+    
+    if (p) {
+        // Recalculate player's total score based on the edit adjustment
         p.score = p.score - (rounds[editState.ri].scores[editState.pi] || 0) + nv;
         rounds[editState.ri].scores[editState.pi] = nv;
-        hasUnsavedChanges = true; closeModal('editModal'); sync();
+        
+        hasUnsavedChanges = true; 
+        closeModal('editModal'); 
+        sync();
     }
+}
+	
     
     function askDelR(ri) { 
         document.getElementById('confirmTitle').innerText = "Delete Round " + (ri+1) + "?"; openModal('confirmModal');
         document.getElementById('confirmYes').onclick = () => { players.forEach(p => p.score -= (rounds[ri].scores[p.id] || 0)); rounds.splice(ri,1); hasUnsavedChanges = true; closeModal('confirmModal'); sync(); };
-    }
+		}
 
     function sync() { 
         localStorage.setItem('v102_p', JSON.stringify(players)); 
         localStorage.setItem('v102_r', JSON.stringify(rounds)); 
         localStorage.setItem('v102_aid', activeId);
         render(); 
-    }
+		}
 
 
 	function toggleManualMode() {
@@ -522,22 +807,20 @@ style="max-width:380px; border-top: 5px solid #e74c3c; display: flex; flex-direc
 		//document.getElementById("leaderboard-title").innerText = newTitle;
 
 		// Check if the current data-label is the default value
-  if (leaderboard.dataset.label === "🏆 Leader Board") {
-    // If it is, change it to something else
-    leaderboard.dataset.label = "🪑Table Seating";
-    leaderboard.innerText = "🪑 Table Seating";
-	showlocked.style.display = 'inline-block';
+		if (leaderboard.dataset.label === "🏆 Leader Board") {
+			// If it is, change it to something else
+			leaderboard.dataset.label = "🪑Table Seating";
+			leaderboard.innerText = "🪑 Table Seating";
+			showlocked.style.display = 'inline-block';
 
-  } else {
-    // If it's NOT the default, toggle it back
-    leaderboard.dataset.label = "🏆 Leader Board";
-    leaderboard.innerText = "🏆 Leader Board";
-	showlocked.style.display = 'none';
-
-		}
-						
-
-
+			}
+		else {
+			// If it's NOT the default, toggle it back
+			leaderboard.dataset.label = "🏆 Leader Board";
+			leaderboard.innerText = "🏆 Leader Board";
+			showlocked.style.display = 'none';
+			}
+			
 //"🥇 Top Players";
 
 	//	const newTitle = "🥇 Top Players";
@@ -619,9 +902,9 @@ style="max-width:380px; border-top: 5px solid #e74c3c; display: flex; flex-direc
         let activeGame = library.find(g => g.id == activeId);
 		document.getElementById('activeGameLabel').innerHTML = activeId 
 			? (hasUnsavedChanges 
-			? `📁: ${activeGame?.name || "LisaWins"} <span style="color: red;">${saveMe}</span>` 
-			: `📁: ${activeGame?.name || "LisaWins"}`) 
-			: "✨ LisaWinsAgain";
+			? `📁: ${activeGame?.name || "NewGame"} <span style="color: red;">${saveMe}</span>` 
+			: `📁: ${activeGame?.name || "NewGame"}`) 
+			: "✨ NewGame";
 
 		document.getElementById('batchAction').style.display = players.length ? 'block' : 'none';
         listEl.innerHTML = ''; 
@@ -635,59 +918,131 @@ style="max-width:380px; border-top: 5px solid #e74c3c; display: flex; flex-direc
             tr.setAttribute('data-id', p.id);
             tr.innerHTML = `
 				<td class="drag-handle" style="${(!isManualMode || !SeatingModeOn) ? 'display:none' : ''}">☰</td>
-               <td style="width:3px;"><div style="width:3px;height:52px;background:${p.color}"></div></td>
+				<td style="width:3px;"><div style="width:3px;height:52px;background:${p.color}"></div></td>
                 <td style="width:30px; text-align:center; font-weight:bold;">${rank}</td>
-                <td style="width:35px;"><div class="circle-color-picker" style="background:${p.color}; width:22px; height:22px; border-radius:50%;" onclick="openColorPicker('edit', ${p.id})"></div></td>
-                <td><b onclick="openRename(${p.id})">${p.name}</b></td>
+				<td style="width:35px;"><div class="circle-color-picker" style="background: ${p.color}; border-radius: 50%;
+					/* Dynamically shrinks width and height by 2px if black */
+					width: ${(isDark && (p.color.toLowerCase() === 'black' || p.color === '#000000')) ? '20px' : '22px'}; 
+					height: ${(isDark && (p.color.toLowerCase() === 'black' || p.color === '#000000')) ? '20px' : '22px'}; 
+					/* Adds a thin white ring ONLY if the color is black */
+					box-shadow: ${(isDark && (p.color.toLowerCase() === 'black' || p.color === '#000000')) ? '0 0 0 2px #FFFFFF' : 'none'};
+					"
+  					onclick="openColorPicker('edit', ${p.id})"
+					></div></td>
+				<td><b onclick="openRename(${p.id})">${p.name}</b></td>
                 <td onclick="askDelP(${p.id})" style="width:43px; text-align:right; padding: 0px 1px 0px 0px; opacity:0.6;">🗑️</td>
                 <td class="toggle-col" style="text-align:left; font-size:0.7rem; color:var(--hideNum); width:32px;">${lastRound ? `(${lastRound.scores[p.id]})` : ''}</td>
-                <td style="text-align:right; font-weight:bold; padding-right:8px; width:60px;">${p.score}</td>
-                <td class="col-batch"><input type="number" pattern="[0-9]*" id="b-${p.id}" font-size: 2rem; placeholder="+" style="width:95px; padding:10px; border:2px solid ${p.color}">
-			         <button onclick="openCalc('b-${p.id}')" style="position:absolute; right:.4em; top:50%; transform:translateY(-50%); font-size:0.8rem; padding: .3rem .3rem .3rem .3rem; border-radius:4px; border:none; background:#34495e; color:white;">CALC</button>
-            `;
-            initDragEvents(tr);
+				<td style="text-align:right; font-weight:bold; padding-right:8px; width:60px;">${p.score}</td>
+				<td class="col-batch" style="position: relative; width: 95px; height: 60px; text-align: right;">
+				<style> .batch-input { position: absolute; right: 0; top: 50%; transform: translateY(-50%);
+      				/* Base sizing and styles */
+					min-width: 95px;   /* Never shrinks smaller than your original size */
+					max-width: 165px;  /* Never grows too large for the table cell */
+					width: 95px;
+					padding: 10px;
+					font-size: 2rem;
+					box-sizing: border-box;
+					}
+				
+				</style>
+				<!-- 1. The Dynamic Input Field -->
+				<input type="text" pattern="-[0-9]*|[0-9]*" inputmode="numeric" id="b-${p.id}" placeholder="+" 
+					class="batch-input"
+					style="border: 2px solid ${(isDark && (p.color.toLowerCase() === 'black' || p.color === '#000000')) ? '#ffffff' : p.color}; text-align: left;"			// isDark = !isDark;
+				oninput="
+					const measurer = document.getElementById('measure-${p.id}');
+					measurer.textContent = this.value || this.placeholder;
+      
+					/* 10px left/right padding + 4px borders + another 6px for good measures */
+					const newWidth = measurer.offsetWidth + 30; 
+      
+					/* Ensure text shifts right so growth occurs on the left */
+					// this.style.textAlign = 'left';
+	  
+					/* Clamp tightly between 95px and 110px */
+					this.style.width = Math.min(Math.max(newWidth, 95), 165) + 'px';
+					"
+				>
+				
+				<button class="calc-btn" onclick="openCalc('b-${p.id}')" 
+					style="position:absolute; right:.4em; top:50%; transform:translateY(-50%); font-size:0.8rem; padding: .3rem; border-radius:4px; border:none; background:#34495e; color:white; z-index: 1;"
+					>CALC</button>
+ 
+				<!-- Hidden Text Measurer -->
+				<span id="measure-${p.id}" style="position: absolute;
+				right: 0;
+				//text-align: left;
+				left: auto;
+				top: 0;
+				//	left: 0; 
+				//	width: 0; 
+				height: 0;
+
+				visibility: hidden; 
+				white-space: pre; 
+				font-size: 2rem;
+				font-family: inherit;
+				//transform: scaleX(-1);
+				transform-origin: right;"
+				></span>
+
+				</td>
+				`;
+
+			initDragEvents(tr);
             listEl.appendChild(tr);
 			});
 			
        	// Render Rounds Table (Uses roundPlayers - decoupled)
-		// document.getElementById('roundHeader').innerHTML = `<th>R</th>` + roundPlayers.map(p => `<th style="background:${p.color}; color:#000; font-size:11px;">${p.name[0]}</th>`).join('') + `<th>✕</th>`;
-        //document.getElementById('roundBody').innerHTML = rounds.map((r, ri) => `<tr><td>${ri+1}</td>${roundPlayers.map(p => `<td>${r.scores[p.id]||0}</td>`).join('')}<td onclick="askDeleteRound(${ri})">✕</td></tr>`).join('');
-		// document.getElementById('roundFooter').innerHTML = players.length ? `<tr class="total-row"><td>Σ</td>${roundPlayers.map(p => `<td style="color:${p.color}">${p.score}</td>`).join('')}<td></td></tr>` : "";
-        
-		document.getElementById('roundHeader').innerHTML = `<th>R</th>` + roundPlayers.map       (p => `<th style="background:${p.color}; color:black;">${p.name[0]}</th>`).join('') + `<th>✕</th>`;
+        document.getElementById('roundHeader').innerHTML = `<th>R</th>` + roundPlayers.map(p => {
+		// Determine text color based on background color
+		udaman = p.color;
+		checkcolor (udaman);
+		return `<th style="background:${p.color}; color:${textColor};">${p.name[0]}</th>`;
+		}).join('') + `<th>✕</th>`;
 
-		//  document.getElementById('roundBody').innerHTML = rounds.map((r, ri) => `<tr><td>${ri+1}</td>${displayPlayers.map(p => `<td>${r.scores[p.id]||0}</td>`).join('')}<td onclick="askDeleteRound(${ri})">✕</td></tr>`).join('');
-		//  document.getElementById('roundBody').innerHTML = rounds.map((r, ri) => `<tr><td>${ri+1}</td>${displayPlayers.map(p => `<td><span class="score-cell" onclick="openEdit(${ri}, ${p.id})">${r.scores[p.id]||0}</span></td>`).join('')}<td><button class="del-round-btn" onclick="askDelR(${ri})">✕</button></td></tr>`).join('');
         document.getElementById('roundBody').innerHTML = rounds.map((r, ri) => `<tr><td>${ri+1}</td>${roundPlayers.map(p => `<td><span class="score-cell" onclick="openEdit(${ri}, ${p.id})">${r.scores[p.id]||0}</span></td>`).join('')}<td><button class="del-round-btn" onclick="askDelR(${ri})">✕</button></td></tr>`).join('');
-
-		// document.getElementById('roundFooter').innerHTML = players.length ? `<tr class="total-row"><td>Σ</td>${displayPlayers.map(p => `<td style="color:${p.color}">${p.score}</td>`).join('')}<td></td></tr>` : "";
-		document.getElementById('roundFooter').innerHTML = players.length ? `<tr style="background:var(--total-bg); font-weight:bold;"><td>Σ</td>${roundPlayers.map(p => `<td style="color:${p.color}">${p.score}</td>`).join('')}<td></td></tr>` : "";
+		document.getElementById('roundFooter').innerHTML = players.length ? `<tr style="background:var(--total-bg); font-weight:bold;"><td>Σ</td>${roundPlayers.map(p => `<td style="white">${p.score}</td>`).join('')}<td></td></tr>` : "";
 		document.getElementById('roundCounter').innerText = `${rounds.length} Rounds Played`;
 		if(rounds.length == 1) {document.getElementById('roundCounter').innerText = `${rounds.length} Round Played`;}
-				
-        const spot = document.getElementById('winnerSpotlight');
+		const spot = document.getElementById('winnerSpotlight');
         if (players.length) { 
-            spot.style.display = 'block'; spot.style.background = rankedRef[0].color; 
+            spot.style.display = 'block'; spot.style.background = rankedRef[0].color; spot.style.color = 'white'; 
+			udaman = rankedRef[0].color;
+			checkcolor (udaman);
+			spot.style.color = textColor; 
             spot.innerText = `🏆 Leader: ${rankedRef[0].name} (${rankedRef[0].score})`; 
         } else spot.style.display = 'none';
     }
 
+	function checkcolor(hexValue) {
+		const hex = hexValue.replace('#', '');
+		const r = parseInt(hex.substring(0, 2), 16);
+		const g = parseInt(hex.substring(2, 4), 16);
+		const b = parseInt(hex.substring(4, 6), 16);
+		// Normalize and apply gamma correction
+		const [rL, gL, bL] = [r, g, b].map(c => {c /= 255; return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); } );
+			const luminance = 0.2126 * rL + 0.7152 * gL + 0.0722 * bL;
+			return textColor = luminance > 0.179 ? '#000000' : '#FFFFFF';
+			}
+	
+
     function openSaveModal() {
         let activeGame = library.find(g => g.id == activeId);
-        document.getElementById('saveNameIn').value = activeGame ? activeGame.name : "LisaWins";
+        document.getElementById('saveNameIn').value = activeGame ? activeGame.name : "NewGame";
         openModal('saveGameModal');
         setTimeout(()=>document.getElementById('saveNameIn').select(), 100);
-    }
+		}
 
     function doSave(isNew) {
-        let n = document.getElementById('saveNameIn').value || "LisaWins";
+        let n = document.getElementById('saveNameIn').value || "NewGame";
         let snap = { id: isNew ? Date.now() : (activeId || Date.now()), name: n, players: JSON.parse(JSON.stringify(players)), rounds: JSON.parse(JSON.stringify(rounds)), date: new Date().toLocaleString() };
         if(isNew || !activeId) library.push(snap); else {
             let idx = library.findIndex(x => x.id == activeId);
             if(idx !== -1) library[idx] = snap; else library.push(snap);
-        }
+			}
         localStorage.setItem('v102_l', JSON.stringify(library)); activeId = snap.id; hasUnsavedChanges = false; closeModal('saveGameModal'); showToast("Saved!"); sync();
-    }
+		}
     
     function openLibrary() {
         document.getElementById('libList').innerHTML = library.map((g, i) => `
@@ -699,9 +1054,7 @@ style="max-width:380px; border-top: 5px solid #e74c3c; display: flex; flex-direc
                 </div>
             </div>`).join('') || `<div style="padding: 20px 12px; color: var(--text-muted);">No saved games.</div>`;
         openModal('libraryModal');
-		
-				
-    }
+		}
 
     function loadG(i) {
         if (hasUnsavedChanges) {
@@ -709,7 +1062,7 @@ style="max-width:380px; border-top: 5px solid #e74c3c; display: flex; flex-direc
             openModal('confirmModal');
             document.getElementById('confirmYes').onclick = () => { actuallyLoad(i); closeModal('confirmModal'); };
         } else { actuallyLoad(i); }
-    }
+		}
 
     function actuallyLoad(i) {
         players = JSON.parse(JSON.stringify(library[i].players));
@@ -718,18 +1071,18 @@ style="max-width:380px; border-top: 5px solid #e74c3c; display: flex; flex-direc
         hasUnsavedChanges = false;
         closeModal('libraryModal');
         sync();
-    }
+		}
     
     function delSave(i) { 
         document.getElementById('confirmTitle').innerText = "Delete Save?"; openModal('confirmModal'); 
         document.getElementById('confirmYes').onclick = () => { library.splice(i,1); localStorage.setItem('v102_l', JSON.stringify(library)); openLibrary(); closeModal('confirmModal'); }; 
-    }
+		}
 
     function shareG(i) {
         let g = library[i], text = `📊 ${g.name}\n🏆 STANDINGS:\n`;
         [...g.players].sort((a,b) => lowScoreWins ? a.score - b.score : b.score - a.score).forEach((p, idx) => text += `${idx+1}. ${p.name}: ${p.score}\n`);
         if (navigator.share) navigator.share({ text }).catch(() => copyToClipboard(text)); else copyToClipboard(text);
-    }
+		}
 
     function copyToClipboard(t) { navigator.clipboard.writeText(t).then(() => showToast("Standings Copied!")); }
 
@@ -739,13 +1092,13 @@ style="max-width:380px; border-top: 5px solid #e74c3c; display: flex; flex-direc
             openModal('confirmModal');
             document.getElementById('confirmYes').onclick = () => { actuallydoReset(t); closeModal('confirmModal'); };
         } else { actuallydoReset(t); }
-	}
+		}
 
 	function actuallydoReset(t) {
         if(t==='scores'){ rounds=[]; players.forEach(p=>p.score=0); } else { players=[]; rounds=[]; activeId=null; } 
         hasUnsavedChanges=true; closeModal('resetModal');
 		sync(); 
-    }
+		}
   
 
 	function updateVisibility() {
@@ -762,7 +1115,6 @@ style="max-width:380px; border-top: 5px solid #e74c3c; display: flex; flex-direc
         }
 
 	function updateVisibility2() {
-		//const table = document.getElementById('leaderboard');
 		const isChecked2 = document.getElementById('toggleSeating').checked;
 		console.log("Value of myVariable:", isChecked2);
 		if(isChecked2){
@@ -771,6 +1123,20 @@ style="max-width:380px; border-top: 5px solid #e74c3c; display: flex; flex-direc
 				SeatingModeOn = true;}
 		render();
         }    
+	
+
+	function toggleHelpPanel() {
+    const panel = document.getElementById('helpPanel');
+    const overlay = document.getElementById('panelOverlay');
+    
+    // Toggle the visible CSS classes
+    panel.classList.toggle('open');
+    overlay.classList.toggle('open');
+}
+
+
+
+	
 	
 	render();
 </script>
