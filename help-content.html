@@ -8,38 +8,7 @@
     
 	<style>
 	
-	header {
-    background-color: #4B0082;
-    /* This adds padding ONLY at the top, specifically 
-       matching the height of the iPhone status bar */
-    padding-top: env(safe-area-inset-top); 
-}
-	
-	body {
-		/* Pushes all content down so it starts below the status bar */
-		padding-top: env(safe-area-inset-top);
-		}
-
-	/* Create a top bar that covers the status area */
-	body::before {
-    	content: "";
-    	position: fixed;
-    	top: 0;
-    	left: 0;
-    	width: 100%;
-    	/* The magic variable that matches the height of the notch/clock */
-    	height: env(safe-area-inset-top); 
-    	background-color: #4B0082; /* Your deep purple */
-    	z-index: 9999; /* Keeps it above everything else */
-		pointer-events: none; /* So it doesn't block clicks/taps */
-		}
-
-	/* Push your actual content down so it doesn't hide behind the purple shelf */
-	header, .container {
-		padding-top: env(safe-area-inset-top);
-		}
-		
-		
+			
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
         body { margin: 0; display: flex; color: #2d2336; background: #faf9fc; height: 100vh; }
         
