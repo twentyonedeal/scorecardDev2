@@ -3,250 +3,1148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover, user-scalable=yes">
-
-    <title>Help Center & Documentation</title>
-    
-	<style>
+    <title>Js ScoreCard V210</title>
+    <link rel="manifest" href="manifest.json">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<meta name="apple-mobile-web-app-title" content="Scorecard">
+	<link rel="apple-touch-icon" href="apple-touch-icon.png">
+	<meta name="theme-color" content="#4B0082">
 	
-			
-        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-        body { margin: 0; display: flex; color: #2d2336; background: #faf9fc; height: 100vh; }
-        
-        /* Sidebar Navigation */
-        .sidebar { width: 260px; background: #fff; border-right: 1px solid #ebdffd; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
-        .sidebar h2 { font-size: 1.2rem; margin: 0; color: #4a154b; font-weight: 700; }
-        .search-box { width: 100%; padding: 8px 12px; border: 1px solid #d3c4e3; border-radius: 6px; font-size: 0.9rem; outline: none; transition: border 0.2s; }
-        .search-box:focus { border-color: #7c3aed; box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15); }
-        .nav-links { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
-        .nav-links a { color: #6d28d9; text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: color 0.15s; }
-        .nav-links a:hover { color: #4c1d95; text-decoration: underline; }
-        
-        /* Main Help Content */
-        .content { flex: 1; padding: 40px; overflow-y: auto; scroll-behavior: smooth; background: #fff; }
-        .help-section { margin-bottom: 40px; padding-bottom: 20px; border-bottom: 1px solid #f3e8ff; }
-        .help-section h3 { font-size: 1.4rem; color: #4c1d95; margin-top: 0; }
-        .help-section p { line-height: 1.6; color: #4b5563; }
-        
-        /* Alert components for emphasis */
-        .note { background: #f3e8ff; border-left: 4px solid #7c3aed; padding: 12px; border-radius: 4px; font-size: 0.9rem; margin-top: 15px; color: #5b21b6; }
-        
-        /* Responsive design for smaller screens/app widgets */
-        @media (max-width: 768px) {
-            body { flex-direction: column; height: auto; }
-            .sidebar { width: 100%; border-right: none; border-bottom: 1px solid #ebdffd; }
-            .content { padding: 20px; }
-        .static-check {
-    display: inline-block;
-    width: 14px;
-    height: 14px;
-    background-color: #d1d5db; /* Grey filling ONLY inside the box */
-    border: 2px solid #000000; /* Crisp black outer boundary */
-    border-radius: 2px;
-    vertical-align: middle;
-    position: relative;
-    margin: 0 4px; /* Optional space outside the box */
-}
-
-/* Draws a static black checkmark perfectly inside the grey fill */
-.static-check::after {
-    content: '';
-    position: absolute;
-    left: 4px;
-    top: 1px;
-    width: 3px;
-    height: 7px;
-    border: solid black;
-    border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
-}
+<style>
 
 		
+	:root {
+  		color-scheme: light; /* Forces the browser to treat the page as 'light' mode */
+		}
+	/* Add this to your styles.css */
+	/* This is what makes the background purple */
+	
+	
+	header {
+    background-color: #4B0082;
+    /* This adds padding ONLY at the top, specifically 
+       matching the height of the iPhone status bar */
+    padding-top: env(safe-area-inset-top); 
+}
+	
+	body {
+		/* Pushes all content down so it starts below the status bar */
+		padding-top: env(safe-area-inset-top);
+		}
+
+	/* Create a top bar that covers the status area */
+	body::before {
+    	content: "";
+    	position: fixed;
+    	top: 0;
+    	left: 0;
+    	width: 100%;
+    	/* The magic variable that matches the height of the notch/clock */
+    	height: env(safe-area-inset-top); 
+    	background-color: #4B0082; /* Your deep purple */
+    	z-index: 9999; /* Keeps it above everything else */
+		pointer-events: none; /* So it doesn't block clicks/taps */
+		}
+
+	/* Push your actual content down so it doesn't hide behind the purple shelf */
+	header, .container {
+		padding-top: env(safe-area-inset-top);
+		}
+	
+    * { box-sizing: border-box; }
+    :root { --hideNum: "white"; --bg: #f0f2f5; --card: #ffffff; --text: #2c3e50; --border: #ced4da; --accent: #27ae60; --total-bg: #e2e6ea; }
+    .dark-mode { --bg: #121212; --card: #1e1e1e; --text: #e0e0e0; --border: #444; --accent: #2ecc71; --total-bg: #2d2d2d; }
+               
+    body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); padding: 10px; margin: 0; -webkit-tap-highlight-color: transparent; }
+    .container { background: var(--card); padding: 12px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); max-width: 500px; margin: auto; }
+         
+	.hide-column .toggle-col {
+		display: none;
+		}	 
+			  
+    button, .circle-color-picker, .square-color-picker, b, .score-cell, 
+    .del-round-btn, .trash-btn, td[onclick], span[onclick] { cursor: pointer; }
+
+    .header-area { display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 5px; }
+    #offlineTag { font-size: 0.6rem; padding: 2px 6px; border-radius: 4px; font-weight: bold; text-transform: uppercase; }
+    .online { background: #27ae60; color: white; }
+    .offline { background: #e67e22; color: white; }
+    .modal-content { background: var(--card); padding: 20px; border-radius: 15px; width: 90%; max-width: 400px; text-align: center; max-height: 85vh; overflow-y: auto; }
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; justify-content: center; align-items: center; padding: 15px; }
+
+    #confirmModal { z-index: 2001; } 
+        
+	#leaderboardTable { width: 100%; border-collapse: collapse; table-layout: fixed; margin-bottom: 20px; }
+    #leaderboardTable td { padding: 0; border-bottom: 1px solid var(--border); vertical-align: middle; height: 52px; }
+
+
+    .win-toggle-container { display: flex; align-items: center; justify-content: center; background: var(--bg); padding: 8px; border-radius: 10px; margin-bottom: 10px; gap: 10px; font-size: 0.85rem; font-weight: bold; }
+    .switch { position: relative; display: inline-block; width: 40px; height: 20px; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider { cursor: pointer; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: #42f5c5; transition: .4s; border-radius: 20px; }
+    .slider:before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+    input:checked + .slider { background-color: #f39c12; }
+    input:checked + .slider:before { transform: translateX(20px); }
+
+    .calc-display { background: #000; color: #0f0; padding: 15px; font-family: monospace; font-size: 24px; text-align: right; border-radius: 8px; margin-bottom: 10px; }
+    .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .calc-btn { padding: 15px 0; background: #612dd8; color: white; border-radius: 8px; border: none; font-weight: bold; font-size: 1.1rem; }
+    .calc-btn.op { background: #d8612d; }
+	.calc-btn.back { background: #ee0b2f; }
+	.calc-btn.clear { background: #f13c59; }
+
+    .col-batch { width: 95px; text-align: right; padding-right: 8px !important; position: relative;text-transform: uppercase; font-size: 1.8rem; letter-spacing: .05px; }
+
+	.calc-trigger { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 12px; background: #34495e; color: white; padding: 4px 6px; border-radius: 4px; opacity: 0.8; }
+
+    #roundTable { width: 100%; border-collapse: collapse;   overflow-x: hidden; text-align: center; font-size: 0.9rem; }
+    #roundTable th, #roundTable td { padding: 8px 4px; border: 1px solid var(--border); }
+    .score-cell { font-weight: bold; color: #f5b342; display: inline-block; border: none; background: transparent; }
+    .badge { background: #52442d; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem; }
+    .section-title { display: flex; justify-content: space-between; align-items: center; margin: 20px 0 10px 0; padding-bottom: 5px; border-bottom: 2px solid var(--border); font-weight: 800; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; color: var(--text); }
+    .controls { display: flex; justify-content: space-between; align-items: center; margin: 0px 0 10px 0; padding-bottom: 5px; font-weight: 800; text-transform: uppercase; font-size: 0.65rem; letter-spacing: 1px; color: #95a5a6; }
+    .controls2 { display: flex; justify-content: space-between; align-items: center; margin: 0px 0 10px 0; padding-bottom: 5px; font-weight: 800; text-transform: uppercase; font-size: 0.65rem; letter-spacing: 1px; color: #95a5a6; }
+
+	input, select, textarea {
+    	font-size: 16px !important;
+		}
+    input[type="number"], input[type="text"] { padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--card); color: var(--text); }
+    #toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #333; color: white; padding: 12px 25px; border-radius: 25px; font-size: 0.9rem; opacity: 0; transition: opacity 0.3s; z-index: 4000; pointer-events: none; }
+
+	/* The actual movement: left to right quickly */
+	@keyframes shake {
+    	0% { transform: translateX(0); }
+    	25% { transform: translateX(-8px); }
+    	50% { transform: translateX(8px); }
+    	75% { transform: translateX(-8px); }
+    	100% { transform: translateX(0); }
+		}
+
+	/* The class we will add via JavaScript */
+	.shake-error {
+    	animation: shake 0.3s ease-in-out;
+    	border: 2px solid #e74c3c !important; /* Optional: flash the border red too */
+		}
+		
+	/* Universal Drag/Selection Fixes */
+    * { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
+    input, select, .editable-name { -webkit-user-select: text; user-select: text; pointer-events: auto !important; }
+		
+	.drag-handle { width: 40px; text-align: center; color: #95a5a6; font-size: 20px; cursor: grab; touch-action: none; }
+    .sortable-ghost { opacity: 0.5; background: #3498db !important; }
+        
+	/* Prevents pull-to-refresh */
+	html, body {
+		/* Disables pull-to-refresh and the "rubber-band" bounce */
+		overscroll-behavior-y: none;
 		}
 		
 		
-		.blue-check-box {
-    display: inline-block;
-    width: 14px;
-    height: 14px;
-    background-color: #0284c7; /* Vibrant blue fill */
-    border-radius: 3px;        /* Slightly rounded corners, change to 0px if you want sharp edges */
-    vertical-align: middle;
-    position: relative;
-    margin: 0 5px;             /* Space to keep words from hugging the box */
+		
+		
+		/* The floating or inline purple trigger button */
+.help-trigger-btn {
+    background-color: #4B0082; /* Vibrant Violet */
+    color: #ffffff;
+    border: none;
+    padding: 10px 16px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 6px -1px rgba(124, 58, 237, 0.2);
+    transition: background-color 0.2s, transform 0.1s;
 }
 
-/* This draws the white checkmark inside the blue box */
-.blue-check-box::after {
-    content: '';
-    position: absolute;
-    left: 4px;                  /* Moves the check horizontally */
-    top: 1px;                   /* Moves the check vertically */
-    width: 4px;                 /* Width of the checkmark base */
-    height: 8px;                /* Height of the checkmark tail */
-    border: solid white;        /* Makes the checkmark white */
-    border-width: 0 2px 2px 0;  /* Thicken or thin the checkmark lines here */
-    transform: rotate(45deg);   /* Tilts the lines into a check shape */
-}
-.purple-notepads-custom {
-    list-style: none;
-    padding-left: 0px;
+.help-trigger-btn:hover {
+    background-color: #6d28d9; /* Deep Purple */
 }
 
-.purple-notepads-custom li::before {
-    content: "";
-    display: inline-block;
-    width: 10px;
-    height: 14px;
-    background-color: #c084fc; /* Light purple pad page */
-    border-top: 3px solid #4B0082; /* Dark purple binder clip top */
-    border-radius: 1px;
-    margin-right: 10px;
-    vertical-align: middle;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+.help-trigger-btn:active {
+    transform: scale(0.98);
 }
 
-.purple-banner {
-    /* 1. Resize the Text */
-    font-size: 16px;               /* Adjust this number to make text bigger or smaller */
-    font-weight: bold;             /* Makes the text stand out */
-    color: #ffffff;                /* Crisp white text color for high contrast */
-    text-align: left;            /* Centers the text horizontally */
-    
-    /* 2. Add Lines Above and Below */
-    border-top: 3px solid #4B0082;    /* Thick, deep purple top border line */
-    border-bottom: 3px solid #4B0082; /* Thick, deep purple bottom border line */
-    
-    /* 3. Shade Behind the Text */
-    background-color: #f3e8ff;     /* Light pastel purple background shading */
-    color: #4B0082;                /* Dark purple text so it is readable on the light shade */
-    
-    /* 4. Spacing and Formatting */
-    padding: 15px 0;               /* Creates breathing room between the text and the lines */
-    margin: 20px 0;                /* Creates space outside the box to push away other elements */
+/* The Slide-Out Panel Box Container */
+.help-side-panel {
+    position: fixed;
+    top: 0;
+    right: -450px; /* Hidden off-screen by default */
+    width: 450px;
+    max-width: 100%;
+    height: 100vh;
+    background: #ffffff;
+    box-shadow: -4px 0 25px rgba(0, 0, 0, 0.15);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    transition: right 0.3s ease-in-out; /* Smooth slide mechanism */
+	box-sizing: border-box;
 }
 
+/* Active Class to launch panel */
+.help-side-panel.open {
+    right: 0;
+	
+}
+
+/* Header inside the panel */
+.panel-header {
+    padding: 16px 20px;
+    background: #4B0082; /* Deep Royal Purple background */
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+	padding-top: calc(15px + env(safe-area-inset-top)); 
+    padding-bottom: 15px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.panel-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.close-panel-btn {
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-size: 1.75rem;
+    cursor: pointer;
+    line-height: 1;
+}
+
+/* Body wrapping the frame element */
+.panel-body {
+    flex: 1;
+    overflow: hidden;
+}
+
+.panel-body iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Dim overlay background behind panel */
+.panel-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 9998;
+    display: none;
+}
+
+.panel-overlay.open {
+    display: block;
+}
+
+
+		
+		
+		
+		
+		
 
     </style>
 </head>
+
 <body>
 
-    <!-- Left Side: Navigation & Quick Search -->
-    <aside class="sidebar">
-            <li><a href="#Description">Description</a></li>
-            <li><a href="#getting-started">Getting Started</a></li>
-						<li><a href="#display-options">Display Options</a></li>
+	<div class="notch_container">
+		<h1 style="text-align:center; font-size: 1.5rem; margin:3rem 0 10px 0;"></h1>
+    </div>
+	
+	<div class="container">
+		<h2 style="text-align:center; font-size: 1.5rem; margin:0 0 5px 0;">Jay's Ultimate Scorecard</h2>
+    <div style="text-align:center;  font-size: .75rem; margin:0 0 5px 0;">V700</div>
+	<div id="activeGameLabel" style="font-size: 0.75rem; text-align: center; margin-bottom:5px;"></div>
+    <span style="display: inline-block; margin-bottom:10px;" id="offlineTag">Checking...</span>
+	
+	
+	<!-- 1. The Trigger Button -->
+<button class="help-trigger-btn" onclick="toggleHelpPanel()">
+    <!-- Simple interrogation/question mark SVG icon -->
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+    
+</button>
 
-			<li><a href="#additional-features">Additional Features</a></li>
+<!-- 2. The Slide-Out Help Panel Container -->
+<div id="helpPanel" class="help-side-panel">
+    <div class="panel-header">
+        <h3>Information</h3>
+        <button class="close-panel-btn" onclick="toggleHelpPanel()">&times;</button>
+    </div>
+    <div class="panel-body">
+        <!-- Embeds your purple help-content.html template securely -->
+        <iframe src="help-content.html" title="App Help Documentation"></iframe>
+    </div>
+</div>
 
-            <li><a href="#button-help">What does this button do?</a></li>
-        </ul>
-    </aside>
+<!-- 3. Optional Overlay Dimmer Background -->
+<div id="panelOverlay" class="panel-overlay" onclick="toggleHelpPanel()"></div>
 
-    <!-- Right Side: Documentation Text -->
-    <main class="content">
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+    <div style="display:grid; grid-template-columns: 1fr 1fr 44px 44px; gap:8px; margin-bottom:15px;">
+        <button onclick="openSaveModal()" style="background:#3498db; color:white; border:none; border-radius:8px; padding:12px;">💾 Save</button>
+        <button onclick="openLibrary()" style="background:#9b59b6; color:white; border:none; border-radius:8px; padding:12px;">📚 Lib</button>
+        <button onclick="toggleManualMode(); updateVisibility2();" id="seatingBtn" style="background:#34495e; color:white; border:none; border-radius:8px; padding:12px;">🪑</button>
+        <button onclick="toggleDarkMode()" style="background:#34495e; color:white; border:none; border-radius:8px; padding:12px;">🌙</button>
+    </div>
+
+    <div style="display: flex; gap: 8px; margin-bottom: 20px; background: var(--bg); padding: 8px; border-radius: 10px; align-items: center;">
+        <input type="text" id="playerName" placeholder="Player Name" style="flex:1;" onkeydown="if(event.key==='Enter') addPlayer()">
+        <div class="square-color-picker" id="colorPreview" style="width:40px; height:40px; border-radius:8px; background:#3498db;" onclick="openColorPicker('new')"></div>
+        <button onclick="addPlayer()" style="background:var(--accent); color:white; border:none; padding:10px 15px; border-radius:8px; font-weight:bold;">Add</button>
+    </div>
+	<div class="win-toggle-container">
+		<span id="highWinsLabel" style="color: #27ae60; font-weight: bold;">High Wins</span>
+		<label class="switch">
+			<input type="checkbox" id="winConditionToggle" onchange="toggleWinCondition()">
+			<span class="slider"></span>
+		</label>
+    <span id="lowWinsLabel" style="color: grey;">Low Wins</span>
+	</div>
+	<div id="winnerSpotlight" style="text-align:center; padding:10px; border-radius:10px; font-weight:bold; display:none; color: black;"></div>
+    <div class="section-title">
+		<span id="leaderboard-title" data-label="🏆 Leader Board"></span>
+		<div class="controls">
+			<label>
+				<input type="checkbox" style="cursor: pointer;" id="toggleNumbers" onchange="updateVisibility()"> 
+				Last Round Scores
+			</label>
+		</div>
+	</div>
+    <div class="section-title2">
+	 	<span id="leaderboard-title2" ></span>
+		<div class="controls2">
+			<div id="seating_container" style="display:none;">
+			<label>
+				<input type="checkbox" style="cursor: pointer;" id="toggleSeating" onchange="updateVisibility2()" checked> 
+				Seating Locked
+			</label>
+			</div>
+		</div>
+	</div>
+	<table id="leaderboardTable"><tbody id="leaderboard"></tbody></table>
+    <table style="width:100%; table-layout: fixed; border-collapse:collapse;"></table>
+    <div id="batchAction" style="display:none; margin-top:15px;">
+        <button onclick="submitBatchRound()" style="width:100%; background:#27ae60; padding:15px; font-size:1.1rem; color:white; border:none; border-radius:10px; font-weight:bold;">➕ Submit Scores</button>
+    </div>
+    <div class="section-title">
+        <span>📊 Round History</span>
+        <span id="roundCounter" class="badge">0 Rounds</span>
+    </div>
+
+    <div style="overflow-x:auto; border:1px solid var(--border); border-radius:8px; margin-top:15px;">
+		<table id="roundTable">
+            <thead><tr id="roundHeader"></tr></thead>
+            <tbody id="roundBody"></tbody>
+            <tfoot id="roundFooter"></tfoot>
+        </table>
+    </div>
+ 	
+    <button onclick="openModal('resetModal')" style="width:100%; margin-top:25px; background:#95a5a6; color:white; border:none; padding:12px; border-radius:8px;">Reset/Start New</button>
+    <div id="syncStatus" style="font-size:10px; text-align:center; margin-top:10px; opacity:0.5;">Checking Offline Sync...</div>
+
+	</div>
+
+<div id="calcModal" class="modal">
+    <div class="modal-content">
+        <div id="calcDisplay" class="calc-display">0</div>
+        <div class="calc-grid">
+            <button class="calc-btn" onclick="calcPush('7')">7</button>
+            <button class="calc-btn" onclick="calcPush('8')">8</button>
+            <button class="calc-btn" onclick="calcPush('9')">9</button>
+            <button class="calc-btn op" onclick="calcPush('+')">+</button>
+
+            <button class="calc-btn" onclick="calcPush('4')">4</button>
+            <button class="calc-btn" onclick="calcPush('5')">5</button>
+            <button class="calc-btn" onclick="calcPush('6')">6</button>
+            <button class="calc-btn op" onclick="calcPush('-')">-</button>
+
+            <button class="calc-btn" onclick="calcPush('1')">1</button>
+            <button class="calc-btn" onclick="calcPush('2')">2</button>
+            <button class="calc-btn" onclick="calcPush('3')">3</button>
+            <button class="calc-btn op" onclick="calcPush('*')">×</button>
+
+            <button class="calc-btn" onclick="calcPush('0')">0</button>
+            <button class="calc-btn clear" onclick="calcClearAll()">C</button>
+            <button class="calc-btn back" onclick="calcClear()">⌫</button>
+            <button class="calc-btn op" style="background:#27ae60; color:white;" onclick="calcSolve()">=</button>
+
+            <button class="calc-btn" style="grid-column:span 2; background:#95a5a6" onclick="closeModal('calcModal')">Cancel</button>
+            <button class="calc-btn" style="grid-column:span 2; background:var(--accent)" onclick="calcApply()">Apply</button>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div id="error-modal" class="modal"><div class="modal-content"
+style="max-width:380px; border-top: 5px solid #e74c3c; display: flex; flex-direction:column; gap:8px; margin-top:15px;">
+        <h3 style="color: #e74c3c;">⚠️ Invalid input detected!</h3>
+        <p>Scores must be whole numbers (positive or negative) without decimals or special symbols. Please fix these entries:
+		
+		</p>
+		<button onclick="closeModal('error-modal')" style="width:100%; background:#3498db;  padding:15px .2rem; font-size:1rem; color:black; border:none; border-radius:10px;">Fix it</button>
+
+    </div>
+</div>
+
+<!-- The Error Modal Backdrop -->
+<div id="errorModal" style="display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; backgroundColor: rgba(0,0,0,0.5); justify-content: center; align-items: center;">
+    <!-- Modal Content Box -->
+    <div style="background-color: white; padding: 20px; border-radius: 8px; max-width: 90%; width: 400px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <h3 style="color: #dc3545; margin-top: 0;">⚠️ Input Error</h3>
+        <p style="margin-bottom: 15px; color: #333;">Scores must be positive or negative whole numbers without decimals.</p>
         
-        <section id="Description" class="help-section">
-            <h3>Description</h3>
-            <p>Welcome to the Ultimate Score Keeping app for board games or card games or any game that you would 
-			normally need to use a pencil and paper. Very simple to use, just enter the name of each player
-			and enter the score as you go. The app will keep track of the number of rounds that were played,
-			add up the score, sort and rank players by either low or high score.
-			
-		<div class="note">
-        <strong>Tip:</strong> You can edit player's color, player's name, add players or delete players anytime.
-            </div>
-        </section>
-
-        <section id="getting-started" class="help-section">
-            <h3>Getting Started</h3>
-            <p>Once you have entered all the players names, you can now enter their score for each round of play.</p> 
-			<p>Do this by touching the “+” field and entering their score. If you want to use the calculator function to add up numbers for the player score, touch the “CALC” button.</p>
-			<p><strong>Only after</strong> you have entered a score for each player, touch the <strong>+ Submit Scores</strong> button to create a round of play.</p>
-        <div class="note">
-                <strong>Tip:</strong> Do NOT Submit Score until you have entered all the player's scores. Otherwise, you will create a Round each time you touch Submit.
-            </div>
-		</section>
-
- <section id="display-options" class="help-section">
-            <h3>Display Options</h3>
-    <div class="purple-banner">
-    🏆 LEADER BOARD display
+        <!-- Error List Target -->
+        <ul id="modalErrorList" style="color: #666; padding-left: 20px; line-height: 1.5; margin-bottom: 20px;"></ul>
+        
+        <!-- Close Button -->
+        <button type="button" onclick="closeErrorModal()" style="width: 100%; padding: 10px; background-color: #dc3545; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer;">Fix Entries</button>
+    </div>
 	</div>
-<p>Displays each player ranked by their score<p>
- <div class="purple-banner">
-	🪑 TABLE SEATING display
-	</div>
-<p>Displays each player in seating order along with their ranking<p>
-
-<p>Note: When in TABLE SEATING mode, players can be moved to the order in which they are seated around the table.<p>
-<p>Uncheck the 'SEATING LOCKED' button in order to move players.<p>
-
-<p><strong>⚠️ IMPORTANT! </strong>When finished moving players, check the 'SEATING LOCKED' option button.<p>
-<p>This is important because if you don’t do this, you can accidently move players and/or clear scores while you are trying to enter them. This will cause unneeded frustration.<p>
-
-  </section>
+	
+	
 
 
-<section id="additional-features" class="help-section">
-            <h3>Additional Features</h3>
-<ul class="purple-notepads-custom">
-<li>Player’s name can be edited by touching their name</li>
-<li>Color of player can be changed by touching their color</li>
-<li>Can delete a player by touching the ‘trash can’</li>
-<li>LAST ROUND option button so show or hide last round scores</li>
-<li>Scores for each round are tracked in the ROUND HISTORY at the bottom of screen</li>
-<li>Can delete a round, or touch a score in the round to edit it</li>
+<div id="saveGameModal" class="modal"><div class="modal-content">
+<h3>Save Game</h3>
+<input type="text" id="saveNameIn" placeholder="NewGame" onkeydown="if(event.key==='Enter') doSave(false)">
+<div style="display:flex; flex-direction:column; gap:8px; margin-top:15px;">
+<button onclick="doSave(false)" style="width:100%; background:#27d647; padding:15px .2rem; font-size:1rem; color:black; border:none; border-radius:10px;">Update Current (or Change Name)</button>
+<button onclick="doSave(true)" style="width:100%; background:#3498db;  padding:15px .2rem; font-size:1rem; color:black; border:none; border-radius:10px;">Save Copy (or Enter New Name)</button>
+<button onclick="closeModal('saveGameModal')" style="width:100%; background:#95a5a6;  padding:15px .2rem; font-size:1rem; color:black; border:none; border-radius:10px;">Cancel</button>
+</div>
+</div></div>
 
-</ul>
-
-		</section>
-
-        <section id="button-help" class="help-section">
-            <h3>What does this button do?</h3>
- <p><span style="background-color: #34495e; color: white; padding: 2px 10px; border-radius: 4px;">🌙</span> Moon : Enable/Disable Dark Mode.</p>
-<p><span style="background-color: #34495e; color: white; padding: 2px 10px; border-radius: 4px;">🪑</span> Chair : Enable/Disable Table Seating Mode</p>
-<p><span style="background-color: #3498db; color: white; padding: 2px 10px; border-radius: 4px;">💾</span> Save : Saves the game to a local cache file in your device.</p>
-<p><span style="background-color: #9b59b6; color: white; padding: 2px 10px; border-radius: 4px;">📚</span> Lib : Shows a list of saved games. Can select a game, delete from library, or copy the standings to memory to paste in another application.</p>
-<p><span style="background-color: #2ecc71; color: white; padding: 2px 10px; border-radius: 4px;">Add</span> : Adds the player entered in the Player Name field.</p>
-<p><span style="background-color: #3498db; color: white; padding: 2px 10px; border-radius: 4px;">&nbsp&nbsp</span> : Color Button - Change the color of the player before adding.</p>
-<p><span style="color: #27ae60;"> High Wins </span> - <span style="color: #e67e22;"> Low Wins </span> Option Button: Ranks players in order of either high or low score.</p>
-🗑️ : Delete a player
-<p><span style="background-color: #D3D3D3; color: black; padding: 2px 2px; border-radius: 4px;">&nbsp✕&nbsp</span> : Delete a round</p>
-<p><span style="background-color: #95a5a6; color: white; padding: 2px 10px; border-radius: 4px;">Reset/Start New</span> : Select to remove all players and clear all scores and start a new game or just clear all scores and keep the same players for a new game.</p>
-
-<hr>
- 🏆 LEADER BOARD
-<p><span style="background-color: #ffffff; padding: 2px 4px; border-radius: 3px;">&#9744;</span>
-<span style="color: #95a5a6; padding-bottom: 5px; font-weight: 800; text-transform: uppercase; font-size: 0.65rem; letter-spacing: 1px;">Last round scores</span> : Click box to display.</p>
-<p><span class="blue-check-box"></span>
-<span style="color: #95a5a6; padding-bottom: 5px; font-weight: 800; text-transform: uppercase; font-size: 0.65rem; letter-spacing: 1px;">Last round scores</span> : Click box to hide.</p>
-
-<hr>
-🪑 TABLE SEATING
-<p><span style="background-color: #ffffff; padding: 2px 4px; border-radius: 3px;">&#9744;</span>
-<span style="color: #95a5a6; padding-bottom: 5px; font-weight: 800; text-transform: uppercase; font-size: 0.65rem; letter-spacing: 1px;">Seating Locked</span> : Click box (lock from moving)</p>
-<p><span class="blue-check-box"></span>
-<span style="color: #95a5a6; padding-bottom: 5px; font-weight: 800; text-transform: uppercase; font-size: 0.65rem; letter-spacing: 1px;">Seating Locked</span> : Click box (unlock to move)</p>
+<div id="confirmModal" class="modal"><div class="modal-content"><h3 id="confirmTitle">Delete?</h3>
+<div style="display:flex; gap:10px;"><button id="confirmYes" style="flex:1; background:#e74c3c; color:white; border:none; padding:12px; border-radius:8px;">Yes</button>
+<button onclick="closeModal('confirmModal')" style="flex:1; background:#95a5a6; color:white; border:none; padding:12px; border-radius:8px;">No</button></div></div></div>
 
 
-    </main>
+<div id="resetModal" class="modal"><div class="modal-content">
+    <h3>Reset Game</h3>
+    <div style="display:flex; flex-direction:column; gap:8px; margin-top:15px;">
+	<button onclick="doReset('scores')" style="width:100%; background:#3498db; padding:15px .2rem; font-size:1rem; color:black; border:none; border-radius:10px;">Clear Scores Only</button>
+    <button onclick="doReset('all')" style="width:100%; background:#e74c3c; padding:15px .2rem; font-size:1rem; color:black; border:none; border-radius:10px;">Full Reset</button>
+    <button onclick="closeModal('resetModal')" style="width:100%; background:#95a5a6; padding:15px .2rem; font-size:1rem; color:black; border:none; border-radius:10px;">Cancel</button>
+</div>
+</div></div>
+<div id="renameModal" class="modal"><div class="modal-content"><h3>Rename</h3><input type="text" id="renameIn" style="width:100%;" onkeydown="if(event.key==='Enter') saveRename()"><button onclick="saveRename()" style="width:100%; margin-top:10px; background:var(--accent); color:white; padding:12px; border:none; border-radius:8px;">Update</button></div></div>
+<div id="editModal" class="modal"><div class="modal-content">
+<h3>Edit Score</h3>
+ <input type="text" pattern="-[0-9]*|[0-9]*" inputmode="numeric" id="editIn" style="width:100%;
+" onkeydown="if(event.key==='Enter') saveEdit()">
+<button onclick="saveEdit()" style="width:100%; margin-top:15px; padding:12px; background:var(--accent); color:white; border:none; border-radius:8px;">Update Score</button>
+    <button onclick="closeModal('editModal')" style="width:100%; margin-top:15px; padding:12px; background:#95a5a6; color:white; border:none; border-radius:8px;">Cancel</button>
+</div></div>
 
-    <!-- JavaScript for Live Keyword Filtering -->
-    <script>
-        function filterHelp() {
-            let input = document.getElementById('helpSearch').value.toLowerCase();
-            let sections = document.getElementsByClassName('help-section');
-            
-            for (let i = 0; i < sections.length; i++) {
-                let sectionText = sections[i].innerText.toLowerCase();
-                if (sectionText.includes(input)) {
-                    sections[i].style.display = "block";
-                } else {
-                    sections[i].style.display = "none";
-                }
-            }
+
+<div id="libraryModal" class="modal"><div class="modal-content" style="max-width:380px;"><h3>📚 Library</h3><div id="libList" style="max-height:350px; overflow-y:auto;"></div><button onclick="closeModal('libraryModal')" style="width:100%; background:#95a5a6;  padding:15px .2rem; font-size:1rem; color:black; border:none; border-radius:10px;">Close</button></div></div>
+
+
+<div id="colorModal" class="modal"><div class="modal-content"><h3>Pick Color</h3><input type="color" id="nativePicker" oninput="liveColor(this.value)" style="width:100px; height:100px; border:none; background:none;"><button onclick="closeModal('colorModal')" style="width:100%; background:#95a5a6;  padding:15px .2rem; font-size:1rem; color:black; border:none; border-radius:10px;">Done</button></div></div>
+
+<div id="toast"></div>
+
+
+
+
+
+
+
+<script>
+
+	const statusEl = document.getElementById('syncStatus');
+        statusEl.innerText = "✅ Cache OK";
+                
+    const lb = document.getElementById('leaderboard-title');
+		lb.innerText = lb.dataset.label; // Sets the text to "🏆 Leader Board"
+	let isManualMode = false, draggingRow = null, renamingPlayerId = null;
+
+    let players = JSON.parse(localStorage.getItem('v102_p')) || [];
+    let rounds = JSON.parse(localStorage.getItem('v102_r')) || [];
+    let library = JSON.parse(localStorage.getItem('v102_l')) || [];
+    let activeId = localStorage.getItem('v102_aid') || null;
+    let isDark = localStorage.getItem('v102_dark') === 'true';
+    let lowScoreWins = localStorage.getItem('v102_lowWins') === 'true';
+    let hasUnsavedChanges = false, selColor = '#3498db', cTarget = {}, activeCalcId = null, editState = {}, renId = null;
+	let SeatingModeOn = true;
+
+    if (isDark) document.body.classList.add('dark-mode');
+    document.getElementById('winConditionToggle').checked = lowScoreWins;
+
+    function updateStatus() {
+        const tag = document.getElementById('offlineTag');
+        if (navigator.onLine) { tag.innerText = ""; tag.className = "online"; }
+        else { tag.innerText = ""; tag.className = "offline"; }
+    }
+    window.addEventListener('online', updateStatus); window.addEventListener('offline', updateStatus); updateStatus();
+
+
+    function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+    function showToast(m) { const t = document.getElementById('toast'); t.innerText = m; t.style.opacity = '1'; setTimeout(() => t.style.opacity = '0', 2000); }
+    function toggleDarkMode() { isDark = !isDark; document.body.classList.toggle('dark-mode'); localStorage.setItem('v102_dark', isDark); updateVisibility();}
+    function toggleWinCondition() { lowScoreWins = document.getElementById('winConditionToggle').checked; localStorage.setItem('v102_lowWins', lowScoreWins);
+
+    const isLowWins = document.getElementById('winConditionToggle').checked;
+    const highLabel = document.getElementById('highWinsLabel');
+    const lowLabel = document.getElementById('lowWinsLabel');
+
+    if (isLowWins) {
+        // Slider is to the RIGHT
+        lowLabel.style.color = "#e67e22"; // Orange
+        lowLabel.style.fontWeight = "bold";
+        
+        highLabel.style.color = "grey";
+        highLabel.style.fontWeight = "normal";
+    } else {
+        // Slider is to the LEFT
+        highLabel.style.color = "#27ae60"; // Green
+        highLabel.style.fontWeight = "bold";
+        
+        lowLabel.style.color = "grey";
+        lowLabel.style.fontWeight = "normal";
+    }
+
+	render(); }
+
+    const colors = ['#42f5dd', '#e74c3c', '#2ecc71', '#f1c40f', '#9b59b6', '#e67e22', '#f0f70f', '#D20BE3', '#42c8f5'];
+	let availableColors = [];
+
+	function getRandomColor() {
+		// 1. If the "deck" is empty, refill and shuffle it
+		if (availableColors.length === 0) {
+			availableColors = [...colors].sort(() => Math.random() - 0.5);
+			}
+
+		// 2. Remove and return the last color from the shuffled deck
+		return availableColors.pop();
+		}
+
+  //  function getRandomColor() {
+  //      const colors = ['#42f5dd', '#e74c3c', '#2ecc71', '#f1c40f', '#9b59b6', '#e67e22', '#f0f70f', '#D20BE3', '#42c8f5'];
+  //      return colors[Math.floor(Math.random() * colors.length)];
+  //  }
+
+    function addPlayer() {
+        let n = document.getElementById('playerName'); if(!n.value.trim()) return;
+        players.push({ id: Date.now(), name: n.value.trim(), score: 0, color: selColor });
+        n.value = ""; 
+        selColor = getRandomColor();
+        document.getElementById('colorPreview').style.background = selColor;
+        hasUnsavedChanges = true; sync();
+    }
+
+    function openColorPicker(t, id) { 
+        cTarget = {t, id}; 
+        let current = (t === 'new') ? selColor : players.find(x => x.id === id).color;
+        document.getElementById('nativePicker').value = current;
+        openModal('colorModal'); 
+    }
+
+    function liveColor(v) { 
+        if(cTarget.t === 'new') { 
+            selColor = v; document.getElementById('colorPreview').style.background = v; 
+        } else { 
+            let p = players.find(x => x.id === cTarget.id); p.color = v; 
+            hasUnsavedChanges = true; render(); 
+        } 
+    }
+
+    function openCalc(id) { activeCalcId = id; document.getElementById('calcDisplay').innerText = '0'; openModal('calcModal'); }
+    function calcPush(v) { let d = document.getElementById('calcDisplay'); d.innerText = d.innerText === '0' ? v : d.innerText + v; }
+    function calcClear() { let d=document.getElementById('calcDisplay'); d.innerText = d.innerText.slice(0,-1) || "0"; }
+    function calcClearAll() { document.getElementById('calcDisplay').innerText = '0'; }
+
+	function calcSolve() {
+    const display = document.getElementById('calcDisplay');
+    const modalContent = document.querySelector('#calcModal .modal-content');
+    try {
+        // 1. Try to calculate the result
+        // We replace '×' with '*' for math, then evaluate
+        let result = eval(display.innerText.replace(/×/g, '*'));
+
+        // 2. Check if the result is actually a valid number
+        if (result === undefined || isNaN(result)) {
+            throw new Error("Invalid");
         }
-    </script>
 
+        // 3. Success! Update the display
+        display.innerText = result;
+
+    } catch (e) {
+        // 4. Instead of writing "Error" in the box, show the warning modal
+		// 1. Add the shake class
+        modalContent.classList.add('shake-error');
+
+		// 3. Remove the class after 300ms so it can shake again next time
+        setTimeout(() => {
+            modalContent.classList.remove('shake-error');
+			}, 300);
+		// openModal('error-modal');
+	
+		}
+		}
+
+	function calcApply() {
+    const display = document.getElementById('calcDisplay');
+    const modalContent = document.querySelector('#calcModal .modal-content');
+    try {
+        // 1. Try to calculate the result
+        // We replace '×' with '*' for math, then evaluate
+        let result = eval(display.innerText.replace(/×/g, '*'));
+
+        // 2. Check if the result is actually a valid number
+        if (result === undefined || isNaN(result)) {
+            throw new Error("Invalid");
+        }
+
+        // 3. Success! Update the display
+        {display.innerText = result;
+		let r = document.getElementById('calcDisplay').innerText;
+		document.getElementById(activeCalcId).value = r;
+		closeModal('calcModal');}
+
+    } catch (e) {
+        // 4. Instead of writing "Error" in the box, show the warning modal
+		// 1. Add the shake class
+        modalContent.classList.add('shake-error');
+
+		 // 3. Remove the class after 300ms so it can shake again next time
+        setTimeout(() => {
+            modalContent.classList.remove('shake-error');
+			}, 300);
+		       // openModal('error-modal');
+	
+			}
+		}
+
+	
+	//function calcSolve() { try { document.getElementById('calcDisplay').innerText = eval(document.getElementById('calcDisplay').innerText.replace(/×/g, '*')); } catch { document.getElementById('calcDisplay').innerText = "Error"; } }
+    //function calcApply() { calcSolve(); let r = document.getElementById('calcDisplay').innerText; if(r !== "Error") { document.getElementById(activeCalcId).value = r; closeModal('calcModal'); } }
+
+    function openRename(id) { renId = id; document.getElementById('renameIn').value = players.find(x => x.id === id).name; openModal('renameModal'); setTimeout(()=>document.getElementById('renameIn').select(), 100); }
+    function saveRename() { let p = players.find(x => x.id === renId); p.name = document.getElementById('renameIn').value; hasUnsavedChanges = true; closeModal('renameModal'); render(); }
+    
+    function askDelP(id) { 
+        let p = players.find(x => x.id === id); document.getElementById('confirmTitle').innerText = "Delete " + p.name + "?"; openModal('confirmModal');
+        document.getElementById('confirmYes').onclick = () => { players = players.filter(x => x.id !== id); rounds.forEach(r => delete r.scores[id]); hasUnsavedChanges = true; closeModal('confirmModal'); sync(); };
+    }
+	
+	function submitBatchRound() {
+		let nr = { scores: {} };
+		let added = false;
+		let errors = [];
+
+		// First Pass: Validate ALL inputs to collect errors
+		players.forEach(p => {
+        const el = document.getElementById(`b-${p.id}`);
+        if (!el) return;
+
+        const rawValue = el.value.trim();
+
+        // Skip completely empty fields safely
+        if (rawValue === "") return;
+
+        // Strict Check: Optional minus sign followed strictly by digits
+        const isValidWholeNumber = /^-?[0-9]+$/.test(rawValue);
+
+        if (!isValidWholeNumber) {
+            const displayName = p.name ? p.name : `Player ${p.id}`;
+            errors.push(`${displayName}: "${rawValue}"`);
+			}
+		});
+
+		// If errors exist, open the custom modal and HALT execution
+		if (errors.length > 0) {
+			showErrorModal(errors);
+			return; // Stops the function from saving or clearing anything
+			}
+
+		// Second Pass: Calculate and process if everything is valid
+		players.forEach(p => {
+        const el = document.getElementById(`b-${p.id}`);
+        if (!el) return;
+
+        const rawValue = el.value.trim();
+
+        if (rawValue === "") {
+            nr.scores[p.id] = 0;
+            return;
+			}
+
+        const v = parseInt(rawValue, 10);
+        p.score += v;
+        nr.scores[p.id] = v;
+        el.value = ""; // Clear input safely
+        added = true;
+    });
+
+    // Save the round if data was modified
+    if (added) {
+        rounds.push(nr);
+        hasUnsavedChanges = true;
+        sync();
+    }
+}
+
+
+	// Helper functions to show and hide the modal
+	function showErrorModal(errorArray) {
+		const modal = document.getElementById('errorModal');
+		const list = document.getElementById('modalErrorList');
+    
+		// Clear old errors and inject new ones safely as text fragments
+		list.innerHTML = "";
+		errorArray.forEach(err => {
+			const li = document.createElement('li');
+			li.textContent = err;
+			list.appendChild(li);
+			});
+    
+		// Display the modal using Flexbox layout to center it
+		modal.style.display = 'flex';
+		}
+
+	function closeErrorModal() {
+		document.getElementById('errorModal').style.display = 'none';
+		}
+
+    function openEdit(ri, pi) { editState = {ri, pi}; document.getElementById('editIn').value = rounds[ri].scores[pi]; openModal('editModal'); setTimeout(()=>document.getElementById('editIn').select(), 100); }
+    //function saveEdit() {
+	//	const el = document.getElementById(`editIn`).value;
+    //    const rawValue = el.value.trim();
+
+        // Skip completely empty fields safely
+     //   if (rawValue === "") return;
+
+        // Strict Check: Optional minus sign followed strictly by digits
+     //   const isValidWholeNumber = /^-?[0-9]+$/.test(rawValue);
+		
+      //  if (!isValidWholeNumber) {
+            //const displayName = p.name ? p.name : `Player ${p.id}`;
+           // errors.push(`${displayName}: "${rawValue}"`);
+	//		showErrorModal(errors);
+	//		return; // Stops the function from saving or clearing anything
+	//		}
+		
+function saveEdit() {
+    const inputEl = document.getElementById('editIn');
+    if (!inputEl) return;
+
+    const rawValue = inputEl.value.trim();
+
+    // Strict Check: Optional minus sign followed strictly by digits (must not be empty or just "-")
+    const isValidWholeNumber = /^-?[0-9]+$/.test(rawValue);
+
+    if (!isValidWholeNumber) {
+        // Find player name to make the error message clear
+        const p = players.find(x => x.id === editState.pi);
+        const displayName = p && p.name ? p.name : "Player Value";
+        
+        // Open your error modal and halt the save process
+        showErrorModal([`${displayName}: "${rawValue}"`]);
+        return; 
+    }
+
+    // If it passes validation, safely parse the number
+    const nv = parseInt(rawValue, 10);
+    const p = players.find(x => x.id === editState.pi);
+    
+    if (p) {
+        // Recalculate player's total score based on the edit adjustment
+        p.score = p.score - (rounds[editState.ri].scores[editState.pi] || 0) + nv;
+        rounds[editState.ri].scores[editState.pi] = nv;
+        
+        hasUnsavedChanges = true; 
+        closeModal('editModal'); 
+        sync();
+    }
+}
+	
+    
+    function askDelR(ri) { 
+        document.getElementById('confirmTitle').innerText = "Delete Round " + (ri+1) + "?"; openModal('confirmModal');
+        document.getElementById('confirmYes').onclick = () => { players.forEach(p => p.score -= (rounds[ri].scores[p.id] || 0)); rounds.splice(ri,1); hasUnsavedChanges = true; closeModal('confirmModal'); sync(); };
+		}
+
+    function sync() { 
+        localStorage.setItem('v102_p', JSON.stringify(players)); 
+        localStorage.setItem('v102_r', JSON.stringify(rounds)); 
+        localStorage.setItem('v102_aid', activeId);
+        render(); 
+		}
+
+
+	function toggleManualMode() {
+		// Define the new text or HTML content
+		const isChecked2 = document.getElementById('toggleSeating').checked;
+		const leaderboard = document.getElementById("leaderboard-title");
+		const showlocked = document.getElementById('seating_container');
+
+		//document.getElementById("leaderboard-title").innerText = newTitle;
+
+		// Check if the current data-label is the default value
+		if (leaderboard.dataset.label === "🏆 Leader Board") {
+			// If it is, change it to something else
+			leaderboard.dataset.label = "🪑Table Seating";
+			leaderboard.innerText = "🪑 Table Seating";
+			showlocked.style.display = 'inline-block';
+
+			}
+		else {
+			// If it's NOT the default, toggle it back
+			leaderboard.dataset.label = "🏆 Leader Board";
+			leaderboard.innerText = "🏆 Leader Board";
+			showlocked.style.display = 'none';
+			}
+			
+//"🥇 Top Players";
+
+	//	const newTitle = "🥇 Top Players";
+		// Update the content of the span	
+	//	document.getElementById("leaderboard-title").innerHTML = newTitle;
+
+        isManualMode = !isManualMode;
+        document.getElementById('seatingBtn').style.background = isManualMode ? "#3498db" : "#34495e";
+        render();
+    }
+ function initDragEvents(row) {
+		console.log("initDragEvent_SeatingModeOn:",SeatingModeOn);
+        if(SeatingModeOn) {
+
+		const start = (e) => {
+            if (!isManualMode || e.target.closest('.editable-name') || e.target.closest('input') || e.target.closest('button')) return;
+            draggingRow = row;
+            row.classList.add('sortable-ghost');
+        };
+
+        const move = (e) => {
+            if (!isManualMode || !draggingRow) return;
+            if (e.cancelable) e.preventDefault();
+            const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+            const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+            const target = document.elementFromPoint(clientX, clientY);
+            const targetRow = target?.closest('tr');
+            if (targetRow && targetRow !== draggingRow && targetRow.parentNode === draggingRow.parentNode) {
+                const rect = targetRow.getBoundingClientRect();
+                const next = (clientY - rect.top) / (rect.bottom - rect.top) > 0.5;
+                targetRow.parentNode.insertBefore(draggingRow, next ? targetRow.nextSibling : targetRow);
+            }
+        };
+
+        const end = () => {
+            if (!draggingRow) return;
+            draggingRow.classList.remove('sortable-ghost');
+            Array.from(document.querySelectorAll('#leaderboard tr')).forEach((r, i) => {
+                const p = players.find(x => x.id == r.getAttribute('data-id'));
+                if(p) p.position = i;
+            });
+            draggingRow = null;
+            sync();
+        };
+
+        row.addEventListener('touchstart', start, {passive: true});
+        row.addEventListener('mousedown', start);
+        window.addEventListener('touchmove', move, {passive: false});
+        window.addEventListener('mousemove', move);
+        window.addEventListener('touchend', end);
+        window.addEventListener('mouseup', end);
+    }
+
+}
+    function render() {
+		const table = document.getElementById('leaderboard');
+		const isChecked = document.getElementById('toggleNumbers').checked;
+		console.log("isChecked: ",isChecked);
+		if(isChecked){
+			table.classList.remove('hide-column');
+			} else {
+				table.classList.add('hide-column');
+				}
+		console.log("isCheckedinrender: ",isChecked);
+		const listEl = document.getElementById('leaderboard');
+        const rankedRef = [...players].sort((a,b) => lowScoreWins ? a.score - b.score : b.score - a.score);
+
+        // 2. Decide Leaderboard Display Order
+		let displayPlayers = isManualMode ? [...players].sort((a, b) => a.position - b.position) : [...rankedRef];
+		
+		// 3. DECISION: Rounds Table always follows the "mode" (High/Low sort)
+        let roundPlayers = [...rankedRef];
+
+       // document.getElementById('batchAction').style.display = players.length ? 'block' : 'none';
+		
+		//let saveMe = "<p style="color: red;">This entire paragraph will be red.</p>;"
+        let saveMe = "  (File Save Needed)";
+		//	players.sort((a,b) => lowScoreWins ? a.score - b.score : b.score - a.score);
+        let activeGame = library.find(g => g.id == activeId);
+		document.getElementById('activeGameLabel').innerHTML = activeId 
+			? (hasUnsavedChanges 
+			? `📁: ${activeGame?.name || "NewGame"} <span style="color: red;">${saveMe}</span>` 
+			: `📁: ${activeGame?.name || "NewGame"}`) 
+			: "✨ NewGame";
+
+		document.getElementById('batchAction').style.display = players.length ? 'block' : 'none';
+        listEl.innerHTML = ''; 
+
+		let lastRound = rounds.length > 0 ? rounds[rounds.length - 1] : null;
+
+        // Render Leaderboard
+		displayPlayers.forEach((p) => {
+            const rank = rankedRef.findIndex(rp => rp.id === p.id) + 1;
+            const tr = document.createElement('tr');
+            tr.setAttribute('data-id', p.id);
+            tr.innerHTML = `
+				<td class="drag-handle" style="${(!isManualMode || !SeatingModeOn) ? 'display:none' : ''}">☰</td>
+				<td style="width:3px;"><div style="width:3px;height:52px;background:${p.color}"></div></td>
+                <td style="width:30px; text-align:center; font-weight:bold;">${rank}</td>
+				<td style="width:35px;"><div class="circle-color-picker" style="background: ${p.color}; border-radius: 50%;
+					/* Dynamically shrinks width and height by 2px if black */
+					width: ${(isDark && (p.color.toLowerCase() === 'black' || p.color === '#000000')) ? '20px' : '22px'}; 
+					height: ${(isDark && (p.color.toLowerCase() === 'black' || p.color === '#000000')) ? '20px' : '22px'}; 
+					/* Adds a thin white ring ONLY if the color is black */
+					box-shadow: ${(isDark && (p.color.toLowerCase() === 'black' || p.color === '#000000')) ? '0 0 0 2px #FFFFFF' : 'none'};
+					"
+  					onclick="openColorPicker('edit', ${p.id})"
+					></div></td>
+				<td><b onclick="openRename(${p.id})">${p.name}</b></td>
+                <td onclick="askDelP(${p.id})" style="width:43px; text-align:right; padding: 0px 1px 0px 0px; opacity:0.6;">🗑️</td>
+                <td class="toggle-col" style="text-align:left; font-size:0.7rem; color:var(--hideNum); width:32px;">${lastRound ? `(${lastRound.scores[p.id]})` : ''}</td>
+				<td style="text-align:right; font-weight:bold; padding-right:8px; width:60px;">${p.score}</td>
+				<td class="col-batch" style="position: relative; width: 95px; height: 60px; text-align: right;">
+				<style> .batch-input { position: absolute; right: 0; top: 50%; transform: translateY(-50%);
+      				/* Base sizing and styles */
+					min-width: 95px;   /* Never shrinks smaller than your original size */
+					max-width: 165px;  /* Never grows too large for the table cell */
+					width: 95px;
+					padding: 10px;
+					font-size: 2rem;
+					box-sizing: border-box;
+					}
+				
+				</style>
+				<!-- 1. The Dynamic Input Field -->
+				<input type="text" pattern="-[0-9]*|[0-9]*" inputmode="numeric" id="b-${p.id}" placeholder="+" 
+					class="batch-input"
+					style="border: 2px solid ${(isDark && (p.color.toLowerCase() === 'black' || p.color === '#000000')) ? '#ffffff' : p.color}; text-align: left;"			// isDark = !isDark;
+				oninput="
+					const measurer = document.getElementById('measure-${p.id}');
+					measurer.textContent = this.value || this.placeholder;
+      
+					/* 10px left/right padding + 4px borders + another 6px for good measures */
+					const newWidth = measurer.offsetWidth + 30; 
+      
+					/* Ensure text shifts right so growth occurs on the left */
+					// this.style.textAlign = 'left';
+	  
+					/* Clamp tightly between 95px and 110px */
+					this.style.width = Math.min(Math.max(newWidth, 95), 165) + 'px';
+					"
+				>
+				
+				<button class="calc-btn" onclick="openCalc('b-${p.id}')" 
+					style="position:absolute; right:.4em; top:50%; transform:translateY(-50%); font-size:0.8rem; padding: .3rem; border-radius:4px; border:none; background:#34495e; color:white; z-index: 1;"
+					>CALC</button>
+ 
+				<!-- Hidden Text Measurer -->
+				<span id="measure-${p.id}" style="position: absolute;
+				right: 0;
+				//text-align: left;
+				left: auto;
+				top: 0;
+				//	left: 0; 
+				//	width: 0; 
+				height: 0;
+
+				visibility: hidden; 
+				white-space: pre; 
+				font-size: 2rem;
+				font-family: inherit;
+				//transform: scaleX(-1);
+				transform-origin: right;"
+				></span>
+
+				</td>
+				`;
+
+			initDragEvents(tr);
+            listEl.appendChild(tr);
+			});
+			
+       	// Render Rounds Table (Uses roundPlayers - decoupled)
+        document.getElementById('roundHeader').innerHTML = `<th>R</th>` + roundPlayers.map(p => {
+		// Determine text color based on background color
+		udaman = p.color;
+		checkcolor (udaman);
+		return `<th style="background:${p.color}; color:${textColor};">${p.name[0]}</th>`;
+		}).join('') + `<th>✕</th>`;
+
+        document.getElementById('roundBody').innerHTML = rounds.map((r, ri) => `<tr><td>${ri+1}</td>${roundPlayers.map(p => `<td><span class="score-cell" onclick="openEdit(${ri}, ${p.id})">${r.scores[p.id]||0}</span></td>`).join('')}<td><button class="del-round-btn" onclick="askDelR(${ri})">✕</button></td></tr>`).join('');
+		document.getElementById('roundFooter').innerHTML = players.length ? `<tr style="background:var(--total-bg); font-weight:bold;"><td>Σ</td>${roundPlayers.map(p => `<td style="white">${p.score}</td>`).join('')}<td></td></tr>` : "";
+		document.getElementById('roundCounter').innerText = `${rounds.length} Rounds Played`;
+		if(rounds.length == 1) {document.getElementById('roundCounter').innerText = `${rounds.length} Round Played`;}
+		const spot = document.getElementById('winnerSpotlight');
+        if (players.length) { 
+            spot.style.display = 'block'; spot.style.background = rankedRef[0].color; spot.style.color = 'white'; 
+			udaman = rankedRef[0].color;
+			checkcolor (udaman);
+			spot.style.color = textColor; 
+            spot.innerText = `🏆 Leader: ${rankedRef[0].name} (${rankedRef[0].score})`; 
+        } else spot.style.display = 'none';
+    }
+
+	function checkcolor(hexValue) {
+		const hex = hexValue.replace('#', '');
+		const r = parseInt(hex.substring(0, 2), 16);
+		const g = parseInt(hex.substring(2, 4), 16);
+		const b = parseInt(hex.substring(4, 6), 16);
+		// Normalize and apply gamma correction
+		const [rL, gL, bL] = [r, g, b].map(c => {c /= 255; return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); } );
+			const luminance = 0.2126 * rL + 0.7152 * gL + 0.0722 * bL;
+			return textColor = luminance > 0.179 ? '#000000' : '#FFFFFF';
+			}
+	
+
+    function openSaveModal() {
+        let activeGame = library.find(g => g.id == activeId);
+        document.getElementById('saveNameIn').value = activeGame ? activeGame.name : "NewGame";
+        openModal('saveGameModal');
+        setTimeout(()=>document.getElementById('saveNameIn').select(), 100);
+		}
+
+    function doSave(isNew) {
+        let n = document.getElementById('saveNameIn').value || "NewGame";
+        let snap = { id: isNew ? Date.now() : (activeId || Date.now()), name: n, players: JSON.parse(JSON.stringify(players)), rounds: JSON.parse(JSON.stringify(rounds)), date: new Date().toLocaleString() };
+        if(isNew || !activeId) library.push(snap); else {
+            let idx = library.findIndex(x => x.id == activeId);
+            if(idx !== -1) library[idx] = snap; else library.push(snap);
+			}
+        localStorage.setItem('v102_l', JSON.stringify(library)); activeId = snap.id; hasUnsavedChanges = false; closeModal('saveGameModal'); showToast("Saved!"); sync();
+		}
+    
+    function openLibrary() {
+        document.getElementById('libList').innerHTML = library.map((g, i) => `
+            <div style="padding:12px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
+                <div onclick="loadG(${i})" style="flex:1;"><b>${g.name}</b><br><small>${g.date}</small></div>
+                <div style="display:flex; gap:10px;">
+                    <button onclick="shareG(${i})" style="background:#27ae60; color:white; border:none; border-radius:6px; padding:8px 10px;">📤</button>
+                    <button onclick="delSave(${i})" style="background:#e74c3c; color:white; border:none; border-radius:6px; padding:8px 10px;">🗑️</button>
+                </div>
+            </div>`).join('') || `<div style="padding: 20px 12px; color: var(--text-muted);">No saved games.</div>`;
+        openModal('libraryModal');
+		}
+
+    function loadG(i) {
+        if (hasUnsavedChanges) {
+            document.getElementById('confirmTitle').innerText = "Discard unsaved changes?";
+            openModal('confirmModal');
+            document.getElementById('confirmYes').onclick = () => { actuallyLoad(i); closeModal('confirmModal'); };
+        } else { actuallyLoad(i); }
+		}
+
+    function actuallyLoad(i) {
+        players = JSON.parse(JSON.stringify(library[i].players));
+        rounds = JSON.parse(JSON.stringify(library[i].rounds));
+        activeId = library[i].id;
+        hasUnsavedChanges = false;
+        closeModal('libraryModal');
+        sync();
+		}
+    
+    function delSave(i) { 
+        document.getElementById('confirmTitle').innerText = "Delete Save?"; openModal('confirmModal'); 
+        document.getElementById('confirmYes').onclick = () => { library.splice(i,1); localStorage.setItem('v102_l', JSON.stringify(library)); openLibrary(); closeModal('confirmModal'); }; 
+		}
+
+    function shareG(i) {
+        let g = library[i], text = `📊 ${g.name}\n🏆 STANDINGS:\n`;
+        [...g.players].sort((a,b) => lowScoreWins ? a.score - b.score : b.score - a.score).forEach((p, idx) => text += `${idx+1}. ${p.name}: ${p.score}\n`);
+        if (navigator.share) navigator.share({ text }).catch(() => copyToClipboard(text)); else copyToClipboard(text);
+		}
+
+    function copyToClipboard(t) { navigator.clipboard.writeText(t).then(() => showToast("Standings Copied!")); }
+
+    function doReset(t) {
+		if (hasUnsavedChanges) {
+            document.getElementById('confirmTitle').innerText = "Discard unsaved changes?";
+            openModal('confirmModal');
+            document.getElementById('confirmYes').onclick = () => { actuallydoReset(t); closeModal('confirmModal'); };
+        } else { actuallydoReset(t); }
+		}
+
+	function actuallydoReset(t) {
+        if(t==='scores'){ rounds=[]; players.forEach(p=>p.score=0); } else { players=[]; rounds=[]; activeId=null; } 
+        hasUnsavedChanges=true; closeModal('resetModal');
+		sync(); 
+		}
+  
+
+	function updateVisibility() {
+		const table = document.getElementById('leaderboard');
+		const isChecked = document.getElementById('toggleNumbers').checked;
+		console.log("isChecked: ",isChecked);
+		if(isChecked)
+			{
+			table.classList.remove('hide-column');
+			} else {
+				table.classList.add('hide-column');
+				}
+		render();
+        }
+
+	function updateVisibility2() {
+		const isChecked2 = document.getElementById('toggleSeating').checked;
+		console.log("Value of myVariable:", isChecked2);
+		if(isChecked2){
+			SeatingModeOn = false;}
+			else {
+				SeatingModeOn = true;}
+		render();
+        }    
+	
+
+	function toggleHelpPanel() {
+    const panel = document.getElementById('helpPanel');
+    const overlay = document.getElementById('panelOverlay');
+    
+    // Toggle the visible CSS classes
+    panel.classList.toggle('open');
+    overlay.classList.toggle('open');
+}
+
+
+
+	
+	
+	render();
+</script>
 </body>
 </html>
