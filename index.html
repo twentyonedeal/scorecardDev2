@@ -267,15 +267,20 @@
 		<h2 style="text-align:center; font-size: 1.5rem; margin:0 0 5px 0;">Jay's Ultimate Scorecard</h2>
     <div style="text-align:center;  font-size: .75rem; margin:0 0 5px 0;">V700</div>
 	<div id="activeGameLabel" style="font-size: 0.75rem; text-align: center; margin-bottom:5px;"></div>
-    <span style="display: inline-block; margin-bottom:10px;" id="offlineTag">Checking...</span>
 	
+	<div style="text-align:left; gap:8px; margin-bottom:5px;">
+
+    <span style="display: inline-block; margin-bottom:8px;" id="offlineTag">Checking...</span>
 	
+
 	<!-- 1. The Trigger Button -->
 <button class="help-trigger-btn" onclick="toggleHelpPanel()">
     <!-- Simple interrogation/question mark SVG icon -->
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-    
+
 </button>
+</div>
+
 
 <!-- 2. The Slide-Out Help Panel Container -->
 <div id="helpPanel" class="help-side-panel">
@@ -291,9 +296,6 @@
 
 <!-- 3. Optional Overlay Dimmer Background -->
 <div id="panelOverlay" class="panel-overlay" onclick="toggleHelpPanel()"></div>
-
-
-
 
 
 
@@ -921,17 +923,19 @@ function saveEdit() {
 		displayPlayers.forEach((p) => {
             const rank = rankedRef.findIndex(rp => rp.id === p.id) + 1;
             const tr = document.createElement('tr');
-            tr.setAttribute('data-id', p.id);
+            udaman = p.color;
+			checkcolor (udaman);
+			tr.setAttribute('data-id', p.id);
             tr.innerHTML = `
 				<td class="drag-handle" style="${(!isManualMode || !SeatingModeOn) ? 'display:none' : ''}">☰</td>
 				<td style="width:3px;"><div style="width:3px;height:52px;background:${p.color}"></div></td>
                 <td style="width:30px; text-align:center; font-weight:bold;">${rank}</td>
 				<td style="width:35px;"><div class="circle-color-picker" style="background: ${p.color}; border-radius: 50%;
 					/* Dynamically shrinks width and height by 2px if black */
-					width: ${(isDark && (p.color.toLowerCase() === 'black' || p.color === '#000000')) ? '20px' : '22px'}; 
-					height: ${(isDark && (p.color.toLowerCase() === 'black' || p.color === '#000000')) ? '20px' : '22px'}; 
+					width: ${(isDark && (textColor === '#FFFFFF' || p.color === '#000000')) ? '20px' : '22px'}; 
+					height: ${(isDark && (textColor === '#FFFFFF' || p.color === '#000000')) ? '20px' : '22px'}; 
 					/* Adds a thin white ring ONLY if the color is black */
-					box-shadow: ${(isDark && (p.color.toLowerCase() === 'black' || p.color === '#000000')) ? '0 0 0 2px #FFFFFF' : 'none'};
+					box-shadow: ${(isDark && (textColor === '#FFFFFF' || p.color === '#000000')) ? '0 0 0 2px #FFFFFF' : 'none'};
 					"
   					onclick="openColorPicker('edit', ${p.id})"
 					></div></td>
