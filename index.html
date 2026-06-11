@@ -932,10 +932,10 @@ function saveEdit() {
                 <td style="width:30px; text-align:center; font-weight:bold;">${rank}</td>
 				<td style="width:35px;"><div class="circle-color-picker" style="background: ${p.color}; border-radius: 50%;
 					/* Dynamically shrinks width and height by 2px if black */
-					width: ${(isDark && (textColor === '#FFFFFF' || p.color === '#000000')) ? '20px' : '22px'}; 
-					height: ${(isDark && (textColor === '#FFFFFF' || p.color === '#000000')) ? '20px' : '22px'}; 
+					width: ${(isDark && (textColor === '#FFFFFF' || p.color === '#000000')) ? '21px' : '22px'}; 
+					height: ${(isDark && (textColor === '#FFFFFF' || p.color === '#000000')) ? '21px' : '22px'}; 
 					/* Adds a thin white ring ONLY if the color is black */
-					box-shadow: ${(isDark && (textColor === '#FFFFFF' || p.color === '#000000')) ? '0 0 0 2px #FFFFFF' : 'none'};
+					box-shadow: ${(isDark && (textColor === '#FFFFFF' || p.color === '#000000')) ? '0 0 0 1px #FFFFFF' : 'none'};
 					"
   					onclick="openColorPicker('edit', ${p.id})"
 					></div></td>
