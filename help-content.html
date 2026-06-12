@@ -126,22 +126,58 @@
 }
 
 
+.quick-nav-footer {
+    margin-top: 30px;
+    margin-bottom: 15px;
+    padding-top: 15px;
+    border-top: 1px dashed #e9d5ff; /* Subtle purple separator line */
+    font-family: sans-serif;
+}
+
+.quick-nav-label {
+    display: block;
+    font-size: 13px;
+    color: #7c3aed; /* App purple color tint */
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.quick-nav-links {
+    display: flex;
+    flex-wrap: wrap; /* Allows links to wrap neatly onto a new line on narrow mobile screens */
+    gap: 8px;        /* Perfect spacing between items */
+}
+
+.quick-nav-links a {
+    display: inline-block;
+    background-color: #f3e8ff; /* Soft pastel purple background shading */
+    color: #6b21a8;            /* High-contrast dark purple text */
+    text-decoration: none;     /* Removes standard underline */
+    font-size: 13px;
+    padding: 6px 12px;
+    border-radius: 20px;       /* Makes them look like clean rounded pills */
+    transition: background-color 0.2s ease;
+}
+
+/* Optional hover feedback for desktop environments */
+.quick-nav-links a:hover {
+    background-color: #e9d5ff;
+}
+
+
     </style>
 </head>
 <body>
+			<div class="quick-nav-footer">
+					<div class="quick-nav-links">
+						<a href="#getting-started">Getting Started</a>
+						<a href="#display-options">Display Options</a>
+						<a href="#additional-features">Additional Features</a>
+						<a href="#button-help">Button Help</a>
+						<a href="#saving-games">Saving Games</a>
+						</div>
+				</div>
 
-    <!-- Left Side: Navigation & Quick Search -->
-    <aside class="sidebar">
-            <li><a href="#Description">Description</a></li>
-            <li><a href="#getting-started">Getting Started</a></li>
-			<li><a href="#display-options">Display Options</a></li>
-			<li><a href="#additional-features">Additional Features</a></li>
-            <li><a href="#button-help">What does this button do?</a></li>
-            <li><a href="#saving-games">Saving Games</a></li>
-
-		</ul>
-		
-    </aside>
 
     <!-- Right Side: Documentation Text -->
     <main class="content">
@@ -153,9 +189,20 @@
 			and enter the score as you go. The app will keep track of the number of rounds that were played,
 			add up the score, sort and rank players by either low or high score.
 			
-		<div class="note">
-        <strong>Tip:</strong> You can edit player's color, player's name, add players or delete players anytime.
-            </div>
+			<div class="note">
+				<strong>Tip:</strong> You can edit player's color, player's name, add players or delete players anytime.
+				</div>
+					
+			<div class="quick-nav-footer">
+				<span class="quick-nav-label">Jump to section:</span>
+					<div class="quick-nav-links">
+						<a href="#getting-started">Getting Started</a>
+						<a href="#display-options">Display Options</a>
+						<a href="#additional-features">Additional Features</a>
+						<a href="#button-help">Button Help</a>
+						<a href="#saving-games">Saving Games</a>
+						</div>
+				</div>
         </section>
 
         <section id="getting-started" class="help-section">
@@ -163,85 +210,141 @@
             <p>Once you have entered all the players names, you can now enter their score for each round of play.</p> 
 			<p>Do this by touching the “+” field and entering their score. If you want to use the calculator function for the player's score, touch the “CALC” button.</p>
 			<p><strong>Only after</strong> you have entered a score for each player, touch the <strong>+ Submit Scores</strong> button to create a round of play.</p>
-        <div class="note">
+			<div class="note">
                 <strong>Tip:</strong> Do NOT Submit Score until you have entered all the player's scores. Otherwise, you will create a Round each time you touch Submit.
-            </div>
-		</section>
-
- <section id="display-options" class="help-section">
-            <h3>Display Options</h3>
-    <div class="purple-banner">
-    🏆 LEADER BOARD display
-	</div>
-<p>Displays each player ranked by their score<p>
- <div class="purple-banner">
-	🪑 TABLE SEATING display
-	</div>
-<p>Displays each player in seating order along with their ranking<p>
-
-<p>Note: When in TABLE SEATING mode, players can be moved to the order in which they are seated around the table.<p>
-<p>Uncheck the 'SEATING LOCKED' button in order to move players.<p>
-
-<p><strong>⚠️ IMPORTANT! </strong>When finished moving players, check the 'SEATING LOCKED' option button.<p>
-<p>This is important because if you don’t do this, you can accidently move players and/or clear scores while you are trying to enter them. This will cause unneeded frustration.<p>
-
-  </section>
-
-
-<section id="additional-features" class="help-section">
-            <h3>Additional Features</h3>
-<ul class="purple-notepads-custom">
-<li>Player’s name can be edited by touching their name</li>
-<li>Color of player can be changed by touching their color</li>
-<li>Can delete a player by touching the ‘trash can’</li>
-<li>LAST ROUND option button to show or hide last round scores</li>
-<li>Scores for each round are tracked in the ROUND HISTORY at the bottom of screen</li>
-<li>Can delete a round, or touch a score in the round to edit it</li>
-
-</ul>
-
+				</div>
+			
+			<div class="quick-nav-footer">
+				<span class="quick-nav-label">Jump to section:</span>
+					<div class="quick-nav-links">
+						<a href="#Description">Description</a>
+						<a href="#display-options">Display Options</a>
+						<a href="#additional-features">Additional Features</a>
+						<a href="#button-help">Button Help</a>
+						<a href="#saving-games">Saving Games</a>
+						</div>
+				</div>
 		</section>
 
         <section id="button-help" class="help-section">
             <h3>What does this button do?</h3>
-<p><span style="background-color: #34495e; color: white; padding: 2px 10px; border-radius: 4px;">🌙</span> Moon : Enable/Disable Dark Mode</p>
-<p><span style="background-color: #34495e; color: white; padding: 2px 10px; border-radius: 4px;">🪑</span> Chair : Enable/Disable Table Seating Mode</p>
-<p><span style="background-color: #3498db; color: white; padding: 2px 10px; border-radius: 4px;">💾</span> Save : Saves the game to a local cache file in your device</p>
-<p><span style="background-color: #9b59b6; color: white; padding: 2px 10px; border-radius: 4px;">📚</span> Lib : Shows a list of saved games. Can select a game, delete from library, or copy the standings to memory to paste in another application</p>
-<p><span style="background-color: #2ecc71; color: white; padding: 2px 10px; border-radius: 4px; font-weight:bold">Add</span> : Adds the player entered in the Player Name field</p>
-<p><span style="background-color: #3498db; color: white; padding: 2px 10px; border-radius: 4px;">&nbsp&nbsp</span> : Color Button - Change the color of the player when adding</p>
-<p><span style="color: #27ae60;"> High Wins </span> - <span style="color: #e67e22;"> Low Wins </span> Option Button: Ranks players in order of either high or low score</p>
-🗑️ : Delete a player
-<p><span style="background-color: #27ae60; color: white; padding: 2px 10px; border-radius: 4px;  font-weight:bold">➕ Submit Scores</span> : Submits player's scores for the round</p>
+			<p><span style="background-color: #34495e; color: white; padding: 2px 10px; border-radius: 4px;">🌙</span> Moon : Enable/Disable Dark Mode</p>
+			<p><span style="background-color: #34495e; color: white; padding: 2px 10px; border-radius: 4px;">🪑</span> Chair : Enable/Disable Table Seating Mode</p>
+			<p><span style="background-color: #3498db; color: white; padding: 2px 10px; border-radius: 4px;">💾</span> Save : Saves the game to a local cache file in your device</p>
+			<p><span style="background-color: #9b59b6; color: white; padding: 2px 10px; border-radius: 4px;">📚</span> Lib : Shows a list of saved games. Can select a game, delete from library, or copy the standings to memory to paste in another application</p>
+			<p><span style="background-color: #2ecc71; color: white; padding: 2px 10px; border-radius: 4px; font-size: .9rem; font-weight:bold">Add</span> : Adds the player entered in the Player Name field</p>
+			<p><span style="background-color: #3498db; color: white; padding: 2px 10px; border-radius: 4px;">&nbsp&nbsp</span> : Color Button - Change the color of the player when adding</p>
+			<p><span style="color: #27ae60;"> High Wins </span> - <span style="color: #e67e22;"> Low Wins </span> Option Button: Ranks players in order of either high or low score</p>
+				🗑️ : Delete a player
+			<p><span style="background-color: #27ae60; color: white; padding: 2px 10px; border-radius: 4px;  font-weight:bold">➕ Submit Scores</span> : Submits player's scores for the round</p>
+			<p><span style="background-color: #34495e; color: white; font-size:0.8rem; padding: .3rem .3rem .3rem .3rem; border-radius: 4px;  font-weight:bold">CALC</span> : Handy calculator option for player score inputs for the round</p>
+		<hr>
+			ROUND HISTORY
+			<p><span style="background-color: #D3D3D3; color: black; padding: 2px 2px; border-radius: 4px;">&nbsp✕&nbsp</span> : Delete a round</p>
+			<p><span style="background-color: #95a5a6; color: white; padding: 2px 10px; border-radius: 4px;">Reset/Start New</span> : Select to remove all players and clear all scores and start a new game or just clear all scores and keep the same players for a new game</p>
 
-<p><span style="background-color: #D3D3D3; color: black; padding: 2px 2px; border-radius: 4px;">&nbsp✕&nbsp</span> : Delete a round</p>
-<p><span style="background-color: #95a5a6; color: white; padding: 2px 10px; border-radius: 4px;">Reset/Start New</span> : Select to remove all players and clear all scores and start a new game or just clear all scores and keep the same players for a new game</p>
+		<hr>
+			🏆 LEADER BOARD
+			<p><span style="background-color: #ffffff; padding: 2px 4px; border-radius: 3px;">&#9744;</span>
+				<span style="color: #95a5a6; padding-bottom: 5px; font-weight: 800; text-transform: uppercase; font-size: 0.65rem; letter-spacing: 1px;">Last round scores</span> : Click box to display</p>
+			<p><span class="blue-check-box"></span>
+				<span style="color: #95a5a6; padding-bottom: 5px; font-weight: 800; text-transform: uppercase; font-size: 0.65rem; letter-spacing: 1px;">Last round scores</span> : Click box to hide</p>
+		<hr>
+			🪑 TABLE SEATING
+			<p><span style="background-color: #ffffff; padding: 2px 4px; border-radius: 3px;">&#9744;</span>
+				<span style="color: #95a5a6; padding-bottom: 5px; font-weight: 800; text-transform: uppercase; font-size: 0.65rem; letter-spacing: 1px;">Seating Locked</span> : Click box (lock from moving)</p>
+			<p><span class="blue-check-box"></span>
+				<span style="color: #95a5a6; padding-bottom: 5px; font-weight: 800; text-transform: uppercase; font-size: 0.65rem; letter-spacing: 1px;">Seating Locked</span> : Click box (unlock to move)</p>
+			<div class="quick-nav-footer">
+				<span class="quick-nav-label">Jump to section:</span>
+				<div class="quick-nav-links">
+					<a href="#Description">Description</a>
+					<a href="#getting-started">Getting Started</a>
+					<a href="#display-options">Display Options</a>
+					<a href="#additional-features">Additional Features</a>
+					<a href="#saving-games">Saving Games</a>
+					</div>
+				</div>
 
-<hr>
- 🏆 LEADER BOARD
-<p><span style="background-color: #ffffff; padding: 2px 4px; border-radius: 3px;">&#9744;</span>
-<span style="color: #95a5a6; padding-bottom: 5px; font-weight: 800; text-transform: uppercase; font-size: 0.65rem; letter-spacing: 1px;">Last round scores</span> : Click box to display</p>
-<p><span class="blue-check-box"></span>
-<span style="color: #95a5a6; padding-bottom: 5px; font-weight: 800; text-transform: uppercase; font-size: 0.65rem; letter-spacing: 1px;">Last round scores</span> : Click box to hide</p>
+		</section>
+  
+		<section id="display-options" class="help-section">
+            <h3>Display Options</h3>
+			<div class="purple-banner">
+				🏆 LEADER BOARD display
+				</div>
+			<p>Displays each player ranked by their score<p>
+			<div class="purple-banner">
+				🪑 TABLE SEATING display
+				</div>
+			<p>Displays each player in seating order along with their ranking<p>
 
-<hr>
-🪑 TABLE SEATING
-<p><span style="background-color: #ffffff; padding: 2px 4px; border-radius: 3px;">&#9744;</span>
-<span style="color: #95a5a6; padding-bottom: 5px; font-weight: 800; text-transform: uppercase; font-size: 0.65rem; letter-spacing: 1px;">Seating Locked</span> : Click box (lock from moving)</p>
-<p><span class="blue-check-box"></span>
-<span style="color: #95a5a6; padding-bottom: 5px; font-weight: 800; text-transform: uppercase; font-size: 0.65rem; letter-spacing: 1px;">Seating Locked</span> : Click box (unlock to move)</p>
+			<p>Note: When in TABLE SEATING mode, players can be moved to the order in which they are seated around the table.<p>
+			<p>Uncheck the 'SEATING LOCKED' button in order to move players.<p>
 
+			<p><strong>⚠️ IMPORTANT! </strong>When finished moving players, make sure you the 'SEATING LOCKED' option button is checked.<p>
+			<p>This is important because if you don’t do this, you can accidently move players and/or clear scores while you are trying to enter them. This will cause unneeded frustration.<p>
 
-  </section>
-
-<section id="saving-games" class="help-section">
-            <h3>Saving Games</h3>
-<p><span style="background-color: #27d647; color: black; padding: 2px 10px; border-radius: 4px;">Update Current (or Change Name)</span> : This will save the game with the current name, date, and time. Or you can change the name which will overwrite the current name.</p>
-<p><span style="background-color: #3498db; color: black; padding: 2px 10px; border-radius: 4px;">Save Copy (or Enter New Name)</span> : This will save a copy of the game with the current date and time or you can change the name and save</p>
-
+			<div class="quick-nav-footer">
+				<span class="quick-nav-label">Jump to section:</span>
+				<div class="quick-nav-links">
+					<a href="#Description">Description</a>
+					<a href="#getting-started">Getting Started</a>
+					<a href="#additional-features">Additional Features</a>
+					<a href="#button-help">Button Help</a>
+					<a href="#saving-games">Saving Games</a>
+					</div>
+				</div>
 
 		</section>
 
+		<section id="saving-games" class="help-section">
+            <h3>Saving Games</h3>
+			<p><span style="background-color: #27d647; color: black; padding: 2px 10px; border-radius: 4px;">Update Current (or Change Name)</span> : This will save the game with the current name, date, and time. Or you can change the name which will overwrite the current name.</p>
+			<p><span style="background-color: #3498db; color: black; padding: 2px 10px; border-radius: 4px;">Save Copy (or Enter New Name)</span> : This will save a copy of the game with the current date and time or you can change the name and save</p>
+
+			<div class="quick-nav-footer">
+				<span class="quick-nav-label">Jump to section:</span>
+				<div class="quick-nav-links">
+					<a href="#Description">Description</a>
+					<a href="#getting-started">Getting Started</a>
+					<a href="#display-options">Display Options</a>
+					<a href="#additional-features">Additional Features</a>
+					<a href="#button-help">Button Help</a>
+					</div>
+				</div>
+		</section>
+
+		<section id="additional-features" class="help-section">
+            <h3>Additional Features</h3>
+					<p><span style="background-color: #27d647; color: black; padding: 2px 10px; border-radius: 4px;">Update Current (or Change Name)</span> : This will save the game with the current name, date, and time. Or you can change the name which will overwrite the current name.</p>
+
+			<ul class="purple-notepads-custom">
+			<li>Player’s name can be edited by touching their name</li>
+			<li>Color of player can be changed by touching their color</li>
+			<li>Can delete a player by touching the ‘trash can’</li>
+			<li>LAST ROUND option button to show or hide last round scores</li>
+			<li>Scores for each round are tracked in the ROUND HISTORY at the bottom of screen</li>
+			<li>Can delete a round, or touch a score in the round to edit it</li>
+			</ul>
+			<div class="quick-nav-footer">
+			<span class="quick-nav-label">Jump to section:</span>
+			<div class="quick-nav-links">
+				<a href="#Description">Description</a>
+				<a href="#getting-started">Getting Started</a>
+				<a href="#display-options">Display Options</a>
+				<a href="#button-help">Button Help</a>
+				<a href="#saving-games">Saving Games</a>
+				</div>
+			</div>
+			
+			
+			
+			
+			
+			
+			
+		</section>
 
     </main>
 
