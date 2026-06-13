@@ -122,9 +122,28 @@
     
     /* 4. Spacing and Formatting */
     padding: 15px 0;               /* Creates breathing room between the text and the lines */
-    margin: 20px 0;                /* Creates space outside the box to push away other elements */
+  /*  margin: 20px 0; */                /* Creates space outside the box to push away other elements */
 }
 
+.purple-banner2 {
+    /* 1. Resize the Text */
+    font-size: 16px;               /* Adjust this number to make text bigger or smaller */
+    font-weight: bold;             /* Makes the text stand out */
+    color: #ffffff;                /* Crisp white text color for high contrast */
+    text-align: left;            /* Centers the text horizontally */
+    
+    /* 2. Add Lines Above and Below */
+    border-top: 3px solid #4B0082; margin-right: 160px;    /* Thick, deep purple top border line */
+    /*border-bottom: 3px solid #4B0082; /* Thick, deep purple bottom border line */*/
+    
+    /* 3. Shade Behind the Text */
+    background-color: #f3e8ff;     /* Light pastel purple background shading */
+    color: #4B0082;                /* Dark purple text so it is readable on the light shade */
+    
+    /* 4. Spacing and Formatting */
+    padding: 2px 0;               /* Creates breathing room between the text and the lines */
+    /*margin: 20px 0;                /* Creates space outside the box to push away other elements */*/
+}
 
 .quick-nav-footer {
     margin-top: 30px;
@@ -185,7 +204,7 @@ body {
 					<div class="quick-nav-links">
 						<a href="#getting-started">Getting Started</a>
 						<a href="#display-options">Display Options</a>
-						<a href="#additional-features">Additional Features</a>
+						<a href="#additional-features">Features</a>
 						<a href="#button-help">Button Help</a>
 						<a href="#saving-games">Saving Games</a>
 						</div>
@@ -211,7 +230,7 @@ body {
 					<div class="quick-nav-links">
 						<a href="#getting-started">Getting Started</a>
 						<a href="#display-options">Display Options</a>
-						<a href="#additional-features">Additional Features</a>
+						<a href="#additional-features">Features</a>
 						<a href="#button-help">Button Help</a>
 						<a href="#saving-games">Saving Games</a>
 						</div>
@@ -232,7 +251,7 @@ body {
 					<div class="quick-nav-links">
 						<a href="#Description">Description</a>
 						<a href="#display-options">Display Options</a>
-						<a href="#additional-features">Additional Features</a>
+						<a href="#additional-features">Features</a>
 						<a href="#button-help">Button Help</a>
 						<a href="#saving-games">Saving Games</a>
 						</div>
@@ -259,22 +278,22 @@ body {
 		<hr>
 			🏆 LEADER BOARD
 			<p><span style="background-color: #ffffff; padding: 2px 4px; border-radius: 3px;">&#9744;</span>
-				<span style="color: #95a5a6; padding-bottom: 5px; font-weight: 800; text-transform: uppercase; font-size: 0.65rem; letter-spacing: 1px;">Last round scores</span> : Click box to display</p>
+				<span style="color: #95a5a6; padding-bottom: 5px; font-weight: 800; text-transform: uppercase; font-size: 0.65rem; letter-spacing: 1px;">Last round scores</span> : Unchecked box - display off</p>
 			<p><span class="blue-check-box"></span>
-				<span style="color: #95a5a6; padding-bottom: 5px; font-weight: 800; text-transform: uppercase; font-size: 0.65rem; letter-spacing: 1px;">Last round scores</span> : Click box to hide</p>
+				<span style="color: #95a5a6; padding-bottom: 5px; font-weight: 800; text-transform: uppercase; font-size: 0.65rem; letter-spacing: 1px;">Last round scores</span> : Checked box - display on</p>
 		<hr>
 			🪑 TABLE SEATING
 			<p><span style="background-color: #ffffff; padding: 2px 4px; border-radius: 3px;">&#9744;</span>
-				<span style="color: #95a5a6; padding-bottom: 5px; font-weight: 800; text-transform: uppercase; font-size: 0.65rem; letter-spacing: 1px;">Seating Locked</span> : Click box (lock from moving)</p>
+				<span style="color: #95a5a6; padding-bottom: 5px; font-weight: 800; text-transform: uppercase; font-size: 0.65rem; letter-spacing: 1px;">Seating Locked</span> : Unchecked box - Can move players seating position</p>
 			<p><span class="blue-check-box"></span>
-				<span style="color: #95a5a6; padding-bottom: 5px; font-weight: 800; text-transform: uppercase; font-size: 0.65rem; letter-spacing: 1px;">Seating Locked</span> : Click box (unlock to move)</p>
+				<span style="color: #95a5a6; padding-bottom: 5px; font-weight: 800; text-transform: uppercase; font-size: 0.65rem; letter-spacing: 1px;">Seating Locked</span> : Checked box - Seating position is locked in place</p>
 			<div class="quick-nav-footer">
 				<span class="quick-nav-label">Jump to section:</span>
 				<div class="quick-nav-links">
 					<a href="#Description">Description</a>
 					<a href="#getting-started">Getting Started</a>
 					<a href="#display-options">Display Options</a>
-					<a href="#additional-features">Additional Features</a>
+					<a href="#additional-features">Features</a>
 					<a href="#saving-games">Saving Games</a>
 					</div>
 				</div>
@@ -283,18 +302,14 @@ body {
   
 		<section id="display-options" class="help-section">
             <h3>Display Options</h3>
-			<span class="display-options-label">There are two types of display options</span>
-			<ul class="purple-notepads-custom">
-			<li>LIGHT and DARK mode which is toggled with 🌙.</li>
-			<li>LEADER BOARD and TABLE SEATING mode which is toggled with🪑.</li>
-			</ul>
 
-
-			<div class="purple-banner">
+		<!-- <hr style="border: none; border-top: 2px solid #000000; margin: 30px 0 10px 0;"> -->
 			
-				🏆 LEADER BOARD display
-				</div>
-			<p>Displays each player ranked by their score<p>
+			<div class="purple-banner2">
+
+			<p><span style="background-color: #3498db; color: white; padding: 2px 10px; border-radius: 4px;">🪑</span> TABLE SEATING mode ON</p>
+			</div>
+			
 			<div class="purple-banner">
 				🪑 TABLE SEATING display
 				</div>
@@ -306,17 +321,28 @@ body {
 			<p><strong>⚠️ IMPORTANT! </strong>When finished moving players, make sure the 'SEATING LOCKED' option button is checked.<p>
 			<p>This is important because if you don’t do this, you can accidently move players and/or clear scores while you are trying to enter them. This will cause unneeded frustration.<p>
 
-			<div class="quick-nav-footer">
+
+			<div class="purple-banner2">
+				<p><span style="background-color: #34495e; color: white; padding: 2px 10px; border-radius: 4px;">🪑</span> TABLE SEATING mode OFF</p>
+				</div>
+			
+			<div class="purple-banner">
+				🏆 LEADER BOARD display
+				</div>
+			<p>Displays each player ranked by their score<p>
+			
+				<div class="quick-nav-footer">
 				<span class="quick-nav-label">Jump to section:</span>
 				<div class="quick-nav-links">
 					<a href="#Description">Description</a>
 					<a href="#getting-started">Getting Started</a>
-					<a href="#additional-features">Additional Features</a>
+					<a href="#additional-features">Features</a>
 					<a href="#button-help">Button Help</a>
 					<a href="#saving-games">Saving Games</a>
 					</div>
 				</div>
 
+	
 		</section>
 
 		<section id="saving-games" class="help-section">
@@ -324,28 +350,43 @@ body {
 			<p><span style="background-color: #27d647; color: black; padding: 2px 10px; border-radius: 4px;">Update Current (or Change Name)</span> : This will save the game with the current name, date, and time. Or you can change the name which will overwrite the current name.</p>
 			<p><span style="background-color: #3498db; color: black; padding: 2px 10px; border-radius: 4px;">Save Copy (or Enter New Name)</span> : This will save a copy of the game with the current date and time or you can change the name and save the game.</p>
 
+<div class="note">
+                <strong>Tip:</strong> If you frequently play games with the same group of people, you can just open a 
+				saved game from the library and just clear all the scores. From there you can then add or remove players as needed!
+				</div>
+
 			<div class="quick-nav-footer">
 				<span class="quick-nav-label">Jump to section:</span>
 				<div class="quick-nav-links">
 					<a href="#Description">Description</a>
 					<a href="#getting-started">Getting Started</a>
 					<a href="#display-options">Display Options</a>
-					<a href="#additional-features">Additional Features</a>
+					<a href="#additional-features">Features</a>
 					<a href="#button-help">Button Help</a>
 					</div>
 				</div>
 		</section>
 
 		<section id="additional-features" class="help-section">
-            <h3>Additional Features</h3>
+            <h3>Features</h3>
 			<ul class="purple-notepads-custom">
 			<li>Player’s name can be edited by touching their name</li>
 			<li>Color of player can be changed by touching their color</li>
 			<li>Can delete a player by touching the ‘trash can’</li>
 			<li>LAST ROUND option button to show or hide last round scores</li>
-			<li>Scores for each round are tracked in the ROUND HISTORY at the bottom of screen</li>
+			<li>Leader Board mode displays players in order of rank</li>
+			<li>Seating mode displays players in the order they are seated around the table. Their rank is
+			also displayed.</li>
+			<li>Can easily change from high score wins to low score wins!</li>
+			<li>The Leader of the game is always displayed a the top!</li>
+			<li>Scores for each round are tracked in the ROUND HISTORY at the bottom of screen
+			along with the number of ROUNDS played</li>
 			<li>Can delete a round, or touch a score in the round to edit it</li>
+			<li>At the bottom of the screen is an option to remove all players and clear all scores or just clear all scores and
+			start a new game</li>
+
 			</ul>
+			
 			<div class="quick-nav-footer">
 			<span class="quick-nav-label">Jump to section:</span>
 			<div class="quick-nav-links">
