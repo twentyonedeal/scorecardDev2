@@ -316,8 +316,8 @@
     </div>
 
     <div style="display: flex; gap: 8px; margin-bottom: 20px; background: var(--bg); padding: 8px; border-radius: 10px; align-items: center;">
-        <input type="text" id="playerName" placeholder="Player Name" style="flex:1;" onkeydown="if(event.key==='Enter') addPlayer()">
-        <div class="square-color-picker" id="colorPreview" style="width:40px; height:40px; border-radius:8px; background:#3498db;" onclick="openColorPicker('new')"></div>
+	<input type="text" id="playerName" aria-label="Player Name" placeholder="Player Name" style="flex:1;" onkeydown="if(event.key==='Enter') addPlayer()">
+	<div class="square-color-picker" id="colorPreview" style="width:40px; height:40px; border-radius:8px; background:#3498db;" onclick="openColorPicker('new')" ></div>
         <button onclick="addPlayer()" style="background:var(--accent); color:white; border:none; padding:10px 15px; border-radius:8px; font-weight:bold;">Add</button>
     </div>
 	<div class="win-toggle-container">
@@ -437,7 +437,7 @@ style="max-width:380px; border-top: 5px solid #e74c3c; display: flex; flex-direc
 
 <div id="saveGameModal" class="modal"><div class="modal-content">
 <h3>Save Game</h3>
-<input type="text" id="saveNameIn" placeholder="NewGame" onkeydown="if(event.key==='Enter') doSave(false)">
+<input type="text" id="saveNameIn" aria-label="New Game" placeholder="NewGame" onkeydown="if(event.key==='Enter') doSave(false)">
 <div style="display:flex; flex-direction:column; gap:8px; margin-top:15px;">
 <button onclick="doSave(false)" style="width:100%; background:#27d647; padding:15px .2rem; font-size:1rem; color:black; border:none; border-radius:10px;">Update Current (or Change Name)</button>
 <button onclick="doSave(true)" style="width:100%; background:#3498db;  padding:15px .2rem; font-size:1rem; color:black; border:none; border-radius:10px;">Save Copy (or Enter New Name)</button>
@@ -458,20 +458,40 @@ style="max-width:380px; border-top: 5px solid #e74c3c; display: flex; flex-direc
     <button onclick="closeModal('resetModal')" style="width:100%; background:#95a5a6; padding:15px .2rem; font-size:1rem; color:black; border:none; border-radius:10px;">Cancel</button>
 </div>
 </div></div>
-<div id="renameModal" class="modal"><div class="modal-content"><h3>Rename</h3><input type="text" id="renameIn" style="width:100%;" onkeydown="if(event.key==='Enter') saveRename()"><button onclick="saveRename()" style="width:100%; margin-top:10px; background:var(--accent); color:white; padding:12px; border:none; border-radius:8px;">Update</button></div></div>
-<div id="editModal" class="modal"><div class="modal-content">
-<h3>Edit Score</h3>
- <input type="text" pattern="-[0-9]*|[0-9]*" inputmode="numeric" id="editIn" style="width:100%;
-" onkeydown="if(event.key==='Enter') saveEdit()">
-<button onclick="saveEdit()" style="width:100%; margin-top:15px; padding:12px; background:var(--accent); color:white; border:none; border-radius:8px;">Update Score</button>
-    <button onclick="closeModal('editModal')" style="width:100%; margin-top:15px; padding:12px; background:#95a5a6; color:white; border:none; border-radius:8px;">Cancel</button>
-</div></div>
+<!-- Rename Modal -->
+<div id="renameModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="renameTitle">
+  <div class="modal-content">
+    <h3 id="renameTitle">Rename</h3>
+    <input type="text" id="renameIn" aria-label="New Name" style="width:100%;" onkeydown="if(event.key==='Enter') saveRename()">
+    <button onclick="saveRename()" style="width:100%; margin-top:10px; background:var(--accent); color:white; padding:12px; border:none; border-radius:8px;">Update</button>
+  </div>
+</div>
 
+<!-- Edit Score Modal -->
+<div id="editModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="editTitle">
+  <div class="modal-content">
+    <h3 id="editTitle">Edit Score</h3>
+    <input type="text" pattern="-[0-9]*|[0-9]*" inputmode="numeric" id="editIn" aria-label="Edit Score Number" style="width:100%;" onkeydown="if(event.key==='Enter') saveEdit()">
+    <button onclick="saveEdit()" style="width:100%; margin-top:15px; padding:12px; background:var(--accent); color:white; border:none; border-radius:8px;">Update Score</button>
+    <button onclick="closeModal('editModal')" style="width:100%; margin-top:15px; padding:12px; background:#95a5a6; color:white; border:none; border-radius:8px;">Cancel</button>
+  </div>
+</div>
 
 <div id="libraryModal" class="modal"><div class="modal-content" style="max-width:380px;"><h3>📚 Library</h3><div id="libList" style="max-height:350px; overflow-y:auto;"></div><button onclick="closeModal('libraryModal')" style="width:100%; background:#95a5a6;  padding:15px .2rem; font-size:1rem; color:black; border:none; border-radius:10px;">Close</button></div></div>
+<!-- Color Picker Modal -->
+<div id="colorModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="colorTitle">
+  <div class="modal-content">
+    <h3 id="colorTitle">Pick Color</h3>
+   
+<input type="color" id="nativePicker" aria-label="Select Player Color" oninput="liveColor(this.value); updateColorBorder(this.value);" style="width:100px; height:100px; border:none; background:none; border-radius:12px; box-sizing:border-box; outline: 4px solid transparent; transition: outline 0.15s ease;">
+<button onclick="closeModal('colorModal')" style="width:100%; background:#95a5a6; padding:15px .2rem; font-size:1rem; color:black; border:none; border-radius:10px;">Done</button>
 
 
-<div id="colorModal" class="modal"><div class="modal-content"><h3>Pick Color</h3><input type="color" id="nativePicker" oninput="liveColor(this.value)" style="width:100px; height:100px; border:none; background:none;"><button onclick="closeModal('colorModal')" style="width:100%; background:#95a5a6;  padding:15px .2rem; font-size:1rem; color:black; border:none; border-radius:10px;">Done</button></div></div>
+
+ </div>
+</div>
+
+
 
 <div id="toast"></div>
 
@@ -562,6 +582,9 @@ style="max-width:380px; border-top: 5px solid #e74c3c; display: flex; flex-direc
         n.value = ""; 
         selColor = getRandomColor();
         document.getElementById('colorPreview').style.background = selColor;
+        // Update the new player color preview border if it is dark
+       // preview.style.outline = isDarkColor(v) ? '1px solid #ffffff' : 'none';
+	   liveColor(selColor);
         hasUnsavedChanges = true; sync();
     }
 
@@ -572,14 +595,27 @@ style="max-width:380px; border-top: 5px solid #e74c3c; display: flex; flex-direc
         openModal('colorModal'); 
     }
 
-    function liveColor(v) { 
-        if(cTarget.t === 'new') { 
-            selColor = v; document.getElementById('colorPreview').style.background = v; 
-        } else { 
-            let p = players.find(x => x.id === cTarget.id); p.color = v; 
-            hasUnsavedChanges = true; render(); 
-        } 
-    }
+  function liveColor(v) { 
+    // 1. Instantly update the modal picker's border
+    const picker = document.getElementById('nativePicker');
+   // if (picker) {
+     //   picker.style.outlineColor = isDarkColor(v) ? '#ffffff' : 'transparent';
+    //}
+
+    if(cTarget.t === 'new') { 
+        selColor = v; 
+        const preview = document.getElementById('colorPreview');
+        preview.style.background = v; 
+        // Update the new player color preview border if it is dark
+        preview.style.outline = isDarkColor(v) ? '1px solid #ffffff' : 'none';
+    } else { 
+        let p = players.find(x => x.id === cTarget.id); 
+        p.color = v; 
+        hasUnsavedChanges = true; 
+        render(); 
+    } 
+}
+
 
     function openCalc(id) { activeCalcId = id; document.getElementById('calcDisplay').innerText = '0'; openModal('calcModal'); }
     function calcPush(v) { let d = document.getElementById('calcDisplay'); d.innerText = d.innerText === '0' ? v : d.innerText + v; }
@@ -1031,12 +1067,26 @@ function saveEdit() {
 		const g = parseInt(hex.substring(2, 4), 16);
 		const b = parseInt(hex.substring(4, 6), 16);
 		// Normalize and apply gamma correction
-		const [rL, gL, bL] = [r, g, b].map(c => {c /= 255; return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); } );
-			const luminance = 0.2126 * rL + 0.7152 * gL + 0.0722 * bL;
-			return textColor = luminance > 0.179 ? '#000000' : '#FFFFFF';
-			}
+		//const [rL, gL, bL] = [r, g, b].map(c => {c /= 255; return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); } );
+		//	const luminance = 0.2126 * rL + 0.7152 * gL + 0.0722 * bL;
+		const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+		//return textColor = luminance > 0.179 ? '#000000' : '#FFFFFF';
+		return textColor = brightness > 60 ? '#000000' : '#FFFFFF';
+		}
 	
+	function isDarkColor(hexColor) {
+		let hex = hexColor.replace('#', '');
+		if (hex.length === 3) {
+			hex = hex.split('').map(char => char + char).join('');
+			}
+		const r = parseInt(hex.substring(0, 2), 16);
+		const g = parseInt(hex.substring(2, 4), 16);
+		const b = parseInt(hex.substring(4, 6), 16);
+		const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+		return brightness < 60; // Returns true if dark
+		}
 
+	
     function openSaveModal() {
         let activeGame = library.find(g => g.id == activeId);
         document.getElementById('saveNameIn').value = activeGame ? activeGame.name : "NewGame";
