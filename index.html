@@ -265,7 +265,7 @@
 	
 	<div class="container">
 		<h2 style="text-align:center; font-size: 1.5rem; margin:0 0 5px 0;">Jay's Ultimate Scorecard</h2>
-    <div style="text-align:center;  font-size: .75rem; margin:0 0 5px 0;">V701</div>
+    <div style="text-align:center;  font-size: .75rem; margin:0 0 5px 0;">V900</div>
 	<div id="activeGameLabel" style="font-size: 0.75rem; text-align: center; margin-bottom:5px;"></div>
 	
 	<div style="text-align:left; gap:8px; margin-bottom:5px;">
@@ -483,7 +483,7 @@ style="max-width:380px; border-top: 5px solid #e74c3c; display: flex; flex-direc
   <div class="modal-content">
     <h3 id="colorTitle">Pick Color</h3>
    
-<input type="color" id="nativePicker" aria-label="Select Player Color" oninput="liveColor(this.value); " style="width:100px; height:100px; border:none; background:none; border-radius:12px; box-sizing:border-box; outline: 4px solid transparent; transition: outline 0.15s ease;">
+<input type="color" id="nativePicker" aria-label="Select Player Color" oninput="liveColor(this.value); updateColorBorder(this.value)" style="width:100px; height:100px; border:none; background:none; border-radius:12px; box-sizing:border-box; outline: 4px solid transparent; transition: outline 0.15s ease;">
 <button onclick="closeModal('colorModal')" style="width:100%; background:#95a5a6; padding:15px .2rem; font-size:1rem; color:black; border:none; border-radius:10px;">Done</button>
 
 
@@ -530,23 +530,60 @@ style="max-width:380px; border-top: 5px solid #e74c3c; display: flex; flex-direc
     window.addEventListener('online', updateStatus); window.addEventListener('offline', updateStatus); updateStatus();
 
 
+function setupColorModal() {
+    const picker = document.getElementById('nativePicker');
+    if (!picker) return;
+
+    // 1. Get the starting color depending on if it's a new or existing player
+    let currentModalColor = '#000000'; // fallback default
+    
+    if (cTarget.t === 'new') {
+        currentModalColor = selColor || '#000000'; 
+    } else {
+        let p = players.find(x => x.id === cTarget.id);
+        if (p && p.color) {
+            currentModalColor = p.color;
+        }
+    }
+
+    // 2. Explicitly sync the HTML input value first
+    picker.value = currentModalColor;
+
+    // 3. Force the border update immediately using the verified color
+    picker.style.outlineColor = isDarkColor(currentModalColor) ? '1px #ffffff' : 'transparent';
+
+    // 4. Also handle the new player preview dot if it exists in your layout
+    if (cTarget.t === 'new') {
+        const preview = document.getElementById('colorPreview');
+        if (preview) {
+            preview.style.background = currentModalColor;
+            preview.style.outline = isDarkColor(currentModalColor) ? '1px solid #ffffff' : 'none';
+        }
+    }
+}
+
+
+
+
     function openModal(id) { document.getElementById(id).style.display = 'flex';
 // FIX: If opening the color modal, force an immediate border evaluation
+
     if (id === 'colorModal') {
+	//setupColorModal();
 	//console.log("Opened colorModal");
         const picker = document.getElementById('nativePicker');
         if (picker) {
             // Read the current color value and instantly set the right border
-			//console.log("picker.value:",picker.value);
-            picker.style.outlineColor = isDarkColor(picker.value) ? '10px solid #FFFFFF' : 'transparent';
+			console.log("picker.value:",picker.value);
+            picker.style.outlineColor = isDarkColor(picker.value) ? '1px solid #FFFFFF' : 'transparent';
         }
 	// Also check the preview circle if creating a 'new' player
         if (cTarget.t === 'new') {
             const preview = document.getElementById('colorPreview');
             if (preview) {
-				//console.log("selColor:",selColor);
+				console.log("selColor:",selColor);
 
-                preview.style.outline = isDarkColor(selColor) ? '10px solid #6b21a8' : 'none';
+                preview.style.outline = isDarkColor(selColor) ? '1px solid #FFFFFF' : 'none';
 				}
 			}
 		}
@@ -619,7 +656,7 @@ style="max-width:380px; border-top: 5px solid #e74c3c; display: flex; flex-direc
         cTarget = {t, id}; 
         let current = (t === 'new') ? selColor : players.find(x => x.id === id).color;
         document.getElementById('nativePicker').value = current;
-        liveColor(current);
+       // liveColor(current);
 		openModal('colorModal'); 
     }
 
@@ -628,9 +665,9 @@ style="max-width:380px; border-top: 5px solid #e74c3c; display: flex; flex-direc
     const picker = document.getElementById('nativePicker');
     if (picker) {
 		//console.log("liveColor-picker:",picker);
-		//console.log("liveColor(v)v=:",v);
+		console.log("liveColor(v)v=:",v);
 
-       picker.style.outlineColor = isDarkColor(v) ? '#27ae60' : 'transparent';
+       picker.style.outlineColor = isDarkColor(v) ? '1px #FFFFFF' : 'transparent';
     }
 
     if(cTarget.t === 'new') { 
@@ -638,13 +675,37 @@ style="max-width:380px; border-top: 5px solid #e74c3c; display: flex; flex-direc
         const preview = document.getElementById('colorPreview');
         preview.style.background = v; 
         // Update the new player color preview border if it is dark
-        preview.style.outline = isDarkColor(v) ? '1px solid #ff8040' : 'none';
+        preview.style.outline = isDarkColor(v) ? '1px solid #FFFFFF' : 'none';
     } else { 
         let p = players.find(x => x.id === cTarget.id); 
         p.color = v; 
         hasUnsavedChanges = true; 
         render(); 
     } 
+}
+
+function updateColorBorder(hexColor) {
+  const picker = document.getElementById('nativePicker');
+  let hex = hexColor.replace('#', '');
+  
+  if (hex.length === 3) {
+    hex = hex.split('').map(char => char + char).join('');
+  }
+  
+  // Extract RGB components
+  const r = parseInt(hex.substring(0, 2), 16);
+  const g = parseInt(hex.substring(2, 4), 16);
+  const b = parseInt(hex.substring(4, 6), 16);
+  
+  // YIQ formula calculates human perception of brightness (0 to 255)
+  const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+  
+  // Under 60 means dark gray, dark navy, deep colors, or absolute black
+  if (brightness < 60) {
+    picker.style.outlineColor = '#ffffff';
+  } else {
+    picker.style.outlineColor = 'transparent';
+  }
 }
 
 
