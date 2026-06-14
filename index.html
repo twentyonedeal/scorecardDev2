@@ -483,7 +483,7 @@ style="max-width:380px; border-top: 5px solid #e74c3c; display: flex; flex-direc
   <div class="modal-content">
     <h3 id="colorTitle">Pick Color</h3>
    
-<input type="color" id="nativePicker" aria-label="Select Player Color" oninput="liveColor(this.value); updateColorBorder(this.value);" style="width:100px; height:100px; border:none; background:none; border-radius:12px; box-sizing:border-box; outline: 4px solid transparent; transition: outline 0.15s ease;">
+<input type="color" id="nativePicker" aria-label="Select Player Color" oninput="liveColor(this.value); " style="width:100px; height:100px; border:none; background:none; border-radius:12px; box-sizing:border-box; outline: 4px solid transparent; transition: outline 0.15s ease;">
 <button onclick="closeModal('colorModal')" style="width:100%; background:#95a5a6; padding:15px .2rem; font-size:1rem; color:black; border:none; border-radius:10px;">Done</button>
 
 
@@ -530,7 +530,27 @@ style="max-width:380px; border-top: 5px solid #e74c3c; display: flex; flex-direc
     window.addEventListener('online', updateStatus); window.addEventListener('offline', updateStatus); updateStatus();
 
 
-    function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+    function openModal(id) { document.getElementById(id).style.display = 'flex';
+// FIX: If opening the color modal, force an immediate border evaluation
+    if (id === 'colorModal') {
+	//console.log("Opened colorModal");
+        const picker = document.getElementById('nativePicker');
+        if (picker) {
+            // Read the current color value and instantly set the right border
+			//console.log("picker.value:",picker.value);
+            picker.style.outlineColor = isDarkColor(picker.value) ? '10px solid #FFFFFF' : 'transparent';
+        }
+	// Also check the preview circle if creating a 'new' player
+        if (cTarget.t === 'new') {
+            const preview = document.getElementById('colorPreview');
+            if (preview) {
+				//console.log("selColor:",selColor);
+
+                preview.style.outline = isDarkColor(selColor) ? '10px solid #6b21a8' : 'none';
+				}
+			}
+		}
+	}
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
     function showToast(m) { const t = document.getElementById('toast'); t.innerText = m; t.style.opacity = '1'; setTimeout(() => t.style.opacity = '0', 2000); }
     function toggleDarkMode() { isDark = !isDark; document.body.classList.toggle('dark-mode'); localStorage.setItem('v102_dark', isDark); updateVisibility();}
@@ -599,22 +619,26 @@ style="max-width:380px; border-top: 5px solid #e74c3c; display: flex; flex-direc
         cTarget = {t, id}; 
         let current = (t === 'new') ? selColor : players.find(x => x.id === id).color;
         document.getElementById('nativePicker').value = current;
-        openModal('colorModal'); 
+        liveColor(current);
+		openModal('colorModal'); 
     }
 
   function liveColor(v) { 
     // 1. Instantly update the modal picker's border
     const picker = document.getElementById('nativePicker');
-   // if (picker) {
-     //   picker.style.outlineColor = isDarkColor(v) ? '#ffffff' : 'transparent';
-    //}
+    if (picker) {
+		//console.log("liveColor-picker:",picker);
+		//console.log("liveColor(v)v=:",v);
+
+       picker.style.outlineColor = isDarkColor(v) ? '#27ae60' : 'transparent';
+    }
 
     if(cTarget.t === 'new') { 
         selColor = v; 
         const preview = document.getElementById('colorPreview');
         preview.style.background = v; 
         // Update the new player color preview border if it is dark
-        preview.style.outline = isDarkColor(v) ? '1px solid #ffffff' : 'none';
+        preview.style.outline = isDarkColor(v) ? '1px solid #ff8040' : 'none';
     } else { 
         let p = players.find(x => x.id === cTarget.id); 
         p.color = v; 
@@ -883,7 +907,7 @@ function saveEdit() {
         render();
     }
  function initDragEvents(row) {
-		console.log("initDragEvent_SeatingModeOn:",SeatingModeOn);
+		//console.log("initDragEvent_SeatingModeOn:",SeatingModeOn);
         if(SeatingModeOn) {
 
 		const start = (e) => {
@@ -929,13 +953,13 @@ function saveEdit() {
     function render() {
 		const table = document.getElementById('leaderboard');
 		const isChecked = document.getElementById('toggleNumbers').checked;
-		console.log("isChecked: ",isChecked);
+		//console.log("isChecked: ",isChecked);
 		if(isChecked){
 			table.classList.remove('hide-column');
 			} else {
 				table.classList.add('hide-column');
 				}
-		console.log("isCheckedinrender: ",isChecked);
+		//console.log("isCheckedinrender: ",isChecked);
 		const listEl = document.getElementById('leaderboard');
         const rankedRef = [...players].sort((a,b) => lowScoreWins ? a.score - b.score : b.score - a.score);
 
@@ -1171,7 +1195,7 @@ function saveEdit() {
 	function updateVisibility() {
 		const table = document.getElementById('leaderboard');
 		const isChecked = document.getElementById('toggleNumbers').checked;
-		console.log("isChecked: ",isChecked);
+		//console.log("isChecked: ",isChecked);
 		if(isChecked)
 			{
 			table.classList.remove('hide-column');
@@ -1183,7 +1207,7 @@ function saveEdit() {
 
 	function updateVisibility2() {
 		const isChecked2 = document.getElementById('toggleSeating').checked;
-		console.log("Value of myVariable:", isChecked2);
+		//console.log("Value of myVariable:", isChecked2);
 		if(isChecked2){
 			SeatingModeOn = false;}
 			else {
