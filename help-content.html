@@ -32,188 +32,178 @@
         
         /* Responsive design for smaller screens/app widgets */
         @media (max-width: 768px) {
-            body { flex-direction: column; height: auto; }
-            .sidebar { width: 100%; border-right: none; border-bottom: 1px solid #ebdffd; }
-            .content { padding: 20px; }
-        .static-check {
-    display: inline-block;
-    width: 14px;
-    height: 14px;
-    background-color: #d1d5db; /* Grey filling ONLY inside the box */
-    border: 2px solid #000000; /* Crisp black outer boundary */
-    border-radius: 2px;
-    vertical-align: middle;
-    position: relative;
-    margin: 0 4px; /* Optional space outside the box */
-}
-
-/* Draws a static black checkmark perfectly inside the grey fill */
-.static-check::after {
-    content: '';
-    position: absolute;
-    left: 4px;
-    top: 1px;
-    width: 3px;
-    height: 7px;
-    border: solid black;
-    border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
-}
+			body { flex-direction: column; height: auto; }
+			.sidebar { width: 100%; border-right: none; border-bottom: 1px solid #ebdffd; }
+			.content { padding: 20px; }
+			.static-check {
+					display: inline-block;
+					width: 14px;
+					height: 14px;
+					background-color: #d1d5db; /* Grey filling ONLY inside the box */
+					border: 2px solid #000000; /* Crisp black outer boundary */
+					border-radius: 2px;
+					vertical-align: middle;
+					position: relative;
+					margin: 0 4px; /* Optional space outside the box */
+					}
+	
+			/* Draws a static black checkmark perfectly inside the grey fill */
+			.static-check::after {
+				content: '';
+				position: absolute;
+				left: 4px;
+				top: 1px;
+				width: 3px;
+				height: 7px;
+				border: solid black;
+				border-width: 0 2px 2px 0;
+				transform: rotate(45deg);
+				}
 
 		
-		}
+			}
 		
 		
 		.blue-check-box {
-    display: inline-block;
-    width: 14px;
-    height: 14px;
-    background-color: #0284c7; /* Vibrant blue fill */
-    border-radius: 3px;        /* Slightly rounded corners, change to 0px if you want sharp edges */
-    vertical-align: middle;
-    position: relative;
-    margin: 0 5px;             /* Space to keep words from hugging the box */
-}
+			display: inline-block;
+			width: 14px;
+			height: 14px;
+			background-color: #0284c7; /* Vibrant blue fill */
+			border-radius: 3px;        /* Slightly rounded corners, change to 0px if you want sharp edges */
+			vertical-align: middle;
+			position: relative;
+			margin: 0 5px;             /* Space to keep words from hugging the box */
+			}
 
-/* This draws the white checkmark inside the blue box */
-.blue-check-box::after {
-    content: '';
-    position: absolute;
-    left: 4px;                  /* Moves the check horizontally */
-    top: 1px;                   /* Moves the check vertically */
-    width: 4px;                 /* Width of the checkmark base */
-    height: 8px;                /* Height of the checkmark tail */
-    border: solid white;        /* Makes the checkmark white */
-    border-width: 0 2px 2px 0;  /* Thicken or thin the checkmark lines here */
-    transform: rotate(45deg);   /* Tilts the lines into a check shape */
-}
-.purple-notepads-custom {
-    list-style: none;
-    padding-left: 0px;
-}
+		/* This draws the white checkmark inside the blue box */
+		.blue-check-box::after {
+			content: '';
+			position: absolute;
+			left: 4px;                  /* Moves the check horizontally */
+			top: 1px;                   /* Moves the check vertically */
+			width: 4px;                 /* Width of the checkmark base */
+			height: 8px;                /* Height of the checkmark tail */
+			border: solid white;        /* Makes the checkmark white */
+			border-width: 0 2px 2px 0;  /* Thicken or thin the checkmark lines here */
+			transform: rotate(45deg);   /* Tilts the lines into a check shape */
+			}
+		.purple-notepads-custom {
+			list-style: none;
+			padding-left: 0px;
+			}
 
-.purple-notepads-custom li::before {
-    content: "";
-    display: inline-block;
-    width: 10px;
-    height: 14px;
-    background-color: #c084fc; /* Light purple pad page */
-    border-top: 3px solid #4B0082; /* Dark purple binder clip top */
-    border-radius: 1px;
-    margin-right: 10px;
-    vertical-align: middle;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-}
+		.purple-notepads-custom li::before {
+			content: "";
+			display: inline-block;
+			width: 10px;
+			height: 14px;
+			background-color: #c084fc; /* Light purple pad page */
+			border-top: 3px solid #4B0082; /* Dark purple binder clip top */
+			border-radius: 1px;
+			margin-right: 10px;
+			vertical-align: middle;
+			box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+			}
 
-.purple-banner {
-    /* 1. Resize the Text */
-    font-size: 16px;               /* Adjust this number to make text bigger or smaller */
-    font-weight: bold;             /* Makes the text stand out */
-    color: #ffffff;                /* Crisp white text color for high contrast */
-    text-align: left;            /* Centers the text horizontally */
-    
-    /* 2. Add Lines Above and Below */
-    border-top: 3px solid #4B0082;    /* Thick, deep purple top border line */
-    border-bottom: 3px solid #4B0082; /* Thick, deep purple bottom border line */
-    
-    /* 3. Shade Behind the Text */
-    background-color: #f3e8ff;     /* Light pastel purple background shading */
-    color: #4B0082;                /* Dark purple text so it is readable on the light shade */
-    
-    /* 4. Spacing and Formatting */
-    padding: 15px 0;               /* Creates breathing room between the text and the lines */
-  /*  margin: 20px 0; */                /* Creates space outside the box to push away other elements */
-}
+		.purple-banner {
+			/* 1. Resize the Text */
+			font-size: 16px;               /* Adjust this number to make text bigger or smaller */
+			font-weight: bold;             /* Makes the text stand out */
+			color: #ffffff;                /* Crisp white text color for high contrast */
+			text-align: left;            /* Centers the text horizontally */
+			
+			/* 2. Add Lines Above and Below */
+			border-top: 3px solid #4B0082;    /* Thick, deep purple top border line */
+			border-bottom: 3px solid #4B0082; /* Thick, deep purple bottom border line */
+			
+			/* 3. Shade Behind the Text */
+			background-color: #f3e8ff;     /* Light pastel purple background shading */
+			color: #4B0082;                /* Dark purple text so it is readable on the light shade */
+			
+			/* 4. Spacing and Formatting */
+			padding: 15px 0;               /* Creates breathing room between the text and the lines */
+			/*  margin: 20px 0; */                /* Creates space outside the box to push away other elements */
+			}
 
-.purple-banner2 {
-    /* 1. Resize the Text */
-    font-size: 16px;               /* Adjust this number to make text bigger or smaller */
-    font-weight: bold;             /* Makes the text stand out */
-    color: #ffffff;                /* Crisp white text color for high contrast */
-    text-align: left;            /* Centers the text horizontally */
-    
-    /* 2. Add Lines Above and Below */
-    border-top: 3px solid #4B0082; margin-right: 75px;    /* Thick, deep purple top border line */
-    /*border-bottom: 3px solid #4B0082; /* Thick, deep purple bottom border line */*/
-    
-    /* 3. Shade Behind the Text */
-    background-color: #f3e8ff;     /* Light pastel purple background shading */
-    color: #4B0082;                /* Dark purple text so it is readable on the light shade */
-    
-    /* 4. Spacing and Formatting */
-    padding: 2px 0;               /* Creates breathing room between the text and the lines */
-    /*margin: 20px 0;                /* Creates space outside the box to push away other elements */*/
-}
+		.purple-banner2 {
+			/* 1. Resize the Text */
+			font-size: 16px;               /* Adjust this number to make text bigger or smaller */
+			font-weight: bold;             /* Makes the text stand out */
+			color: #ffffff;                /* Crisp white text color for high contrast */
+			text-align: left;            /* Centers the text horizontally */
+			
+			/* 2. Add Lines Above and Below */
+			border-top: 3px solid #4B0082; margin-right: 75px;    /* Thick, deep purple top border line */
+			/*border-bottom: 3px solid #4B0082; /* Thick, deep purple bottom border line */*/
+			
+			/* 3. Shade Behind the Text */
+			background-color: #f3e8ff;     /* Light pastel purple background shading */
+			color: #4B0082;                /* Dark purple text so it is readable on the light shade */
+			
+			/* 4. Spacing and Formatting */
+			padding: 2px 0;               /* Creates breathing room between the text and the lines */
+			/*margin: 20px 0;                /* Creates space outside the box to push away other elements */*/
+			}
 
-.quick-nav-footer {
-    margin-top: 30px;
-    margin-bottom: 15px;
-    padding-top: 15px;
-    border-top: 1px dashed #e9d5ff; /* Subtle purple separator line */
-    font-family: sans-serif;
-}
-
-.quick-nav-label {
-    display: block;
-    font-size: 13px;
-    color: #7c3aed; /* App purple color tint */
-    font-weight: bold;
-    margin-bottom: 8px;
-}
-
-.quick-nav-links {
-    display: flex;
-    flex-wrap: wrap; /* Allows links to wrap neatly onto a new line on narrow mobile screens */
-    gap: 8px;        /* Perfect spacing between items */
-}
-
-.quick-nav-links a {
-    display: inline-block;
-    background-color: #f3e8ff; /* Soft pastel purple background shading */
-    color: #6b21a8;            /* High-contrast dark purple text */
-    text-decoration: none;     /* Removes standard underline */
-    font-size: 13px;
-    padding: 6px 12px;
-    border-radius: 20px;       /* Makes them look like clean rounded pills */
-    transition: background-color 0.2s ease;
-}
-
-/* Optional hover feedback for desktop environments */
-.quick-nav-links a:hover {
-    background-color: #e9d5ff;
-}
-
-/* Adds an empty scrolling zone at the bottom of the help document */
-.panel-body, 
-body {
-    padding-bottom: 80vh; /* Adds empty space equal to 80% of the screen height */
-}
-
-.display-options-label {
-    display: block;
-    font-size: 16px;
-    color: #7c3aed; /* App purple color tint */
-    font-weight: bold;
-    margin-bottom: 8px;
-}
+		.quick-nav-footer {
+			margin-top: 30px;
+			margin-bottom: 15px;
+			padding-top: 15px;
+			border-top: 1px dashed #e9d5ff; /* Subtle purple separator line */
+			font-family: sans-serif;
+			}
+		
+		.quick-nav-label {
+			display: block;
+			font-size: 13px;
+			color: #7c3aed; /* App purple color tint */
+			font-weight: bold;
+			margin-bottom: 8px;
+			}
+		
+		.quick-nav-links {
+			display: flex;
+			flex-wrap: wrap; /* Allows links to wrap neatly onto a new line on narrow mobile screens */
+			gap: 8px;        /* Perfect spacing between items */
+			}
+		
+		.quick-nav-links a {
+			display: inline-block;
+			background-color: #f3e8ff; /* Soft pastel purple background shading */
+			color: #6b21a8;            /* High-contrast dark purple text */
+			text-decoration: none;     /* Removes standard underline */
+			font-size: 13px;
+			padding: 6px 12px;
+			border-radius: 20px;       /* Makes them look like clean rounded pills */
+			transition: background-color 0.2s ease;
+			}
+		
+		/* Optional hover feedback for desktop environments */
+		.quick-nav-links a:hover {
+			background-color: #e9d5ff;
+		}
+		
+		/* Adds an empty scrolling zone at the bottom of the help document */
+		.panel-body, 
+		body {
+			padding-bottom: 80vh; /* Adds empty space equal to 80% of the screen height */
+			}
+		
+		.display-options-label {
+			display: block;
+			font-size: 16px;
+			color: #7c3aed; /* App purple color tint */
+			font-weight: bold;
+			margin-bottom: 8px;
+			}
 
     </style>
 </head>
 <body>
-			<div class="quick-nav-footer">
-					<div class="quick-nav-links">
-						<a href="#getting-started">Getting Started</a>
-						<a href="#display-options">Display Options</a>
-						<a href="#additional-features">Features</a>
-						<a href="#button-help">Button Help</a>
-						<a href="#saving-games">Saving Games</a>
-						</div>
-				</div>
-
-
+	
     <!-- Right Side: Documentation Text -->
     <main class="content">
-        
+   
         <section id="Description" class="help-section">
             <h3>Description</h3>
             <p>Welcome to the Ultimate Score Keeping app for board games or card games or any game that you would 
@@ -229,10 +219,11 @@ body {
 				<span class="quick-nav-label">Jump to section:</span>
 					<div class="quick-nav-links">
 						<a href="#getting-started">Getting Started</a>
-						<a href="#display-options">Display Options</a>
-						<a href="#additional-features">Features</a>
 						<a href="#button-help">Button Help</a>
+						<a href="#display-options">Display Options</a>
 						<a href="#saving-games">Saving Games</a>
+						<a href="#library-of-games">Library</a>
+						<a href="#additional-features">Features</a>
 						</div>
 				</div>
         </section>
@@ -250,10 +241,11 @@ body {
 				<span class="quick-nav-label">Jump to section:</span>
 					<div class="quick-nav-links">
 						<a href="#Description">Description</a>
-						<a href="#display-options">Display Options</a>
-						<a href="#additional-features">Features</a>
 						<a href="#button-help">Button Help</a>
+						<a href="#display-options">Display Options</a>
 						<a href="#saving-games">Saving Games</a>
+						<a href="#library-of-games">Library</a>
+						<a href="#additional-features">Features</a>
 						</div>
 				</div>
 		</section>
@@ -295,6 +287,7 @@ body {
 					<a href="#display-options">Display Options</a>
 					<a href="#additional-features">Features</a>
 					<a href="#saving-games">Saving Games</a>
+					<a href="#library-of-games">Library</a>
 					</div>
 				</div>
 
@@ -315,13 +308,16 @@ body {
 				</div>
 			<p>Displays each player in seating order along with their ranking<p>
 
-			<p>Note: When in TABLE SEATING mode, players can be moved to the order in which they are seated around the table.<p>
-			<p>Uncheck the 'SEATING LOCKED' button in order to move players.<p>
+			<p>Note: When in TABLE SEATING mode, players can be moved to the order in which they are seated around the table. Make sure the 'SEATING LOCKED' button is NOT checked in order to move players.<p>
 
 			<p><strong>⚠️ IMPORTANT! </strong>When finished moving players, make sure the 'SEATING LOCKED' option button is checked.<p>
 			<p>This is important because if you don’t do this, you can accidently move players and/or clear scores while you are trying to enter them. This will cause unneeded frustration.<p>
-
-
+			
+			<div class="note">
+				<strong>Tip:</strong> You CANNOT edit player's color, player's name or delete a player while in TABLE SEATING Mode and SEATING LOCKED is not checked. You can just move players around and add a player if you wish.
+							
+				</div>
+		<br><br>
 			<div class="purple-banner2">
 				<p><span style="background-color: #34495e; color: white; padding: 2px 10px; border-radius: 4px;">🪑</span> TABLE SEATING mode OFF</p>
 				</div>
@@ -336,9 +332,10 @@ body {
 				<div class="quick-nav-links">
 					<a href="#Description">Description</a>
 					<a href="#getting-started">Getting Started</a>
-					<a href="#additional-features">Features</a>
 					<a href="#button-help">Button Help</a>
 					<a href="#saving-games">Saving Games</a>
+					<a href="#library-of-games">Library</a>
+					<a href="#additional-features">Features</a>
 					</div>
 				</div>
 
@@ -347,12 +344,12 @@ body {
 
 		<section id="saving-games" class="help-section">
             <h3>Saving Games</h3>
+			<p>After saving a game, any changes to the game will create a message next to the filename. For example:<br>📁: FridayGameNight <span style="color: red;">(File Save Needed)</span>.
 			<p><span style="background-color: #27d647; color: black; padding: 2px 10px; border-radius: 4px;">Update Current (or Change Name)</span> : This will save the game with the current name, date, and time. Or you can change the name which will overwrite the current name.</p>
 			<p><span style="background-color: #3498db; color: black; padding: 2px 10px; border-radius: 4px;">Save Copy (or Enter New Name)</span> : This will save a copy of the game with the current date and time or you can change the name and save the game.</p>
 
-<div class="note">
-                <strong>Tip:</strong> If you frequently play games with the same group of people, you can just open a 
-				saved game from the library and just clear all the scores. From there you can then add or remove players as needed!
+			<div class="note">
+                <strong>Tip:</strong> Save the game with meaningful names like GinRummy, Rummy5000 or FamilyGameNight.
 				</div>
 
 			<div class="quick-nav-footer">
@@ -360,9 +357,37 @@ body {
 				<div class="quick-nav-links">
 					<a href="#Description">Description</a>
 					<a href="#getting-started">Getting Started</a>
-					<a href="#display-options">Display Options</a>
-					<a href="#additional-features">Features</a>
 					<a href="#button-help">Button Help</a>
+					<a href="#display-options">Display Options</a>
+					<a href="#library-of-games">Library</a>
+					<a href="#additional-features">Features</a>
+					</div>
+				</div>
+		</section>
+
+<section id="library-of-games" class="help-section">
+            <h3>Library of Saved Games</h3>
+			<p>There are 3 options in the Library:</p>
+			<p><span style="background:#27ae60; color:white; border:none; border-radius:4px; padding:2px 10px;">📤</span> Copy the standings to memory to paste in another application</p>
+            <p><span style="background:#e74c3c; color:white; border:none; border-radius:4px; padding:2px 10px;">🗑️</span> Delete a game from the Library</p>
+			<p>or just select a game to make active</p>
+		
+			<div class="note">
+                <strong>Tip:</strong>
+				If you frequently play games with the same group of people, you can just open a 
+				saved game from the library and click the Reset/Start New at the bottom of the screen and click Clear Scores Only.
+				From there you can then add or remove players as needed! Remember to save with a different name to keep that game intact.
+				</div>
+
+			<div class="quick-nav-footer">
+				<span class="quick-nav-label">Jump to section:</span>
+				<div class="quick-nav-links">
+					<a href="#Description">Description</a>
+					<a href="#getting-started">Getting Started</a>
+					<a href="#button-help">Button Help</a>
+					<a href="#display-options">Display Options</a>
+					<a href="#saving-games">Saving Games</a>
+					<a href="#additional-features">Features</a>
 					</div>
 				</div>
 		</section>
@@ -372,16 +397,20 @@ body {
 			<ul class="purple-notepads-custom">
 			<li>Player’s name can be edited by touching their name.</li>
 			<li>Color of player can be changed by touching their color.</li>
-			<li>Can delete a player by touching the ‘trash can’.</li>
-			<li>LAST ROUND option button to show or hide last round scores.</li>
-			<li>Leader Board mode displays players in order of rank.</li>
-			<li>Seating mode displays players in the order they are seated around the table. Their rank is
-			also displayed.</li>
-			<li>Can easily change from high score wins to low score wins.</li>
+			<li>Delete a player by touching the ‘trash can’.</li>
+			<li>Add or remove a player anytime.</li>
+			<li>LAST ROUND SCORES option button to show or hide last round scores.</li>
+			<li>LEADER BOARD mode displays players by standings.</li>
+			<li>TABLE SEATING mode displays players in the order they are seated around the table. Their standings are also displayed.</li>
+			<li>Switch between LEADER BOARD and TABLE SEATING display anytime, no problem.</li>
+			<li>Option to easily change from high score wins to low score wins.</li>
 			<li>The Leader of the game is always displayed at the top.</li>
-			<li>Scores for each round are tracked in the ROUND HISTORY at the bottom of screen
+			<li>Scores for each round are tracked in the ROUND HISTORY at the bottom of the screen
 			along with the number of ROUNDS played.</li>
-			<li>Can delete a round, or touch a score in the round to edit it.</li>
+			<li>Option to delete a round, or touch a score in the ROUND HISTORY to edit it.</li>
+			<li>All saved games are stored in a Library local on your mobile device.</li>
+			<li>Once a file is saved, any change to the game will display an alert that a save is needed.</li>
+			<li>There are options in the Library to load, delete, or copy standings.</li>
 			<li>At the bottom of the screen is an option to remove all players and clear all scores or just clear all scores and
 			start a new game.</li>
 
@@ -392,21 +421,15 @@ body {
 			<div class="quick-nav-links">
 				<a href="#Description">Description</a>
 				<a href="#getting-started">Getting Started</a>
-				<a href="#display-options">Display Options</a>
 				<a href="#button-help">Button Help</a>
+				<a href="#display-options">Display Options</a>
 				<a href="#saving-games">Saving Games</a>
+				<a href="#library-of-games">Library</a>
 				</div>
 			</div>
-			
-			
-			
-			
-			
-			
-			
 		</section>
 
-    </main>
+	</main>
 
     <!-- JavaScript for Live Keyword Filtering -->
     <script>
